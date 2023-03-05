@@ -1,3 +1,6 @@
+
+![SCHEMA](Project_MeetUp_schema.png)
+
 // # Meetup Clone
 
 // ## API Documentation
