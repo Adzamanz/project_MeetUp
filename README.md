@@ -1,5 +1,5 @@
 
-![SCHEMA](Project_MeetUp_schema.png)
+![SCHEMA](Project_MeetUp_Schema.png)
 
 // # Meetup Clone
 
