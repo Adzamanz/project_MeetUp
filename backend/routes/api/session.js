@@ -5,8 +5,8 @@ const { User } = require('../../db/models');
 
 const router = express.Router();
 
-    router.post(
-        '/',
+    //sign up
+    router.post('/',
         async (req, res, next) => {
             const { credential, password } = req.body;
 
@@ -28,12 +28,24 @@ const router = express.Router();
         }
     );
     // Log out
-    router.delete(
-        '/',
+    router.delete('/',
         (_req, res) => {
         res.clearCookie('token');
         return res.json({ message: 'success' });
         }
     );
+    // Restore session user
+    router.get('/',
+    restoreUser,
+        (req, res) => {
+        const { user } = req;
+        if (user) {
+            return res.json({
+            user: user.toSafeObject()
+            });
+        } else return res.json({ user: null });
+        }
+    );
+
 
 module.exports = router;
