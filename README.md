@@ -1,29 +1,29 @@
 
 ![SCHEMA](Project_MeetUp_Schema.png)
 
-// # Meetup Clone
+# Meetup Clone
 
-// ## API Documentation
+## API Documentation
 
-// ## USER AUTHENTICATION/AUTHORIZATION
+## USER AUTHENTICATION/AUTHORIZATION
 
-// ### All endpoints that require authentication
+### All endpoints that require authentication
 
-// All endpoints that require a current user to be logged in.
+All endpoints that require a current user to be logged in.
 
-// * Request: endpoints that require authentication
-// * Error Response: Require authentication
-//   * Status Code: 401
-//   * Headers:
-//     * Content-Type: application/json
-//   * Body:
+* Request: endpoints that require authentication
+* Error Response: Require authentication
+* Status Code: 401
+* Headers:
+* Content-Type: application/json
+* Body:
 
-//     ```json
-//     {
-//       "message": "Authentication required",
-//       "statusCode": 401
-//     }
-//     ```
+  ```json
+  {
+       "message": "Authentication required",
+       "statusCode": 401
+  }
+     ```
 
 ### All endpoints that require proper authorization
 
