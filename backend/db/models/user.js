@@ -16,11 +16,11 @@ module.exports = (sequelize, DataTypes) => {
       );
       User.hasMany(
         models.Attendance,
-        {foreignKey: 'userId',hooks: true}
+        {foreignKey: 'userId', hooks: true}
       );
       User.hasMany(
         models.Membership,
-        {foreignKey: 'userId',hooks: true}
+        {foreignKey: 'userId', hooks: true}
       );
     }
 
