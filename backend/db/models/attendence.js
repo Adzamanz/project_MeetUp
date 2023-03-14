@@ -11,6 +11,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Attendence.belongsTo(
+        models.Event,
+        {foreignKey: 'eventId'}
+      );
+      Attendence.belongsTo(
+        models.User,
+        {foreignKey: 'userId'}
+      );
     }
   }
   Attendence.init({

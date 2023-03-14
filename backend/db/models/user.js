@@ -10,6 +10,18 @@ module.exports = (sequelize, DataTypes) => {
     }
     static associate(models) {
       // define association here
+      User.hasMany(
+        models.Group,
+        {foreignKey: 'organizerId', hooks: true}
+      );
+      User.hasMany(
+        models.Attendance,
+        {foreignKey: 'userId',hooks: true}
+      );
+      User.hasMany(
+        models.Membership,
+        {foreignKey: 'userId',hooks: true}
+      );
     }
 
     static getCurrentUserById(id) {
