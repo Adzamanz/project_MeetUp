@@ -9,9 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      id: {
-        type: Sequelize.INTEGER
-      },
       groupId: {
         type: Sequelize.INTEGER
       },
@@ -22,17 +19,13 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       createdAt: {
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        type: Sequelize.DATE
-      },
-      createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         type: Sequelize.DATE
       }
     });

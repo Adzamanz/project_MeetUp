@@ -36,6 +36,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   Group.init({
     id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
       type: DataTypes.INTEGER
     },
     organizerId: {
@@ -48,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     type: {
-      type: DataTypes.ENUM("In Person", "Virtual")
+      type: DataTypes.ENUM("Online", "In Person")
     },
     private: {
       type: DataTypes.BOOLEAN
@@ -59,10 +62,12 @@ module.exports = (sequelize, DataTypes) => {
     state: {
       type: DataTypes.STRING
     },
-    createdAt:{
-      type: DataTypes.DATE
-    } ,
+    createdAt: {
+      allowNull: false,
+      type: DataTypes.DATE,
+    },
     updatedAt: {
+      allowNull: false,
       type: DataTypes.DATE
     }
   }, {

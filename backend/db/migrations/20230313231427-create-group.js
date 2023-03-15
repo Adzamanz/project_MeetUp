@@ -19,7 +19,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       type: {
-        type: Sequelize.ENUM
+        type: Sequelize.ENUM("Online", "In Person")
       },
       private: {
         type: Sequelize.BOOLEAN
@@ -31,17 +31,13 @@ module.exports = {
         type: Sequelize.STRING
       },
       createdAt: {
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        type: Sequelize.DATE
-      },
-      createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         type: Sequelize.DATE
       }
     });

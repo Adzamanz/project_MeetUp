@@ -18,15 +18,26 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Venue.init({
-    id: DataTypes.INTEGER,
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
     groupId: DataTypes.INTEGER,
     address: DataTypes.STRING,
     city: DataTypes.STRING,
     state: DataTypes.STRING,
     lat: DataTypes.DECIMAL,
     lng: DataTypes.DECIMAL,
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE
+    createdAt: {
+      allowNull: false,
+      type: DataTypes.DATE,
+    },
+    updatedAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    }
   }, {
     sequelize,
     modelName: 'Venue',
