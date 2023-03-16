@@ -10,9 +10,9 @@ module.exports = (sequelize, DataTypes) => {
     }
     static associate(models) {
       // define association here
-      User.hasMany(
+      User.belongsToMany(
         models.Group,
-        {foreignKey: 'organizerId', hooks: true}
+        {through: models.Membership,}
       );
       User.hasMany(
         models.Attendance,
