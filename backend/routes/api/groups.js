@@ -1,13 +1,25 @@
 const express = require('express')
 const router = express.Router();
 
-//i think most of these are unused
-const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
 const { GroupImage } = require('../../db/models');
-const { setTokenCookie, requireAuth, restoreUser} = require('../../utils/auth');
 const { Group } = require('../../db/models');
-const { ParameterStatusMessage } = require('pg-protocol/dist/messages');
+
+//i think most of these are unused
+// const { check } = require('express-validator');
+// const { handleValidationErrors } = require('../../utils/validation');
+// const { setTokenCookie, requireAuth, restoreUser} = require('../../utils/auth');
+// const { ParameterStatusMessage } = require('pg-protocol/dist/messages');
+
+const getCurrentUser = (req) => {
+    //this snippet comes from api/users for get current user
+    const { user } = req;
+    let current;
+    if (user) {
+        current = user.toSafeObject();
+    } else current = null;
+    //end of snippet
+    return current;
+}
 
 //get all groups
 router.get(
@@ -22,13 +34,7 @@ router.get(
 router.post(
     '/',
     async (req, res,) => {
-        //this snippet comes from api/users for get current user
-        const { user } = req;
-        let current;
-        if (user) {
-            current = user.toSafeObject();
-        } else current = null;
-        //end of snippet
+        let current = getCurrentUser(req);
 
         let organizerId = current.id;
         let {name, about, type, private, city, state} = req.body;
@@ -40,19 +46,69 @@ router.post(
 
 router.post(
     '/:id/images',
-    async (req, res,) => {
+    async (req, res, next) => {
         let {url, preview} = req.body;
+        let group = await Group.findOne({where:{id: req.params.id}})
+        if(!group){
+            throw new Error("no such group found");
+        }
         let newGroupImage = await GroupImage.create(
-            {
-                groupId: req.params.id,
-                url,
-                preview,
-            }
-        )
+                {
+                    groupId: group.id,
+                    url,
+                    preview,
+                }
+            );
         let theThing = await GroupImage.scope('basic').findByPk(newGroupImage.id)
         res.json(theThing);
     }
+);
+
+router.get(
+    '/current',
+    async (req,res,next) => {
+        let user = getCurrentUser(req);
+        let groupList = await Group.findAll({where: {organizerId: user.id}});
+        res.send(groupList);
+    }
+);
+
+router.get(
+    '/:id',
+    async (req,res,next) => {
+        let groupDesc = await Group.findOne({where:{id:req.params.id}});
+        res.send(groupDesc.about);
+    }
+);
+
+router.put(
+    '/:id',
+    async (req,res,next) => {
+        let {name,about,type,private,city,state} = req.body;
+        let group = await Group.findOne({where: {id:req.params.id}});
+
+        if(!group){
+            throw new Error("no such group found");
+        }
+
+        group.set(
+            {name,about,type,private,city,state}
+        );
+        await group.save();
+        res.send(group);
+    }
+);
+
+//VENUES
+
+router.post(
+    '/:id/venues',
+    async (req,res,next) => {
+        let {address, city, state, lat, lng} = req.body;
+        
+    }
 )
+
 
 
 

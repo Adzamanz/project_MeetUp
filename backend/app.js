@@ -85,6 +85,11 @@ if (!isProduction) {
   });
 
 
+  app.use('/',(e,req,res,next) => {
+    console.error(e);
+    res.send(e.message);
+});
+
 
 
 

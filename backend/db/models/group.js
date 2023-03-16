@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const { all } = require('../../routes');
 module.exports = (sequelize, DataTypes) => {
   class Group extends Model {
     /**
@@ -47,7 +48,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     organizerId: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull:false
     },
     name: {
       type: DataTypes.STRING
@@ -59,13 +61,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM("Online", "In person")
     },
     private: {
-      type: DataTypes.BOOLEAN
+      type: DataTypes.BOOLEAN,
+      allowNull: false
     },
     city: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     state: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     createdAt: {
       allowNull: false,
