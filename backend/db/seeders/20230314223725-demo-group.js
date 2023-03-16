@@ -16,7 +16,7 @@ module.exports = {
         organizerId: 1,
         name: 'Time Travellers Anonymous',
         about: "For the ones addicted to time travel",
-        type: "In person",
+        type: 'Online',
         private: true,
         city: "Los Angeles",
         state: "Denial",
@@ -24,11 +24,11 @@ module.exports = {
       {
         organizerId: 2,
         name: 'Pickle Rick Fandom',
-        about: "PICKLE RIIIIIIIIIICK",
-        type: "In person",
+        about: 'PICKLE RIIIIIIIIIICK',
+        type: 'Online',
         private: false,
-        city: "Denver",
-        state: "Decay",
+        city: 'Denver',
+        state: 'Decay',
       }
     ])
 
