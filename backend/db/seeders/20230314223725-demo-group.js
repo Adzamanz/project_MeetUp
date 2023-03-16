@@ -25,7 +25,7 @@ module.exports = {
         organizerId: 2,
         name: 'Pickle Rick Fandom',
         about: "PICKLE RIIIIIIIIIICK",
-        type: 1,
+        type: "In person",
         private: false,
         city: "Denver",
         state: "Decay",
