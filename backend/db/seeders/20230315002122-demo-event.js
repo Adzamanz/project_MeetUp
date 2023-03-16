@@ -15,7 +15,7 @@ module.exports = {
         name: "The Doctor",
         description: "Weekly talk of the Doctor",
         capacity: 99,
-        type: 'In person',
+        type: 'Online',
         price: 0,
         startDate: new Date("1695-12-17T11:34:00"),
         endDate: new Date("1695-12-18T11:34:00"),
