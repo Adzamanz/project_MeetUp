@@ -34,7 +34,7 @@ module.exports = {
 
   },
 
-  async down (queryInterface, Sequelize) {
+  async down (queryImnterface, Sequelize) {
 
     options.tableName = 'Groups';
     const Op = Sequelize.Op;
