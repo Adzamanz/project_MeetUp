@@ -16,7 +16,7 @@ module.exports = {
         organizerId: 1,
         name: 'Time Travellers Anonymous',
         about: "For the ones addicted to time travel",
-        type: 2,
+        type: "In person",
         private: true,
         city: "Los Angeles",
         state: "Denial",
