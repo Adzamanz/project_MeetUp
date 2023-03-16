@@ -29,7 +29,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       type: {
-        type: Sequelize.ENUM("Online", "In Person")
+        type: Sequelize.ENUM("Online", "In person")
       },
       price: {
         type: Sequelize.FLOAT
