@@ -23,10 +23,6 @@ module.exports = (sequelize, DataTypes) => {
             }
         );
         Group.hasMany(
-          models.Membership,
-          {foreignKey: 'groupId',hooks: true}
-        );
-        Group.hasMany(
           models.GroupImage,
           {foreignKey: 'groupId', hooks: true}
         );
