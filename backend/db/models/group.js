@@ -2,7 +2,7 @@
 const {
   Model
 } = require('sequelize');
-const { all } = require('../../routes');
+// const { all } = require('../../routes');
 module.exports = (sequelize, DataTypes) => {
   class Group extends Model {
     /**
