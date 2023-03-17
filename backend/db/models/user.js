@@ -22,10 +22,6 @@ module.exports = (sequelize, DataTypes) => {
         models.Attendance,
         {foreignKey: 'userId', hooks: true}
       );
-      User.hasMany(
-        models.Membership,
-        {foreignKey: 'userId', hooks: true}
-      );
     }
 
     static getCurrentUserById(id) {
