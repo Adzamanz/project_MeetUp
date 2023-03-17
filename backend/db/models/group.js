@@ -19,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
               through: models.Membership,
               foreignKey: 'groupId',
               otherKey: 'userId',
-              constraints: false
             }
         );
         Group.hasMany(
