@@ -18,7 +18,7 @@ router.put(
             {address,city,state,lat,lng}
         );
         await venue.save();
-        res.send(venue);
+        res.json(venue);
     }
   );
 

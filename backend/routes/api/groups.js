@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+const { Events } = require('pg');
 const router = express.Router();
 
 const { GroupImage, Group, Venue, Event} = require('../../db/models');
@@ -13,6 +14,12 @@ const getCurrentUser = (req) => {
     } else current = null;
     //end of snippet
     return current;
+}
+
+const noGroupFound = (group) => {
+    if(!group){
+        throw new Error("no such group found");
+    }
 }
 
 //get all groups
@@ -45,9 +52,7 @@ router.post(
     async (req, res, next) => {
         let {url, preview} = req.body;
         let group = await Group.findOne({where:{id: req.params.id}})
-        if(!group){
-            throw new Error("no such group found");
-        }
+        noGroupFound(group);
         let newGroupImage = await GroupImage.create(
                 {
                     groupId: group.id,
@@ -67,7 +72,7 @@ router.get(
     async (req,res,next) => {
         let user = getCurrentUser(req);
         let groupList = await Group.findAll({where: {organizerId: user.id}});
-        res.send(groupList);
+        res.json(groupList);
     }
 );
 
@@ -76,7 +81,7 @@ router.get(
     '/:id',
     async (req,res,next) => {
         let groupDesc = await Group.findOne({where:{id:req.params.id}});
-        res.send(groupDesc.about);
+        res.json(groupDesc.about);
     }
 );
 
@@ -87,17 +92,17 @@ router.put(
         let {name,about,type,private,city,state} = req.body;
         let group = await Group.findOne({where: {id: req.params.id}});
 
-        if(!group){
-            throw new Error("no such group found");
-        }
+        noGroupFound(group);
 
        await group.set(
             {name,about,type,private,city,state}
         );
         await group.save();
-        res.send(group);
+        res.json(group);
     }
 );
+
+
 
 //VENUES
 
@@ -109,9 +114,7 @@ router.post(
 
         let group = await Group.findOne({where: {id:req.params.id}});
 
-        if(!group){
-            throw new Error("no such group found");
-        }
+        noGroupFound(group);
 
         let newVenue = await Venue.create({
             groupId: group.id,
@@ -145,22 +148,31 @@ router.get(
 router.post(
     '/:id/events',
     async (req,res) => {
-        let { venueId, name, type, capacity, price, description, tartDate, endDate} = req.body;
+        let {groupId, venueId, name, type, capacity, price, description, tartDate, endDate} = req.body;
 
         let group = await Group.findOne({where: {id:req.params.id}});
 
-        if(!group){
-            throw new Error("no such group found");
-        }
+        noGroupFound(group);
 
-        let newEvent = await Event.create({venueId, name, type, capacity, price, description, tartDate, endDate});
+        let newEvent = await Event.create({groupId: req.params.id, venueId, name, type, capacity, price, description, tartDate, endDate});
 
         res.json(newEvent);
 
     }
-)
+);
 
+//get events by id
+router.get(
+    '/:id/events',
+    async (req,res) => {
+        let group = await Group.findOne({where:{id:req.params.id}});
 
+        noGroupFound(group);
+
+        let allEventsById = await Event.findAll({where:{groupId: group.id}});
+        res.json(allEventsById);
+    }
+);
 
 
 
