@@ -47,8 +47,6 @@ if (!isProduction) {
   app.use(routes);
 
 
-
-
   //ERROR HANDLERS -
   app.use((_req, _res, next) => {
     const err = new Error("The requested resource couldn't be found.");
@@ -72,7 +70,6 @@ if (!isProduction) {
     next(err);
   });
 
-
   app.use((err, _req, res, _next) => {
     res.status(err.status || 500);
     console.error(err);
@@ -84,14 +81,10 @@ if (!isProduction) {
     });
   });
 
-
   app.use('/',(e,req,res,next) => {
     console.error(e);
     res.send(e.message);
 });
-
-
-
 
 
 module.exports = app;

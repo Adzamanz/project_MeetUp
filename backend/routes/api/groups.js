@@ -1,14 +1,8 @@
 const express = require('express')
 const router = express.Router();
 
-const { GroupImage } = require('../../db/models');
-const { Group } = require('../../db/models');
+const { GroupImage, Group, Venue, Event} = require('../../db/models');
 
-//i think most of these are unused
-// const { check } = require('express-validator');
-// const { handleValidationErrors } = require('../../utils/validation');
-// const { setTokenCookie, requireAuth, restoreUser} = require('../../utils/auth');
-// const { ParameterStatusMessage } = require('pg-protocol/dist/messages');
 
 const getCurrentUser = (req) => {
     //this snippet comes from api/users for get current user
@@ -39,11 +33,13 @@ router.post(
         let organizerId = current.id;
         let {name, about, type, private, city, state} = req.body;
         let unit = {organizerId, name, about, type, private, city, state}
+
         let newGroup = await Group.create(unit)
         res.json(newGroup)
     }
 );
 
+//create new group image
 router.post(
     '/:id/images',
     async (req, res, next) => {
@@ -64,6 +60,8 @@ router.post(
     }
 );
 
+
+//get all groups made by current user
 router.get(
     '/current',
     async (req,res,next) => {
@@ -73,6 +71,7 @@ router.get(
     }
 );
 
+//get specific group by id
 router.get(
     '/:id',
     async (req,res,next) => {
@@ -81,17 +80,18 @@ router.get(
     }
 );
 
+//edit group by id
 router.put(
     '/:id',
     async (req,res,next) => {
         let {name,about,type,private,city,state} = req.body;
-        let group = await Group.findOne({where: {id:req.params.id}});
+        let group = await Group.findOne({where: {id: req.params.id}});
 
         if(!group){
             throw new Error("no such group found");
         }
 
-        group.set(
+       await group.set(
             {name,about,type,private,city,state}
         );
         await group.save();
@@ -101,13 +101,65 @@ router.put(
 
 //VENUES
 
+//create new venue
 router.post(
     '/:id/venues',
     async (req,res,next) => {
         let {address, city, state, lat, lng} = req.body;
-        
+
+        let group = await Group.findOne({where: {id:req.params.id}});
+
+        if(!group){
+            throw new Error("no such group found");
+        }
+
+        let newVenue = await Venue.create({
+            groupId: group.id,
+            address,
+            city,
+            state,
+            lat,
+            lng
+        });
+
+        res.json(newVenue);
+
+    }
+);
+
+//get all venues by group id
+router.get(
+    '/:id/venues',
+    async (req, res, next) => {
+        let allVenuesByGroup = await Venue.findAll({where: {groupId: req.params.id}});
+
+        res.json(allVenuesByGroup);
+
+    }
+);
+
+//edit venue
+//uh, the required path is url/venues, NOT url/group/venues, so i think this has to go in ./venues
+
+//create event
+router.post(
+    '/:id/events',
+    async (req,res) => {
+        let { venueId, name, type, capacity, price, description, tartDate, endDate} = req.body;
+
+        let group = await Group.findOne({where: {id:req.params.id}});
+
+        if(!group){
+            throw new Error("no such group found");
+        }
+
+        let newEvent = await Event.create({venueId, name, type, capacity, price, description, tartDate, endDate});
+
+        res.json(newEvent);
+
     }
 )
+
 
 
 
