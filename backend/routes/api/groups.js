@@ -1,8 +1,7 @@
 const express = require('express');
-const { Events } = require('pg');
 const router = express.Router();
 
-const { GroupImage, Group, Venue, Event} = require('../../db/models');
+const { GroupImage, Group, Venue, Event, Membership} = require('../../db/models');
 
 
 const getCurrentUser = (req) => {
@@ -94,7 +93,7 @@ router.put(
 
         noGroupFound(group);
 
-       await group.set(
+       group.set(
             {name,about,type,private,city,state}
         );
         await group.save();
@@ -173,6 +172,72 @@ router.get(
         res.json(allEventsById);
     }
 );
+
+//request membership
+router.post(
+    '/:id/membership',
+    async (req, res)=>{
+        let currentUser = getCurrentUser(req);
+
+        let group = await Group.findOne({where:{id:req.params.id}});
+        noGroupFound(group);
+
+        let newMembership = await Membership.create({
+            groupId: group.id,
+            userId: currentUser.id,
+        })
+        res.json(newMembership);
+    }
+);
+//change membership status
+router.put(
+    '/:id/membership',
+    async (req, res) =>{
+        let {memberId, status} = req.body;
+        console.log(memberId)
+        let targetMembership = await Membership.findOne({where:{groupId: req.params.id, userId: memberId}});
+        if(!targetMembership) throw new Error("no such membership found.");
+        targetMembership.set({status: status});
+        await targetMembership.save();
+        res.json(targetMembership);
+    }
+);
+router.get(
+    '/:id/members',
+    async (req, res) => {
+        let groupId = req.params.id;
+        let group = await Group.findOne({where:{id: groupId}});
+        noGroupFound(group);
+
+        let memberList = await Membership.findAll({where:{groupId}});
+
+        res.json(memberList);
+    }
+)
+
+router.delete(
+    '/:id/membership',
+    async (req,res) => {
+
+        let currentUser = getCurrentUser(req);
+        let membership = await Membership.findOne({where:{groupId:req.params.id,userId:currentUser.id}});
+        if(!membership){
+            throw new Error("no such membership found");
+        }
+        await membership.destroy();
+        res.json("deleted");
+    }
+)
+
+router.delete(
+    '/:id',
+    async (req,res) => {
+        let group = await Group.findOne({where:{id:req.params.id}});
+          noGroupFound(group);
+          await group.destroy();
+          res.json("deleted");
+    }
+)
 
 
 

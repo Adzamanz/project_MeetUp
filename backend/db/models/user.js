@@ -18,10 +18,14 @@ module.exports = (sequelize, DataTypes) => {
           otherKey: 'groupId',
         }
       );
-      User.hasMany(
-        models.Attendance,
-        {foreignKey: 'userId', hooks: true}
-      );
+      User.belongsToMany(
+          models.Event,
+            {
+              through: models.Attendance,
+              foreignKey: 'userId',
+              otherKey: 'eventId',
+            }
+        );
     }
 
     static getCurrentUserById(id) {
@@ -43,9 +47,11 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
 
-    static async signup({ username, email, password }) {
+    static async signup({firstName, lastName, username, email, password }) {
       const hashedPassword = bcrypt.hashSync(password);
       const user = await User.create({
+        firstName,
+        lastName,
         username,
         email,
         hashedPassword

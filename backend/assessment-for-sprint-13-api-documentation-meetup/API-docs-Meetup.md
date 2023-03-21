@@ -642,7 +642,7 @@ Returns all venues for a group specified by its id
       }
     ]
   }
-  
+
   ```
 
 * Error response: Couldn't find a Group with the specified id
@@ -1645,7 +1645,7 @@ Returns the attendees of an event specified by its id.
           "firstName": "Clark",
           "lastName": "Adams",
           "Attendance": {
-            "status": "member"
+            "status": "Attending"
           },
         },
         {
@@ -1684,7 +1684,7 @@ Returns the attendees of an event specified by its id.
           "firstName": "Clark",
           "lastName": "Adams",
           "Attendance": {
-            "status": "member"
+            "status": "attending"
           },
         },
         {
@@ -1811,7 +1811,7 @@ Change the status of an attendance for an event specified by id.
       "id": 1,
       "eventId": 1,
       "userId": 2,
-      "status": "member"
+      "status": "attending"
     }
     ```
 

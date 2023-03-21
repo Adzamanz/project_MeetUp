@@ -6,7 +6,7 @@ if (process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Attendences', {
+    await queryInterface.createTable('Attendances', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -20,7 +20,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       status: {
-        type: Sequelize.ENUM("Member","Waitlist","Pending")
+        type: Sequelize.ENUM("Attending","Waitlist","Pending")
       },
       createdAt: {
         allowNull: false,
