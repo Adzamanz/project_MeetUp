@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router();
 
-const { Event, EventImage, Attendance } = require('../../db/models');
+const { Group, Venue, Event, EventImage, Attendance } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
 const noEventFound = (event) => {
@@ -37,8 +37,27 @@ router.post(
 //get all events
 router.get(
     '/',
-    async (req,res) => {
-        let allEvents = await Event.findAll({include: [Group, Venue]});
+    async (req,res,next) => {
+        // page: integer, minimum: 0, maximum: 10, default: 0
+        // size: integer, minimum: 0, maximum: 20, default: 20
+        // name: string, optional
+        // type: string, optional
+        // startDate: string, optional
+        let {page, size, name, type, startDate} = req.query;
+        let allEvents;
+        let search = {};
+        if(name)search.name = name;
+        if(type)search.type = type;
+        if(startDate && startDate != '')search.startDate = startDate
+        let offset = (page - 1) * size;
+        console.log(req.query);
+        if(!req.query) allEvents = await Event.findAll({include: [Group, Venue]});
+        else if(page < 0 || page > 10)throw new Error("page minimum is 0, page maximum is 10");
+        else if(size < 0 || size > 20)throw new Error("size minimum is 0, size maximum is 20");
+        else if(name && typeof name != "string")throw new Error("name must be a string");
+        else if(type && typeof type != "string")throw new Error("type must be a string");
+        else if(startDate && typeof startDate != "string")throw new Error("startDate must be a string");
+        else allEvents = await Event.findAll({where: search,include: [Group, Venue],offset, limit: size});
         res.json(allEvents);
     }
 );
@@ -104,7 +123,7 @@ router.put(
 
         let event = await Event.findOne({where: {id: req.params.id}});
         noEventFound(event);
-        
+
         let attendance = await Attendance.findOne({where: {userId: userId, eventId: req.params.id}});
         if(!attendance){
             throw new Error("no such attendance found");
