@@ -81,10 +81,9 @@ router.post(
 router.get(
     '/current',
     requireAuth,
-    async (req,res,next) => {
+    async (req,res) => {
         let user = getCurrentUser(req);
         let groupList = await Group.findAll({where: {organizerId: user.id},raw: true});
-        console.log("____________________",groupList);
         res.json(await Promise.all(groupList.map((data) => addContextToGroup(data))));
         // groupList.forEach(async ele => {
         //     ele = addContextToGroup(ele);
