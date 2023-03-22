@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const {GroupImage, Membership} = require('../models')
 // const { all } = require('../../routes');
 module.exports = (sequelize, DataTypes) => {
   class Group extends Model {
@@ -33,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
           models.Event,
           {foreignKey: 'groupId', hooks: true}
         );
+
     }
   }
   Group.init({
@@ -78,14 +80,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Group',
-    defaultScope: {
-      attributes: {
-        exclude: ["createdAt", "updatedAt"]
-      }
-    },
-    scopes: {
-      
-    }
   });
   return Group;
 };

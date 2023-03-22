@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { setTokenCookie, requireAuth } = require('../../utils/auth');
 
 const { GroupImage, Group, Venue, Event, Membership} = require('../../db/models');
 
@@ -15,6 +16,15 @@ const getCurrentUser = (req) => {
     return current;
 }
 
+const addContextToGroup = async (group) =>{
+    let count = await Membership.count({where:{groupId:group.id}});
+    group.numMembers = count;
+    let preview = await GroupImage.findOne({where:{preview:true}});
+    group.previewImage = preview.url;
+    return group;
+}
+
+
 const noGroupFound = (group) => {
     if(!group){
         throw new Error("no such group found");
@@ -25,8 +35,27 @@ const noGroupFound = (group) => {
 router.get(
     '/',
     async (req, res,) => {
-        let allGroups = await Group.findAll();
-        res.json(allGroups)
+        let allGroups = await Group.findAll({raw: true});
+        let newGroups = [];
+
+        //need to use the below method to encapsulate async func: TOO MANY ASYNC FUNC IN ITTERABLE
+        // let result = await Promise.all(
+        //     products.map(async (product) => {
+        //       const productId = await getProductId(product);
+        //       console.log(productId);
+
+        //       const capitalizedId = await capitalizeId(productId)
+        //       console.log(capitalizedId);
+        //     })
+        //   )
+        Promise.all(
+            newGroups = allGroups.map(async (data) =>{
+                let newEle = await addContextToGroup(data);
+                console.log('bbbbbbbbbbb',newEle)
+                return newEle;
+            })
+        ).then(data => {;});
+        res.json(newGroups)
     }
 )
 //create new group
@@ -68,18 +97,23 @@ router.post(
 //get all groups made by current user
 router.get(
     '/current',
+    requireAuth,
     async (req,res,next) => {
         let user = getCurrentUser(req);
         let groupList = await Group.findAll({where: {organizerId: user.id}});
+        groupList.forEach(async ele => {
+            ele = addContextToGroup(ele);
+        });
         res.json(groupList);
     }
 );
 
-//get specific group by id
+//get specific group description by id
 router.get(
     '/:id',
     async (req,res,next) => {
         let groupDesc = await Group.findOne({where:{id:req.params.id}});
+
         res.json(groupDesc.about);
     }
 );
@@ -202,6 +236,7 @@ router.put(
         res.json(targetMembership);
     }
 );
+//get member list
 router.get(
     '/:id/members',
     async (req, res) => {
