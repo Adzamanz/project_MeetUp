@@ -85,10 +85,7 @@ router.get(
         let user = getCurrentUser(req);
         let groupList = await Group.findAll({where: {organizerId: user.id},raw: true});
         res.json(await Promise.all(groupList.map((data) => addContextToGroup(data))));
-        // groupList.forEach(async ele => {
-        //     ele = addContextToGroup(ele);
-        // });
-        // res.json(groupList);
+
     }
 );
 
@@ -96,9 +93,11 @@ router.get(
 router.get(
     '/:id',
     async (req,res,next) => {
-        let groupDesc = await Group.findOne({where:{id:req.params.id}});
-
-        res.json(groupDesc.about);
+        let group = await Group.findOne({where:{id:req.params.id}, raw: true});
+        console.log("A",group)
+        group = await addContextToGroup(group);
+        console.log("B",group)
+        res.json(group);
     }
 );
 
