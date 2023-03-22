@@ -17,8 +17,8 @@ module.exports = {
         capacity: 99,
         type: 'In-person',
         price: 0,
-        startDate: new Date("1695-12-17T11:34:00"),
-        endDate: new Date("1695-12-18T11:34:00"),
+        startDate: new Date("2095-12-17T11:34:00"),
+        endDate: new Date("2095-12-18T11:34:00"),
       }
     ])
   },

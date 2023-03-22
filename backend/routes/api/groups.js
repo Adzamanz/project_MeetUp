@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { requireAuth } = require('../../utils/auth');
+const { Op } = require("sequelize");
 
-const { GroupImage, Group, Venue, Event, Membership} = require('../../db/models');
+const { GroupImage, Group, Venue, Event, Membership, User} = require('../../db/models');
 
 
 const getCurrentUser = (req) => {
@@ -45,11 +46,20 @@ router.get(
 
 router.post(
     '/',
+    requireAuth,
     async (req, res,) => {
         let current = getCurrentUser(req);
 
         let organizerId = current.id;
         let {name, about, type, private, city, state} = req.body;
+
+        if(name.length > 60) throw new Error("Name must be 60 characters or less");
+        if(about.length < 50)throw new Error("About must be 50 characters or more");
+        if(!(type == "Online" || type == "In-person")) throw new Error("Type must be 'Online' or 'In person'");
+        if(typeof private != "boolean") throw new Error("Private must be a boolean");
+        if(!city)throw new Error("City is required");
+        if(!state)throw new Error("State is required");
+
         let unit = {organizerId, name, about, type, private, city, state}
 
         let newGroup = await Group.create(unit)
@@ -60,6 +70,7 @@ router.post(
 //create new group image
 router.post(
     '/:id/images',
+    requireAuth,
     async (req, res, next) => {
         let {url, preview} = req.body;
         let group = await Group.findOne({where:{id: req.params.id}})
@@ -96,7 +107,7 @@ router.get(
         let group = await Group.findOne({where:{id:req.params.id},include: [Venue,GroupImage], raw: true});
 
         group = await addContextToGroup(group);
-        
+
         res.json(group);
     }
 );
@@ -104,8 +115,17 @@ router.get(
 //edit group by id
 router.put(
     '/:id',
-    async (req,res,next) => {
+    requireAuth,
+    async (req,res,) => {
         let {name,about,type,private,city,state} = req.body;
+
+        if(name.length > 60) throw new Error("Name must be 60 characters or less");
+        if(about.length < 50)throw new Error("About must be 50 characters or more");
+        if(!(type == "Online" || type == "In-person")) throw new Error("Type must be 'Online' or 'In person'");
+        if(typeof private != "boolean") throw new Error("Private must be a boolean");
+        if(!city)throw new Error("City is required");
+        if(!state)throw new Error("State is required");
+
         let group = await Group.findOne({where: {id: req.params.id}});
 
         noGroupFound(group);
@@ -125,8 +145,14 @@ router.put(
 //create new venue
 router.post(
     '/:id/venues',
-    async (req,res,next) => {
+    requireAuth,
+    async (req,res) => {
         let {address, city, state, lat, lng} = req.body;
+        if(!address)throw new Error("Street address is required");
+        if(!city)throw new Error("City is required");
+        if(!state)throw new Error("State is required");
+        if(lat > 90 || lat < -90) throw new Error("Latitude is not valid");
+        if(lng > 180 || lng < -180)throw new Error("Longitude is not valid");
 
         let group = await Group.findOne({where: {id:req.params.id}});
 
@@ -160,17 +186,28 @@ router.get(
 //edit venue
 //uh, the required path is url/venues, NOT url/group/venues, so i think this has to go in ./venues
 
-//create event
+//create event by group id
 router.post(
     '/:id/events',
+    requireAuth,
     async (req,res) => {
-        let {groupId, venueId, name, type, capacity, price, description, tartDate, endDate} = req.body;
+        let {groupId, venueId, name, type, capacity, price, description, startDate, endDate} = req.body;
+        let currDate = new Date();
+        let venue = await Venue.findOne({where: {id:venueId}});
+        if(!venue) throw new Error("Venue does not exist") ;
+        if(name.length < 5)throw new Error("Name must be at least 5 characters");
+        if(!(type == "Online" || type == "In-person")) throw new Error("Type must be 'Online' or 'In-person'");
+        if(capacity < 0)throw new Error( "Capacity must be an integer");
+        if(price < 0)throw new Error("Price is invalid");
+        if(!description) throw new Error("Description is required");
+        if(!startDate || startDate < currDate) throw new Error("Start date must be in the future");
+        if(!endDate || endDate < startDate)throw new Error("End date is less than start date");
 
         let group = await Group.findOne({where: {id:req.params.id}});
 
         noGroupFound(group);
 
-        let newEvent = await Event.create({groupId: req.params.id, venueId, name, type, capacity, price, description, tartDate, endDate});
+        let newEvent = await Event.create({groupId: req.params.id, venueId, name, type, capacity, price, description, startDate, endDate});
 
         res.json(newEvent);
 
@@ -185,7 +222,7 @@ router.get(
 
         noGroupFound(group);
 
-        let allEventsById = await Event.findAll({where:{groupId: group.id}});
+        let allEventsById = await Event.findAll({where:{groupId: group.id}, include: [Group, Venue]});
         res.json(allEventsById);
     }
 );
@@ -193,6 +230,7 @@ router.get(
 //request membership
 router.post(
     '/:id/membership',
+    requireAuth,
     async (req, res)=>{
         let currentUser = getCurrentUser(req);
 
@@ -211,9 +249,15 @@ router.put(
     '/:id/membership',
     async (req, res) =>{
         let {memberId, status} = req.body;
+        if(status == "Pending")throw new Error("Cannot set status to Pending.");
         console.log(memberId)
+
+        let targetUser = await User.findOne({where:{id: memberId}});
+        if(!targetUser)throw new Error("no such user found.");
+
         let targetMembership = await Membership.findOne({where:{groupId: req.params.id, userId: memberId}});
         if(!targetMembership) throw new Error("no such membership found.");
+
         targetMembership.set({status: status});
         await targetMembership.save();
         res.json(targetMembership);
@@ -223,11 +267,17 @@ router.put(
 router.get(
     '/:id/members',
     async (req, res) => {
+        let user = getCurrentUser(req);
         let groupId = req.params.id;
         let group = await Group.findOne({where:{id: groupId}});
         noGroupFound(group);
+        let memberList;
+        if(group.organizerId == user.id){
+            memberList = await Membership.findAll({where:{groupId}});
+        }else{
+            memberList = await Membership.findAll({[Op.or]: [{ status:'Member'},{ status:'Waitlist'},{ status:'Co-host'},{ status:'Host'}]});
+        }
 
-        let memberList = await Membership.findAll({where:{groupId}});
 
         res.json(memberList);
     }
@@ -235,6 +285,7 @@ router.get(
 
 router.delete(
     '/:id/membership',
+    requireAuth,
     async (req,res) => {
 
         let currentUser = getCurrentUser(req);
@@ -249,6 +300,7 @@ router.delete(
 
 router.delete(
     '/:id',
+    requireAuth,
     async (req,res) => {
         let group = await Group.findOne({where:{id:req.params.id}});
           noGroupFound(group);

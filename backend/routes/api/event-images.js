@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { EventImage } = require('../../db/models');
+const { requireAuth } = require('../../utils/auth');
 
 const getCurrentUser = (req) => {
     //this snippet comes from api/users for get current user
@@ -16,6 +17,7 @@ const getCurrentUser = (req) => {
 
 router.delete(
     '/:id',
+    requireAuth,
     async (req,res) =>{
           let image = await EventImage.findOne({where:{id:req.params.id}});
           if(!image){
