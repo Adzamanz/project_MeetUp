@@ -93,10 +93,10 @@ router.get(
 router.get(
     '/:id',
     async (req,res,next) => {
-        let group = await Group.findOne({where:{id:req.params.id}, raw: true});
-        console.log("A",group)
+        let group = await Group.findOne({where:{id:req.params.id},include: [Venue,GroupImage], raw: true});
+
         group = await addContextToGroup(group);
-        console.log("B",group)
+        
         res.json(group);
     }
 );
