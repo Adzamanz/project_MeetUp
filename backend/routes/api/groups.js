@@ -35,29 +35,12 @@ const noGroupFound = (group) => {
 router.get(
     '/',
     async (req, res,) => {
-        let allGroups = await Group.findAll({raw: true});
-        let newGroups = [];
 
-        //need to use the below method to encapsulate async func: TOO MANY ASYNC FUNC IN ITTERABLE
-        // let result = await Promise.all(
-        //     products.map(async (product) => {
-        //       const productId = await getProductId(product);
-        //       console.log(productId);
+        let newGroups = await Group.findAll({raw: true});
 
-        //       const capitalizedId = await capitalizeId(productId)
-        //       console.log(capitalizedId);
-        //     })
-        //   )
-        Promise.all(
-            newGroups = allGroups.map(async (data) =>{
-                let newEle = await addContextToGroup(data);
-                console.log('bbbbbbbbbbb',newEle)
-                return newEle;
-            })
-        ).then(data => {;});
-        res.json(newGroups)
-    }
-)
+        res.json(await Promise.all(newGroups.map((data) => addContextToGroup(data))));
+
+    })
 //create new group
 
 router.post(
