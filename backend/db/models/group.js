@@ -2,7 +2,6 @@
 const {
   Model
 } = require('sequelize');
-const {GroupImage, Membership} = require('../models')
 // const { all } = require('../../routes');
 module.exports = (sequelize, DataTypes) => {
   class Group extends Model {
