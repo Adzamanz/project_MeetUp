@@ -21,7 +21,7 @@ const addContextToGroup = async (group) =>{
     let count = await Membership.count({where:{groupId:group.id}});
     group.numMembers = count;
     let preview = await GroupImage.findOne({where:{preview:true}});
-    group.previewImage = preview.url;
+    if(preview) group.previewImage = preview.url;
     return group;
 }
 
