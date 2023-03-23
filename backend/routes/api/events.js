@@ -45,6 +45,8 @@ router.get(
         // startDate: string, optional
         let {page, size, name, type, startDate} = req.query;
         let allEvents;
+        page = Number(page);
+        size = Number(size);
         let search = {};
         if(name)search.name = name;
         if(type)search.type = type;
