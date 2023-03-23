@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router();
 
-const { Group, Venue, Event, EventImage, Attendance } = require('../../db/models');
+const { Op } = require("sequelize");
+const { Group, Venue, Event, EventImage, Attendance, Membership } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
 const noEventFound = (event) => {
@@ -45,14 +46,23 @@ router.get(
         // startDate: string, optional
         let {page, size, name, type, startDate} = req.query;
         let allEvents;
-        page = Number(page);
-        size = Number(size);
+        console.log(page,size)
         let search = {};
-        if(name)search.name = name;
-        if(type)search.type = type;
+        let offset = 0;
+        if(page && size){
+            page = Number(page);
+            size = Number(size);
+            if(name)search.name = name;
+            if(type)search.type = type;
+            offset = (page - 1) * size;
+        }
+
+
+
         if(startDate && startDate != '')search.startDate = startDate
-        let offset = (page - 1) * size;
-        console.log(req.query);
+
+        console.log(search,page,size, offset);
+
         if(!req.query) allEvents = await Event.findAll({include: [Group, Venue]});
         else if(page < 0 || page > 10)throw new Error("page minimum is 0, page maximum is 10");
         else if(size < 0 || size > 20)throw new Error("size minimum is 0, size maximum is 20");
@@ -81,8 +91,10 @@ router.put(
     async (req,res,next) => {
         let {venueId, name, type, capacity, price, description, startDate, endDate} = req.body;
         let currDate = new Date();
+
         let venue = await Venue.findOne({where: {id:venueId}});
         if(!venue) throw new Error("Venue does not exist") ;
+
         if(name.length < 5)throw new Error("Name must be at least 5 characters");
         if(!(type == "Online" || type == "In-person")) throw new Error("Type must be 'Online' or 'In-person'");
         if(capacity < 0)throw new Error( "Capacity must be an integer");
@@ -90,6 +102,7 @@ router.put(
         if(!description) throw new Error("Description is required");
         if(!startDate || startDate < currDate) throw new Error("Start date must be in the future");
         if(!endDate || endDate < startDate)throw new Error("End date is less than start date");
+
         let event = await Event.findOne({where: {id: req.params.id}});
 
         noEventFound(event);
@@ -109,7 +122,7 @@ router.post(
         let currentUser = getCurrentUser(req);
         let event = await Event.findOne({where: {id: req.params.id}});
         noEventFound(event);
-        let test = await Attendance.findOne({eventId: req.params.id, userId: currentUser.id});
+        let test = await Attendance.findOne({where:{eventId: req.params.id, userId: currentUser.id}});
         if(test)throw new Error("attendance ticket already exists!")
         let newAttendance = await Attendance.create({eventId: req.params.id, userId: currentUser.id});
         res.json(newAttendance);
@@ -143,8 +156,9 @@ router.get(
         noEventFound(event);
         let user = getCurrentUser(req);
         let membership = await Membership.findOne({where:{groupId: event.groupId, userId: user.id}});
+        console.log(membership)
         let attendees;
-        if(membership.status == "Co-host" || membership.status == "Host") attendees = await Attendance.findAll({where:{eventId: req.params.id}});
+        if(membership &&(membership.status == "Co-host" || membership.status == "Host")) attendees = await Attendance.findAll({where:{eventId: req.params.id}});
         else attendees = await Attendance.findAll({where:{eventId: req.params.id, [Op.or]: [{ status:'Attending'},{ status:'Waitlist'}]}});
 
         attendees = await Attendance.findAll({where:{eventId: req.params.id}});

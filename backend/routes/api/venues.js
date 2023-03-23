@@ -14,7 +14,7 @@ router.put(
         if(!city)throw new Error("City is required");
         if(!state)throw new Error("State is required");
         if(lat > 90 || lat < -90) throw new Error("Latitude is not valid");
-        if(lng > 180 || lng < 180)throw new Error("Longitude is not valid");
+        if(lng < -180 || lng > 180)throw new Error("Longitude is not valid");
         let venue = await Venue.findOne({where: {id: req.params.id}});
 
         if(!venue){
