@@ -297,12 +297,12 @@ router.post(
         noGroupFound(group);
         let errMsg
         let testMembership = await Membership.findOne({where: {id: currentUser.id}});
-        if(testMembership = "Member") {
+        if(testMembership = "member") {
             errMsg = "User is already a Member of the Group";
             let err = new Error(errMsg);
             err.status = 400;
             next(err);
-        }else if(testMembership = "Pending") {
+        }else if(testMembership = "pending") {
             errMsg = "Membership has already been requested";
             let err = new Error(errMsg);
             err.status = 400;
@@ -321,7 +321,7 @@ router.put(
     '/:id/membership',
     async (req, res) =>{
         let {memberId, status} = req.body;
-        if(status == "Pending")throw new Error("Cannot set status to Pending.");
+        if(status == "pending")throw new Error("Cannot set status to pending.");
         console.log(memberId)
 
         let targetUser = await User.findOne({where:{id: memberId}});

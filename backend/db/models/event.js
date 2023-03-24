@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     description: DataTypes.STRING,
     capacity: DataTypes.INTEGER,
-    type: DataTypes.ENUM('Online', 'In person'),
+    type: DataTypes.ENUM('Online', 'In Person'),
     price: DataTypes.FLOAT,
     startDate: DataTypes.DATE,
     endDate: DataTypes.DATE,
@@ -65,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
         exclude: ["createdAt", "updatedAt"]
       }
     },
-   
+
   });
   return Event;
 };

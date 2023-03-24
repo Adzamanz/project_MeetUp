@@ -160,7 +160,7 @@ router.put(
     requireAuth,
     async (req,res) => {
         let {userId, status} = req.body;
-        if(status == "Pending")throw new Error("Cannot set status to Pending.");
+        if(status == "pending")throw new Error("Cannot set status to pending.");
 
         let event = await Event.findOne({where: {id: req.params.id}});
         noEventFound(event);

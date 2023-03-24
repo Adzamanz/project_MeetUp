@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
     groupId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
     status: {
-      type: DataTypes.ENUM("Host","Co-Host","Member","Waitlist","Pending"),
-      defaultValue: "Pending",
+      type: DataTypes.ENUM("host","co-Host","member","waitlist","pending"),
+      defaultValue: "pending",
     },
     createdAt: {
       allowNull: false,
