@@ -28,7 +28,10 @@ const addContextToGroup = async (group) =>{
 
 const noGroupFound = (group) => {
     if(!group){
-        throw new Error("no such group found");
+        let err =  new Error("no such group found");
+        err.status = 404;
+        err.title = "Group not found";
+        throw err;
     }
 }
 
@@ -47,18 +50,25 @@ router.get(
 router.post(
     '/',
     requireAuth,
-    async (req, res,) => {
+    async (req, res,next) => {
         let current = getCurrentUser(req);
 
         let organizerId = current.id;
         let {name, about, type, private, city, state} = req.body;
 
-        if(name.length > 60) throw new Error("Name must be 60 characters or less");
-        if(about.length < 50)throw new Error("About must be 50 characters or more");
-        if(!(type == "Online" || type == "In-person")) throw new Error("Type must be 'Online' or 'In-person'");
-        if(typeof private != "boolean") throw new Error("Private must be a boolean");
-        if(!city)throw new Error("City is required");
-        if(!state)throw new Error("State is required");
+        let errorArr = [];
+        if(name.length > 60) errorArr.push("Name must be 60 characters or less");
+        if(about.length < 50)errorArr.push("About must be 50 characters or more");
+        if(!(type == "Online" || type == "In-person")) errorArr.push("Type must be 'Online' or 'In-person'");
+        if(typeof private != "boolean") errorArr.push("Private must be a boolean");
+        if(!city)errorArr.push("City is required");
+        if(!state)errorArr.push("State is required");
+
+        if(errorArr.length){
+            let err = new Error();
+            err.errors = errorArr;
+            next(err);
+        }
 
         let unit = {organizerId, name, about, type, private, city, state}
 
@@ -100,11 +110,17 @@ router.get(
     }
 );
 
-//get specific group description by id
+//get specific group details by id
 router.get(
     '/:id',
     async (req,res,next) => {
         let group = await Group.findOne({where:{id:req.params.id},include: [Venue,GroupImage], raw: true});
+        if (!group) {
+            const err = new Error("Group not found");
+            err.status = 404;
+            err.title = "Group not found";
+            return next(err);
+        }
 
         group = await addContextToGroup(group);
 
@@ -116,15 +132,22 @@ router.get(
 router.put(
     '/:id',
     requireAuth,
-    async (req,res,) => {
+    async (req,res,next) => {
         let {name,about,type,private,city,state} = req.body;
 
-        if(name.length > 60) throw new Error("Name must be 60 characters or less");
-        if(about.length < 50)throw new Error("About must be 50 characters or more");
-        if(!(type == "Online" || type == "In-person")) throw new Error("Type must be 'Online' or 'In-person'");
-        if(typeof private != "boolean") throw new Error("Private must be a boolean");
-        if(!city)throw new Error("City is required");
-        if(!state)throw new Error("State is required");
+        let errorArr = [];
+        if(name.length > 60) errorArr.push("Name must be 60 characters or less");
+        if(about.length < 50)errorArr.push("About must be 50 characters or more");
+        if(!(type == "Online" || type == "In-person")) errorArr.push("Type must be 'Online' or 'In-person'");
+        if(typeof private != "boolean") errorArr.push("Private must be a boolean");
+        if(!city)errorArr.push("City is required");
+        if(!state)errorArr.push("State is required");
+
+        if(errorArr.length){
+            let err = new Error();
+            err.errors = errorArr;
+            next(err);
+        }
 
         let group = await Group.findOne({where: {id: req.params.id}});
 
@@ -148,11 +171,19 @@ router.post(
     requireAuth,
     async (req,res) => {
         let {address, city, state, lat, lng} = req.body;
-        if(!address)throw new Error("Street address is required");
-        if(!city)throw new Error("City is required");
-        if(!state)throw new Error("State is required");
-        if(lat > 90 || lat < -90) throw new Error("Latitude is not valid");
-        if(lng > 180 || lng < -180)throw new Error("Longitude is not valid");
+
+        let errorArr = [];
+        if(!address)errorArr.push("Street address is required");
+        if(!city)errorArr.push("City is required");
+        if(!state)errorArr.push("State is required");
+        if(lat > 90 || lat < -90)errorArr.push("Latitude is not valid");
+        if(lng > 180 || lng < -180)errorArr.push("Longitude is not valid");
+
+        if(errorArr.length){
+            let err = new Error();
+            err.errors = errorArr;
+            next(err);
+        }
 
         let group = await Group.findOne({where: {id:req.params.id}});
 
@@ -190,18 +221,27 @@ router.get(
 router.post(
     '/:id/events',
     requireAuth,
-    async (req,res) => {
+    async (req,res,next) => {
         let {groupId, venueId, name, type, capacity, price, description, startDate, endDate} = req.body;
         let currDate = new Date();
         let venue = await Venue.findOne({where: {id:venueId}});
-        if(!venue) throw new Error("Venue does not exist") ;
-        if(name.length < 5)throw new Error("Name must be at least 5 characters");
-        if(!(type == "Online" || type == "In-person")) throw new Error("Type must be 'Online' or 'In-person'");
-        if(capacity < 0)throw new Error( "Capacity must be an integer");
-        if(price < 0)throw new Error("Price is invalid");
-        if(!description) throw new Error("Description is required");
-        if(!startDate || startDate < currDate) throw new Error("Start date must be in the future");
-        if(!endDate || endDate < startDate)throw new Error("End date is less than start date");
+
+
+        let errorArr = [];
+        if(!venue) errorArr.push("Venue does not exist") ;
+        if(name.length < 5)errorArr.push("Name must be at least 5 characters");
+        if(!(type == "Online" || type == "In-person")) errorArr.push("Type must be 'Online' or 'In-person'");
+        if(capacity < 0)errorArr.push( "Capacity must be an integer");
+        if(price < 0)errorArr.push("Price is invalid");
+        if(!description) errorArr.push("Description is required");
+        if(!startDate || startDate < currDate) errorArr.push("Start date must be in the future");
+        if(!endDate || endDate < startDate)errorArr.push("End date is less than start date");
+
+        if(errorArr.length){
+            let err = new Error();
+            err.errors = errorArr;
+            next(err);
+        }
 
         let group = await Group.findOne({where: {id:req.params.id}});
 

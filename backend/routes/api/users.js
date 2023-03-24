@@ -32,11 +32,21 @@ const validateSignup = [
     validateSignup,
     async (req, res) => {
       const { firstName, lastName, email, password, username } = req.body;
-      if(!firstName || !lastName || !email) throw new Error("first name, last name, and email must all be filled out.");
-      
+      let errorArr = [];
+      if(!firstName)errorArr.push("firstName must be filled out");
+      if(!lastName)errorArr.push("lastName must be filled out");
+      if(!email)errorArr.push("email must be filled out");
+      if(errorArr.length){
+        let err = new Error();
+        err.status = 400;
+        err.errors = errorArr;
+      }
+
       const user = await User.signup({ firstName, lastName, email, username, password });
 
-      await setTokenCookie(res, user);
+      let userB = user;
+
+      userB.dataValues.token = await setTokenCookie(res, user);
 
       return res.json(user);
     }

@@ -21,28 +21,7 @@ const router = express.Router();
 
 
 
-    //sign up
-    router.post('/',
-        async (req, res, next) => {
-            const { credential, password } = req.body;
-
-            const user = await User.login({ credential, password });
-
-            if (!user) {
-                const err = new Error('Login failed');
-                err.status = 401;
-                err.title = 'Login failed';
-                err.errors = { credential: 'The provided credentials were invalid.' };
-                return next(err);
-            }
-
-            await setTokenCookie(res, user);
-
-            return res.json({
-                user: user
-            });
-        }
-    );
+    
     // Log out
     router.delete('/',
         (_req, res) => {
@@ -80,10 +59,11 @@ const router = express.Router();
                 return next(err);
             }
 
-            await setTokenCookie(res, user);
-
+            let userB = user;
+            userB.dataValues.token = await setTokenCookie(res, user);
+            console.log("aaaa",userB)
             return res.json({
-                user: user
+                user: userB
             });
         }
     );
