@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     type: {
-      type: DataTypes.ENUM("Online", "In-person")
+      type: DataTypes.ENUM("Online", "In person")
     },
     private: {
       type: DataTypes.BOOLEAN,
@@ -79,6 +79,18 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Group',
+    // defaultScope: {
+    //   attributes: {
+    //     exclude: ["createdAt", "updatedAt"]
+    //   }
+    // },
+    // scopes: {
+    //   basic: {
+    //     attributes:  {
+    //       exclude: ["organizerId", "about", "type", "private"]
+    //     }
+    //   }
+    // }
 
   });
   return Group;

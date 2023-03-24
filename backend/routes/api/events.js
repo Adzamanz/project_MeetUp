@@ -32,6 +32,7 @@ router.post(
             throw new Error("no such event found");
         }
         let newImage = await EventImage.create({eventId: event.id, url, preview});
+        newImage = await EventImage.scope("basic").findOne({where:{id: newImage.id}});
         res.json(newImage);
     }
 )
@@ -63,13 +64,32 @@ router.get(
 
         console.log(search,page,size, offset);
 
-        if(!req.query) allEvents = await Event.findAll({include: [Group, Venue]});
-        else if(page < 0 || page > 10)throw new Error("page minimum is 0, page maximum is 10");
-        else if(size < 0 || size > 20)throw new Error("size minimum is 0, size maximum is 20");
-        else if(name && typeof name != "string")throw new Error("name must be a string");
-        else if(type && typeof type != "string")throw new Error("type must be a string");
-        else if(startDate && typeof startDate != "string")throw new Error("startDate must be a string");
-        else allEvents = await Event.findAll({where: search,include: [Group, Venue],offset, limit: size});
+        allEvents = await Event.findAll({
+            include: [
+                {model: Group, attributes: ["id","name","city","state"]},
+                {model: Venue, attributes: ["id","city","state"]}
+            ]});
+        let errorArr = [];
+        if(page < 0 || page > 10)errorArr.push("page minimum is 0, page maximum is 10");
+        if(size < 0 || size > 20)errorArr.push("size minimum is 0, size maximum is 20");
+        if(name && typeof name != "string")errorArr.push("name must be a string");
+        if(type && typeof type != "string")errorArr.push("type must be a string");
+        if(startDate && typeof startDate != "string")errorArr.push("startDate must be a string");
+        if(errorArr.length){
+            let err = new Error("Validation Error");
+            err.status = 400;
+            err.errors = errorArr;
+            next()
+        }
+        if(search){
+            allEvents = await Event.findAll({where: search,include: [
+                {model: Group, attributes: ["id","name","city","state"]},
+                {model: Venue, attributes: ["id","city","state"]}
+                ],offset, limit: size});
+        }
+
+
+        console.log(allEvents)
         res.json(allEvents);
     }
 );
@@ -77,7 +97,11 @@ router.get(
 router.get(
     '/:id',
     async (req,res) =>{
-        let event = await Event.findOne({where: {id:req.params.id}, include: [Group, Venue, EventImage]});
+        let event = await Event.findOne({where: {id:req.params.id}, include: [
+            {model: Group, attributes: ["id","name","city","state"]},
+            {model: Venue, attributes: ["id","city","state"]},
+            {model: EventImage, attributes: ["id", "url", "preview"]}
+            ]});
 
         noEventFound(event)
 
@@ -96,7 +120,7 @@ router.put(
         if(!venue) throw new Error("that Venue does not exist") ;
 
         if(name.length < 5)throw new Error("Name must be at least 5 characters");
-        if(!(type == "Online" || type == "In-person")) throw new Error("Type must be 'Online' or 'In-person'");
+        if(!(type == "Online" || type == "In person")) throw new Error("Type must be 'Online' or 'In person'");
         if(capacity < 0)throw new Error( "Capacity must be an integer");
         if(price < 0)throw new Error("Price is invalid");
         if(!description) throw new Error("Description is required");
@@ -111,6 +135,7 @@ router.put(
         {venueId, name, type, capacity, price, description, startDate, endDate}
         );
         await event.save();
+        event = await Event.findOne({where:{id: event.id}})
         res.json(event);
     }
 );
@@ -125,6 +150,7 @@ router.post(
         let test = await Attendance.findOne({where:{eventId: req.params.id, userId: currentUser.id}});
         if(test)throw new Error("attendance ticket already exists!")
         let newAttendance = await Attendance.create({eventId: req.params.id, userId: currentUser.id});
+        newAttendance = await Attendance.findOne({where:{id: newAttendance.id}});
         res.json(newAttendance);
     }
 );
@@ -179,7 +205,7 @@ router.delete(
             throw new Error("no such attendance found");
         }
         await attendance.destroy();
-        res.json("deleted");
+        res.json("successfully deleted Attendance");
     }
 )
 //delete event
@@ -190,7 +216,7 @@ router.delete(
           let event = await Event.findOne({where:{id:req.params.id}});
           noEventFound(event);
           await event.destroy();
-          res.json("deleted");
+          res.json("successfully deleted Event");
     }
   );
 module.exports = router;

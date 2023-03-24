@@ -3,7 +3,7 @@ const router = express.Router();
 const { requireAuth } = require('../../utils/auth');
 const { Op } = require("sequelize");
 
-const { GroupImage, Group, Venue, Event, Membership, User} = require('../../db/models');
+const { GroupImage, Group, Venue, Event, Membership, User,} = require('../../db/models');
 
 
 const getCurrentUser = (req) => {
@@ -59,14 +59,15 @@ router.post(
         let errorArr = [];
         if(name.length > 60) errorArr.push("Name must be 60 characters or less");
         if(about.length < 50)errorArr.push("About must be 50 characters or more");
-        if(!(type == "Online" || type == "In-person")) errorArr.push("Type must be 'Online' or 'In-person'");
+        if(!(type == "Online" || type == "In person")) errorArr.push("Type must be 'Online' or 'In person'");
         if(typeof private != "boolean") errorArr.push("Private must be a boolean");
         if(!city)errorArr.push("City is required");
         if(!state)errorArr.push("State is required");
 
         if(errorArr.length){
-            let err = new Error();
+            let err = new Error("Validation Error");
             err.errors = errorArr;
+            err.status = 400;
             next(err);
         }
 
@@ -105,7 +106,8 @@ router.get(
     async (req,res) => {
         let user = getCurrentUser(req);
         let groupList = await Group.findAll({where: {organizerId: user.id},raw: true});
-        res.json(await Promise.all(groupList.map((data) => addContextToGroup(data))));
+        let Groups = await Promise.all(groupList.map((data) => addContextToGroup(data)))
+        res.json({Groups});
 
     }
 );
@@ -114,15 +116,27 @@ router.get(
 router.get(
     '/:id',
     async (req,res,next) => {
-        let group = await Group.findOne({where:{id:req.params.id},include: [Venue,GroupImage], raw: true});
+        let group = await Group.findOne({where:{id:req.params.id}, raw: true});
+
         if (!group) {
             const err = new Error("Group not found");
             err.status = 404;
             err.title = "Group not found";
             return next(err);
         }
-
         group = await addContextToGroup(group);
+
+        let groupImages = await GroupImage.findAll({where:{groupId: group.id}});
+
+        group.GroupImages = groupImages;
+
+        group.Organizer = await User.findByPk(group.organizerId);
+
+        let groupVenues = await Venue.findAll({where:{groupId: group.id}});
+
+        group.Venues = groupVenues;
+
+        console.log(group)
 
         res.json(group);
     }
@@ -138,13 +152,14 @@ router.put(
         let errorArr = [];
         if(name.length > 60) errorArr.push("Name must be 60 characters or less");
         if(about.length < 50)errorArr.push("About must be 50 characters or more");
-        if(!(type == "Online" || type == "In-person")) errorArr.push("Type must be 'Online' or 'In-person'");
+        if(!(type == "Online" || type == "In person")) errorArr.push("Type must be 'Online' or 'In person'");
         if(typeof private != "boolean") errorArr.push("Private must be a boolean");
         if(!city)errorArr.push("City is required");
         if(!state)errorArr.push("State is required");
 
         if(errorArr.length){
-            let err = new Error();
+            let err = new Error("Validation Error");
+            err.status = 400
             err.errors = errorArr;
             next(err);
         }
@@ -197,7 +212,7 @@ router.post(
             lat,
             lng
         });
-
+        newVenue = await Venue.findByPk(newVenue.id)
         res.json(newVenue);
 
     }
@@ -209,7 +224,7 @@ router.get(
     async (req, res, next) => {
         let allVenuesByGroup = await Venue.findAll({where: {groupId: req.params.id}});
 
-        res.json(allVenuesByGroup);
+        res.json({Venues: allVenuesByGroup});
 
     }
 );
@@ -230,7 +245,7 @@ router.post(
         let errorArr = [];
         if(!venue) errorArr.push("Venue does not exist") ;
         if(name.length < 5)errorArr.push("Name must be at least 5 characters");
-        if(!(type == "Online" || type == "In-person")) errorArr.push("Type must be 'Online' or 'In-person'");
+        if(!(type == "Online" || type == "In person")) errorArr.push("Type must be 'Online' or 'In person'");
         if(capacity < 0)errorArr.push( "Capacity must be an integer");
         if(price < 0)errorArr.push("Price is invalid");
         if(!description) errorArr.push("Description is required");
@@ -248,6 +263,7 @@ router.post(
         noGroupFound(group);
 
         let newEvent = await Event.create({groupId: req.params.id, venueId, name, type, capacity, price, description, startDate, endDate});
+        newEvent = await Event.findOne({where: {id: newEvent.id}});
 
         res.json(newEvent);
 
@@ -262,7 +278,10 @@ router.get(
 
         noGroupFound(group);
 
-        let allEventsById = await Event.findAll({where:{groupId: group.id}, include: [Group, Venue]});
+        let allEventsById = await Event.findAll({where:{groupId: group.id}, include: [
+            {model: Group, attributes: ["id","name","city","state"]},
+            {model: Venue, attributes: ["id","city","state"]}
+            ]});
         res.json(allEventsById);
     }
 );
@@ -271,16 +290,29 @@ router.get(
 router.post(
     '/:id/membership',
     requireAuth,
-    async (req, res)=>{
+    async (req, res, next)=>{
         let currentUser = getCurrentUser(req);
 
         let group = await Group.findOne({where:{id:req.params.id}});
         noGroupFound(group);
-
+        let errMsg
+        let testMembership = await Membership.findOne({where: {id: currentUser.id}});
+        if(testMembership = "Member") {
+            errMsg = "User is already a Member of the Group";
+            let err = new Error(errMsg);
+            err.status = 400;
+            next(err);
+        }else if(testMembership = "Pending") {
+            errMsg = "Membership has already been requested";
+            let err = new Error(errMsg);
+            err.status = 400;
+            next(err);
+        }
         let newMembership = await Membership.create({
             groupId: group.id,
             userId: currentUser.id,
         })
+        newMembership = await Membership.findOne({where: {id: newMembership.id}});
         res.json(newMembership);
     }
 );
@@ -334,7 +366,7 @@ router.delete(
             throw new Error("no such membership found");
         }
         await membership.destroy();
-        res.json("deleted");
+        res.json("successfully deleted Membership");
     }
 )
 
@@ -345,7 +377,7 @@ router.delete(
         let group = await Group.findOne({where:{id:req.params.id}});
           noGroupFound(group);
           await group.destroy();
-          res.json("deleted");
+          res.json("successfully deleted Group");
     }
 )
 

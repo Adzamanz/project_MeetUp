@@ -21,7 +21,7 @@ const router = express.Router();
 
 
 
-    
+
     // Log out
     router.delete('/',
         (_req, res) => {
@@ -34,9 +34,10 @@ const router = express.Router();
     restoreUser,
         (req, res) => {
         const { user } = req;
+        console.log(user)
         if (user) {
             return res.json({
-            user: user.toSafeObject()
+            user: user
             });
         } else return res.json({ user: null });
         }

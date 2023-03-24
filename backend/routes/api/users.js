@@ -37,7 +37,7 @@ const validateSignup = [
       if(!lastName)errorArr.push("lastName must be filled out");
       if(!email)errorArr.push("email must be filled out");
       if(errorArr.length){
-        let err = new Error();
+        let err = new Error("Validation Error");
         err.status = 400;
         err.errors = errorArr;
       }

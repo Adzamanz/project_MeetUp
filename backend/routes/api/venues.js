@@ -19,7 +19,7 @@ router.put(
         if(lng > 180 || lng < -180)errorArr.push("Longitude is not valid");
 
         if(errorArr.length){
-            let err = new Error();
+            let err = new Error("Validation Error");
             err.errors = errorArr;
             next(err);
         }
