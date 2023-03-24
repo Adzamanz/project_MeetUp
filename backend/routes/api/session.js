@@ -61,8 +61,6 @@ const router = express.Router();
             }
 
             let userB = user;
-            userB.dataValues.token = await setTokenCookie(res, user);
-            console.log("aaaa",userB)
             return res.json({
                 user: userB
             });
