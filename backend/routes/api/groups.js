@@ -326,10 +326,10 @@ router.put(
         console.log(memberId)
 
         let targetUser = await User.findOne({where:{id: memberId}});
-        if(!targetUser)throw new Error("no such user found.");
+        if(!targetUser)throw new Error("User not found.");
 
         let targetMembership = await Membership.findOne({where:{groupId: req.params.id, userId: memberId}});
-        if(!targetMembership) throw new Error("no such membership found.");
+        if(!targetMembership) throw new Error("Membership between the user and the group does not exits");
 
         targetMembership.set({status: status});
         await targetMembership.save();
@@ -348,7 +348,7 @@ router.get(
         if(group.organizerId == user.id){
             memberList = await Membership.findAll({where:{groupId}});
         }else{
-            memberList = await Membership.findAll({[Op.or]: [{ status:'Member'},{ status:'Waitlist'},{ status:'Co-host'},{ status:'Host'}]});
+            memberList = await Membership.findAll({[Op.or]: [{ status:'member'},{ status:'waitlist'},{ status:'co-host'},{ status:'host'}]});
         }
 
 

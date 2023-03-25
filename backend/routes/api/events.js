@@ -148,7 +148,7 @@ router.post(
         let event = await Event.findOne({where: {id: req.params.id}});
         noEventFound(event);
         let test = await Attendance.findOne({where:{eventId: req.params.id, userId: currentUser.id}});
-        if(test)throw new Error("attendance ticket already exists!")
+        if(test)throw new Error("Attendance has already been requested")
         let newAttendance = await Attendance.create({eventId: req.params.id, userId: currentUser.id});
         newAttendance = await Attendance.findOne({where:{id: newAttendance.id}});
         res.json(newAttendance);
@@ -167,7 +167,7 @@ router.put(
 
         let attendance = await Attendance.findOne({where: {userId: userId, eventId: req.params.id}});
         if(!attendance){
-            throw new Error("no such attendance found");
+            throw new Error("Attendance between the user and the event does not exist");
         }
         attendance.set({status});
         await attendance.save();
@@ -184,7 +184,7 @@ router.get(
         let membership = await Membership.findOne({where:{groupId: event.groupId, userId: user.id}});
         console.log(membership)
         let attendees;
-        if(membership &&(membership.status == "Co-host" || membership.status == "Host")) attendees = await Attendance.findAll({where:{eventId: req.params.id}});
+        if(membership &&(membership.status == "co-host" || membership.status == "host")) attendees = await Attendance.findAll({where:{eventId: req.params.id}});
         else attendees = await Attendance.findAll({where:{eventId: req.params.id, [Op.or]: [{ status:'attending'},{ status:'waitlist'}]}});
 
         attendees = await Attendance.findAll({where:{eventId: req.params.id}});
@@ -202,7 +202,7 @@ router.delete(
         let currentUser = getCurrentUser(req);
         let attendance = await Attendance.findOne({where:{eventId: req.params.id, userId: currentUser.id}});
         if(!attendance){
-            throw new Error("no such attendance found");
+            throw new Error("Attendance between the user and the event does not exist");
         }
         await attendance.destroy();
         res.json("successfully deleted Attendance");
