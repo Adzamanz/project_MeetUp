@@ -35,6 +35,7 @@ router.put(
             {address,city,state,lat,lng}
         );
         await venue.save();
+        venue = await Venue.findOne({where: {id: venue.id}});
         res.json(venue);
     }
   );
