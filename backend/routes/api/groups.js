@@ -347,13 +347,20 @@ router.get(
         noGroupFound(group);
         let memberList;
         if(group.organizerId == user.id){
-            memberList = await Membership.findAll({where:{groupId}});
+            memberList = await Membership.findAll({where:{groupId}, raw:true});
         }else{
             memberList = await Membership.findAll({[Op.or]: [{ status:'member'},{ status:'waitlist'},{ status:'co-host'},{ status:'host'}]});
         }
+        memberArr = [];
+        await Promise.all(memberList.map(async (ele) => {
+            let memberInfo = await User.findOne({where: {id: ele.userId},raw:true});
 
+            memberInfo.Membership = {};
+            memberInfo.Membership.status = ele.status;
+            memberArr.push(memberInfo);
+        }))
 
-        res.json(memberList);
+        res.json({Members: memberArr});
     }
 )
 
