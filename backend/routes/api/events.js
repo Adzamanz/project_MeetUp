@@ -90,7 +90,7 @@ router.get(
 
 
         console.log(allEvents)
-        res.json(allEvents);
+        res.json({ Events: allEvents});
     }
 );
 //get event by id
