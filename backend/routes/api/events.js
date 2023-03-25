@@ -99,7 +99,7 @@ router.get(
     async (req,res) =>{
         let event = await Event.findOne({where: {id:req.params.id}, include: [
             {model: Group, attributes: ["id","name","city","state"]},
-            {model: Venue, attributes: ["id","city","state"]},
+            {model: Venue, attributes: ["id","address","city","state","lat","lng"]},
             {model: EventImage, attributes: ["id", "url", "preview"]}
             ]});
 
