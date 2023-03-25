@@ -135,7 +135,7 @@ router.put(
         {venueId, name, type, capacity, price, description, startDate, endDate}
         );
         await event.save();
-        event = await Event.findOne({where:{id: event.id}})
+        event = await Event.findOne({where:{id: event.id}, attributes: {exclude: ["groupId"]}})
         res.json(event);
     }
 );
