@@ -298,12 +298,12 @@ router.post(
         noGroupFound(group);
         let errMsg
         let testMembership = await Membership.findOne({where: {id: currentUser.id}});
-        if(testMembership.status = "member") {
+        if(testMembership.status == "member") {
             errMsg = "User is already a Member of the Group";
             let err = new Error(errMsg);
             err.status = 400;
             next(err);
-        }else if(testMembership.status = "pending") {
+        }else if(testMembership.status == "pending") {
             errMsg = "Membership has already been requested";
             let err = new Error(errMsg);
             err.status = 400;
