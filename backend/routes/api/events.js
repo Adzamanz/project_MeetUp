@@ -185,7 +185,7 @@ router.get(
         console.log(membership)
         let attendees;
         if(membership &&(membership.status == "Co-host" || membership.status == "Host")) attendees = await Attendance.findAll({where:{eventId: req.params.id}});
-        else attendees = await Attendance.findAll({where:{eventId: req.params.id, [Op.or]: [{ status:'Attending'},{ status:'Waitlist'}]}});
+        else attendees = await Attendance.findAll({where:{eventId: req.params.id, [Op.or]: [{ status:'attending'},{ status:'Waitlist'}]}});
 
         attendees = await Attendance.findAll({where:{eventId: req.params.id}});
 
