@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router();
 
 const { Op } = require("sequelize");
-const { Group, Venue, Event, EventImage, Attendance, Membership } = require('../../db/models');
+const { Group, Venue, Event, EventImage, Attendance, Membership, User } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
 const noEventFound = (event) => {
@@ -181,15 +181,27 @@ router.get(
         let event = await Event.findOne({where: {id: req.params.id}});
         noEventFound(event);
         let user = getCurrentUser(req);
-        let membership = await Membership.findOne({where:{groupId: event.groupId, userId: user.id}});
+        let membership = await Membership.findOne({where:{groupId: event.groupId, userId: user.id},raw:true});
         console.log(membership)
         let attendees;
-        if(membership &&(membership.status == "co-host" || membership.status == "host")) attendees = await Attendance.findAll({where:{eventId: req.params.id}});
-        else attendees = await Attendance.findAll({where:{eventId: req.params.id, [Op.or]: [{ status:'attending'},{ status:'waitlist'}]}});
+        if(membership &&(membership.status == "co-host" || membership.status == "host")){
+            attendees = await Attendance.findAll({where:{eventId: req.params.id},raw:true});
+        }
+        else{
+            attendees = await Attendance.findAll({where:{eventId: req.params.id, [Op.or]: [{ status:'attending'},{ status:'waitlist'}]},raw:true});
+        }
+        let attendeeArr = []
 
-        attendees = await Attendance.findAll({where:{eventId: req.params.id}});
+        let loot = await Promise.all(attendees.map(async (ele) =>  {
+            let userinfo = await User.findOne({where: {id:ele.userId},raw:true});
+            userinfo.Attendance = {};
+            userinfo.Attendance.status = ele.status;
+            attendeeArr.push(userinfo);
+            return userinfo;
 
-        res.json(attendees);
+
+        }))
+        res.json({Attendances: loot});
 
     }
 );

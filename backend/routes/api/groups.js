@@ -352,6 +352,7 @@ router.get(
             memberList = await Membership.findAll({[Op.or]: [{ status:'member'},{ status:'waitlist'},{ status:'co-host'},{ status:'host'}]});
         }
         memberArr = [];
+
         await Promise.all(memberList.map(async (ele) => {
             let memberInfo = await User.findOne({where: {id: ele.userId},raw:true});
 
