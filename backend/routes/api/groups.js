@@ -59,7 +59,7 @@ router.post(
         let errorArr = [];
         if(name.length > 60) errorArr.push("Name must be 60 characters or less");
         if(about.length < 50)errorArr.push("About must be 50 characters or more");
-        if(!(type == "Online" || type == "In Person")) errorArr.push("Type must be 'Online' or 'In Person'");
+        if(!(type == "Online" || type == "In person")) errorArr.push("Type must be 'Online' or 'In person'");
         if(typeof private != "boolean") errorArr.push("Private must be a boolean");
         if(!city)errorArr.push("City is required");
         if(!state)errorArr.push("State is required");
@@ -124,7 +124,8 @@ router.get(
             err.title = "Group not found";
             return next(err);
         }
-        group = await addContextToGroup(group);
+        let count = await Membership.count({where:{groupId:group.id}});
+        group.numMembers = count;
 
         let groupImages = await GroupImage.findAll({where:{groupId: group.id}});
 

@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     type: {
-      type: DataTypes.ENUM("Online", "In Person")
+      type: DataTypes.ENUM("Online", "In person")
     },
     private: {
       type: DataTypes.BOOLEAN,
