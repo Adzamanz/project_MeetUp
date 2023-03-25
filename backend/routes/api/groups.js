@@ -298,7 +298,7 @@ router.post(
         noGroupFound(group);
         let errMsg
         let testMembership = await Membership.findOne({where: {id: currentUser.id}});
-        if(testMembership = "member") {
+        if(testMembership) {
             errMsg = "User is already a Member of the Group";
             let err = new Error(errMsg);
             err.status = 400;

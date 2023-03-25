@@ -62,7 +62,7 @@ const router = express.Router();
 
             let userB = user;
             return res.json({
-                user: userB
+                userB
             });
         }
     );
