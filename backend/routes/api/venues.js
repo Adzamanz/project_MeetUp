@@ -21,6 +21,7 @@ router.put(
         if(errorArr.length){
             let err = new Error("Validation Error");
             err.errors = errorArr;
+            err.status = 400
             next(err);
         }
 

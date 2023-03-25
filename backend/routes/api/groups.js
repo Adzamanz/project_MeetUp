@@ -283,7 +283,7 @@ router.get(
             {model: Group, attributes: ["id","name","city","state"]},
             {model: Venue, attributes: ["id","city","state"]}
             ]});
-        res.json(allEventsById);
+        res.json({Events: allEventsById});
     }
 );
 
