@@ -376,7 +376,7 @@ router.delete(
             throw new Error("no such membership found");
         }
         await membership.destroy();
-        res.json("successfully deleted Membership");
+        res.json({Message: "successfully deleted Membership"});
     }
 )
 
@@ -387,7 +387,7 @@ router.delete(
         let group = await Group.findOne({where:{id:req.params.id}});
           noGroupFound(group);
           await group.destroy();
-          res.json("successfully deleted Group");
+          res.json({Message: "successfully deleted Group"});
     }
 )
 

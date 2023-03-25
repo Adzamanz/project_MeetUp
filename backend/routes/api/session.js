@@ -32,10 +32,11 @@ const router = express.Router();
     // Restore session user
     router.get('/',
     restoreUser,
-        (req, res) => {
+        async (req, res) => {
         const { user } = req;
         console.log(user)
         if (user) {
+          user.dataValues.token = await setTokenCookie(res, user);
             return res.json(
               //{}
               user

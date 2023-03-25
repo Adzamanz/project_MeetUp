@@ -24,7 +24,7 @@ router.delete(
               throw new Error("no such group image found");
           }
           await image.destroy();
-          res.json("successfully deleted Event Image");
+          res.json({Message: "successfully deleted Event Image"});
     }
   );
 

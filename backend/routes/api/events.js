@@ -150,7 +150,7 @@ router.post(
         let test = await Attendance.findOne({where:{eventId: req.params.id, userId: currentUser.id}});
         if(test)throw new Error("Attendance has already been requested")
         let newAttendance = await Attendance.create({eventId: req.params.id, userId: currentUser.id});
-        newAttendance = await Attendance.findOne({where:{id: newAttendance.id}});
+        newAttendance = await Attendance.findOne({where:{id: newAttendance.id},attributes: {exclude:["id","eventId"]}});
         res.json(newAttendance);
     }
 );
@@ -171,6 +171,7 @@ router.put(
         }
         attendance.set({status});
         await attendance.save();
+        attendance = await Attendance.findOne({where: {userId: userId, eventId: req.params.id}, attributes: {exclude: ["updatedAt"]}});
         res.json(attendance);
     }
 );
@@ -193,7 +194,7 @@ router.get(
         let attendeeArr = []
 
         let loot = await Promise.all(attendees.map(async (ele) =>  {
-            let userinfo = await User.findOne({where: {id:ele.userId},raw:true});
+            let userinfo = await User.findOne({where: {id:ele.userId},attributes:{exclude:["username"]},raw:true});
             userinfo.Attendance = {};
             userinfo.Attendance.status = ele.status;
             attendeeArr.push(userinfo);
@@ -228,7 +229,7 @@ router.delete(
           let event = await Event.findOne({where:{id:req.params.id}});
           noEventFound(event);
           await event.destroy();
-          res.json("successfully deleted Event");
+          res.json({Message: "successfully deleted Event"});
     }
   );
 module.exports = router;
