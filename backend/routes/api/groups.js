@@ -42,7 +42,7 @@ router.get(
 
         let newGroups = await Group.findAll({raw: true});
 
-        res.json(await Promise.all(newGroups.map((data) => addContextToGroup(data))));
+        res.json({group: await Promise.all(newGroups.map((data) => addContextToGroup(data)))});
 
     })
 //create new group
