@@ -36,9 +36,11 @@ const router = express.Router();
         const { user } = req;
         console.log(user)
         if (user) {
-            return res.json({
-            user: user
-            });
+            return res.json(
+              //{}
+              user
+              //}
+              );
         } else return res.json({ user: null });
         }
     );
@@ -60,10 +62,7 @@ const router = express.Router();
                 return next(err);
             }
 
-            let userB = user;
-            return res.json({
-                userB
-            });
+            return res.json(user);
         }
     );
 
