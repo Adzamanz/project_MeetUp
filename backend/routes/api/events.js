@@ -218,7 +218,7 @@ router.delete(
             throw new Error("Attendance between the user and the event does not exist");
         }
         await attendance.destroy();
-        res.json("successfully deleted Attendance");
+        res.json({Message: "successfully deleted Attendance"});
     }
 )
 //delete event

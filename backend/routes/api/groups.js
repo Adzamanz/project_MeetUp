@@ -224,7 +224,12 @@ router.get(
     '/:id/venues',
     async (req, res, next) => {
         let allVenuesByGroup = await Venue.findAll({where: {groupId: req.params.id}});
-
+        //
+    //    allVenuesByGroup.map((ele) => {
+    //         ele.lat = Number(ele.lat);
+    //         ele.lng = Number(ele.lng);
+    //     });
+        //
         res.json({Venues: allVenuesByGroup});
 
     }
@@ -349,12 +354,12 @@ router.get(
         if(group.organizerId == user.id){
             memberList = await Membership.findAll({where:{groupId}, raw:true});
         }else{
-            memberList = await Membership.findAll({[Op.or]: [{ status:'member'},{ status:'waitlist'},{ status:'co-host'},{ status:'host'}]});
+            memberList = await Membership.findAll({where:{groupId},[Op.or]: [{ status:'member'},{ status:'waitlist'},{ status:'co-host'},{ status:'host'}]});
         }
         memberArr = [];
 
         await Promise.all(memberList.map(async (ele) => {
-            let memberInfo = await User.findOne({where: {id: ele.userId},raw:true});
+            let memberInfo = await User.findOne({where: {id: ele.userId},attributes: {exclude:["username"]},raw:true});
 
             memberInfo.Membership = {};
             memberInfo.Membership.status = ele.status;

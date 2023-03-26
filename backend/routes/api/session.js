@@ -26,7 +26,7 @@ const router = express.Router();
     router.delete('/',
         (_req, res) => {
         res.clearCookie('token');
-        return res.json({ message: 'success' });
+        return res.json({ Message: 'success' });
         }
     );
     // Restore session user
