@@ -38,9 +38,9 @@ const router = express.Router();
         if (user) {
           user.dataValues.token = await setTokenCookie(res, user);
             return res.json(
-              //{
+              {
               user
-              //}
+              }
               );
         } else return res.json({ user: null });
         }

@@ -341,6 +341,7 @@ router.put(
 
         targetMembership.set({status: status});
         await targetMembership.save();
+        targetMembership = await Membership.findOne({where:{groupId: req.params.id, userId: targetUser.id}});
         res.json(targetMembership);
     }
 );
