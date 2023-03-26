@@ -336,7 +336,7 @@ router.put(
         let targetUser = await User.findOne({where:{id: memberId}});
         if(!targetUser)throw new Error("User not found.");
 
-        let targetMembership = await Membership.findOne({where:{groupId: req.params.id, userId: memberId}});
+        let targetMembership = await Membership.findOne({where:{groupId: req.params.id, userId: targetUser.id}});
         if(!targetMembership) throw new Error("Membership between the user and the group does not exits");
 
         targetMembership.set({status: status});
