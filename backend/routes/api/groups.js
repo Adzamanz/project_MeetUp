@@ -213,7 +213,9 @@ router.post(
             lat,
             lng
         });
-        newVenue = await Venue.findByPk(newVenue.id)
+        newVenue = await Venue.findone(newVenue.id)
+        newVenue.lat = Number(newVenue.lat);
+        newVenue.lng = Number(newVenue.lng);
         res.json(newVenue);
 
     }
