@@ -213,7 +213,7 @@ router.post(
             lat,
             lng
         });
-        newVenue = await Venue.findone(newVenue.id)
+        newVenue = await Venue.findByPk(newVenue.id)
         newVenue.lat = Number(newVenue.lat);
         newVenue.lng = Number(newVenue.lng);
         res.json(newVenue);
@@ -226,12 +226,12 @@ router.get(
     '/:id/venues',
     async (req, res, next) => {
         let allVenuesByGroup = await Venue.findAll({where: {groupId: req.params.id}});
-        //
-    //    allVenuesByGroup.map((ele) => {
-    //         ele.lat = Number(ele.lat);
-    //         ele.lng = Number(ele.lng);
-    //     });
-        //
+
+       allVenuesByGroup.map((ele) => {
+            ele.lat = Number(ele.lat);
+            ele.lng = Number(ele.lng);
+        });
+
         res.json({Venues: allVenuesByGroup});
 
     }
