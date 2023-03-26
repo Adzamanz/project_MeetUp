@@ -39,7 +39,7 @@ const router = express.Router();
           user.dataValues.token = await setTokenCookie(res, user);
             return res.json(
               {
-              user
+              User: user
               }
               );
         } else return res.json({ user: null });
