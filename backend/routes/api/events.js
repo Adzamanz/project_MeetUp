@@ -5,6 +5,12 @@ const { Op } = require("sequelize");
 const { Group, Venue, Event, EventImage, Attendance, Membership, User } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
+const checkEmpty = (array) => {
+    array.forEach(ele => {
+        if(!ele) throw new Error("Input values must not be empty!")
+    });
+}
+
 const noEventFound = (event) => {
     if(!event){
         throw new Error("no such event found");
@@ -115,7 +121,7 @@ router.put(
     async (req,res,next) => {
         let {venueId, name, type, capacity, price, description, startDate, endDate} = req.body;
         let currDate = new Date();
-
+        checkEmpty([venueId, name, type, capacity, price, description, startDate, endDate]);
         let venue = await Venue.findOne({where: {id:venueId}});
         if(!venue) throw new Error("that Venue does not exist") ;
 

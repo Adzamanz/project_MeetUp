@@ -17,6 +17,12 @@ const getCurrentUser = (req) => {
     return current;
 }
 
+const checkEmpty = (array) => {
+    array.forEach(ele => {
+        if(!ele) throw new Error("Input values must not be empty!")
+    });
+}
+
 const addContextToGroup = async (group) =>{
     let count = await Membership.count({where:{groupId:group.id}});
     group.numMembers = count;
@@ -55,7 +61,7 @@ router.post(
 
         let organizerId = current.id;
         let {name, about, type, private, city, state} = req.body;
-
+        checkEmpty([name, about, type, private, city, state]);
         let errorArr = [];
         if(name.length > 60) errorArr.push("Name must be 60 characters or less");
         if(about.length < 50)errorArr.push("About must be 50 characters or more");
@@ -149,7 +155,7 @@ router.put(
     requireAuth,
     async (req,res,next) => {
         let {name,about,type,private,city,state} = req.body;
-
+        checkEmpty([name, about, type, private, city, state]);
         let errorArr = [];
         if(name.length > 60) errorArr.push("Name must be 60 characters or less");
         if(about.length < 50)errorArr.push("About must be 50 characters or more");
@@ -187,7 +193,7 @@ router.post(
     requireAuth,
     async (req,res) => {
         let {address, city, state, lat, lng} = req.body;
-
+        checkEmpty([address, city,state,lat,lng]);
         let errorArr = [];
         if(!address)errorArr.push("Street address is required");
         if(!city)errorArr.push("City is required");
@@ -245,8 +251,12 @@ router.post(
     '/:id/events',
     requireAuth,
     async (req,res,next) => {
-        let {groupId, venueId, name, type, capacity, price, description, startDate, endDate} = req.body;
+        let groupId = req.params.id;
+        let {venueId, name, type, capacity, price, description, startDate, endDate} = req.body;
         let currDate = new Date();
+
+        checkEmpty([groupId, venueId, name, type, capacity, price, description, startDate, endDate]);
+
         let venue = await Venue.findOne({where: {id:venueId}});
 
 

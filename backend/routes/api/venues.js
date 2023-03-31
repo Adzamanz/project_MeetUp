@@ -3,6 +3,13 @@ const router = express.Router();
 const { requireAuth } = require('../../utils/auth');
 
 const { Venue} = require('../../db/models');
+const { check } = require('express-validator');
+
+const checkEmpty = (array) => {
+    array.forEach(ele => {
+        if(!ele) throw new Error("Input values must not be empty!")
+    });
+}
 
 router.put(
     '/:id',
@@ -10,7 +17,7 @@ router.put(
     async (req,res,next) => {
 
         let {address, city,state,lat,lng} = req.body;
-
+        checkEmpty([address, city,state,lat,lng]);
         let errorArr = [];
         if(!address)errorArr.push("Street address is required");
         if(!city)errorArr.push("City is required");
