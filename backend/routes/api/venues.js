@@ -21,11 +21,7 @@ router.put(
     async (req,res, next) => {
 
         let {address, city,state,lat,lng} = req.body;
-<<<<<<< HEAD
         //checkEmpty([address,city,state,lat,lng]);
-=======
-        checkEmpty([address,city,state,lat,lng]);
->>>>>>> main
         let errorArr = [];
         if(!address)errorArr.push("Street address is required");
         if(!city)errorArr.push("City is required");

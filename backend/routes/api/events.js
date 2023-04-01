@@ -41,7 +41,9 @@ router.post(
         let event = await Event.findOne({where: {id: req.params.id}});
         if(!event){
             //console.log("BONK");
-            throw new Error("no such event found");
+            let err = new Error("no such event found");
+            err.status = 404;
+            throw err;
         }
         let newImage = await EventImage.create({eventId: event.id, url, preview});
         newImage = await EventImage.scope("basic").findOne({where:{id: newImage.id}});
@@ -84,9 +86,9 @@ router.get(
         let errorArr = [];
         if(page < 0 || page > 10)errorArr.push("page minimum is 0, page maximum is 10");
         if(size < 0 || size > 20)errorArr.push("size minimum is 0, size maximum is 20");
-        if(name && typeof name != "string")errorArr.push("name must be a string");
-        if(type && typeof type != "string")errorArr.push("type must be a string");
-        if(startDate && typeof startDate != "string")errorArr.push("startDate must be a string");
+        if(!name || typeof name != "string")errorArr.push("name must be a string");
+        if(!type || typeof type != "string")errorArr.push("type must be a string");
+        if(!startDate || typeof startDate != "string")errorArr.push("startDate must be a string");
         if(errorArr.length){
             let err = new Error("Validation Error");
             err.status = 400;
@@ -116,8 +118,8 @@ router.get(
             ]});
 
         noEventFound(event)
-        // event.Venue.lng = Number(event.Venue.lng);
-        // event.Venue.lat = Number(event.Venue.lat);
+        event.Venue.lng = Number(event.Venue.lng);
+        event.Venue.lat = Number(event.Venue.lat);
         res.json(event);
     }
 );
@@ -240,7 +242,9 @@ router.delete(
         let currentUser = getCurrentUser(req);
         let attendance = await Attendance.findOne({where:{eventId: req.params.id, userId: currentUser.id}});
         if(!attendance){
-            throw new Error("Attendance between the user and the event does not exist");
+            let err = new Error("Attendance between the user and the event does not exist");
+              err.status = 404;
+              throw err;
         }
         await attendance.destroy();
         res.json({Message: "successfully deleted Attendance"});

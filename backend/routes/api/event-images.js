@@ -21,7 +21,9 @@ router.delete(
     async (req,res) =>{
           let image = await EventImage.findOne({where:{id:req.params.id}});
           if(!image){
-              throw new Error("no such group image found");
+            let err = new Error("no such group image found");
+            err.status = 404;
+            throw err;
           }
           await image.destroy();
           res.json({Message: "successfully deleted Event Image"});

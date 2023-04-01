@@ -197,7 +197,7 @@ router.post(
     requireAuth,
     async (req,res) => {
         let {address, city, state, lat, lng} = req.body;
-        checkEmpty([address, city,state,lat,lng]);
+        //checkEmpty([address, city,state,lat,lng]);
         let errorArr = [];
         if(!address)errorArr.push("Street address is required");
         if(!city)errorArr.push("City is required");
@@ -306,7 +306,7 @@ router.get(
             {model: Group, attributes: ["id","name","city","state"]},
             {model: Venue, attributes: ["id","city","state"]}
             ]});
-        
+
         res.json({Events: allEventsById});
     }
 );
@@ -348,7 +348,11 @@ router.put(
         console.log(memberId)
 
         let targetUser = await User.findOne({where:{id: memberId}});
-        if(!targetUser)throw new Error("User not found.");
+        if(!targetUser){
+            let err = new Error("User not found.");
+            err.status = 404;
+            throw err;
+        }
 
         let targetMembership = await Membership.findOne({where:{groupId: req.params.id, userId: targetUser.id}});
         if(!targetMembership) throw new Error("Membership between the user and the group does not exits");
@@ -395,7 +399,9 @@ router.delete(
         let currentUser = getCurrentUser(req);
         let membership = await Membership.findOne({where:{groupId:req.params.id,userId:currentUser.id}});
         if(!membership){
-            throw new Error("no such membership found");
+            let err = new Error("no such membership found");
+            err.status = 404;
+            throw err;
         }
         await membership.destroy();
         res.json({Message: "successfully deleted Membership"});
