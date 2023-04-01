@@ -19,7 +19,12 @@ const getCurrentUser = (req) => {
 
 const checkEmpty = (array) => {
     array.forEach(ele => {
-        if(!ele) throw new Error("Input values must not be empty!")
+        if(!ele) {
+            let err = new Error("Input values must not be empty!");
+            err.status = 400;
+            throw err;
+        }
+
     });
 }
 
@@ -201,7 +206,8 @@ router.post(
         if(!lng || lng > 180 || lng < -180)errorArr.push("Longitude is not valid");
 
         if(errorArr.length){
-            let err = new Error();
+            let err = new Error("Validation Error");
+            err.status = 400;
             err.errors = errorArr;
             next(err);
         }
@@ -271,6 +277,7 @@ router.post(
 
         if(errorArr.length){
             let err = new Error();
+            err.status = 400;
             err.errors = errorArr;
             next(err);
         }
@@ -313,17 +320,14 @@ router.post(
 
         let group = await Group.findOne({where:{id:req.params.id}});
         noGroupFound(group);
-        let errMsg
         let testMembership = await Membership.findOne({where: {userId: currentUser.id}, attributes: {include: ["status"]}, raw:true});
         console.log(testMembership)
         if(testMembership &&testMembership.status == "member") {
-            errMsg = "User is already a Member of the Group";
-            let err = new Error(errMsg);
+            let err = new Error("User is already a Member of the Group");
             err.status = 400;
             next(err);
         }else if(testMembership && testMembership.status == "pending") {
-            errMsg = "Membership has already been requested";
-            let err = new Error(errMsg);
+            let err = new Error("Membership has already been requested");
             err.status = 400;
             next(err);
         }

@@ -7,7 +7,11 @@ const { requireAuth } = require('../../utils/auth');
 
 const checkEmpty = (array) => {
     array.forEach(ele => {
-        if(!ele) throw new Error("Input values must not be empty!")
+        if(!ele) {
+            let err = new Error("Input values must not be empty!");
+            err.status = 400;
+            throw err;
+        }
     });
 }
 
@@ -87,7 +91,7 @@ router.get(
             let err = new Error("Validation Error");
             err.status = 400;
             err.errors = errorArr;
-            next()
+            next(err);
         }
         if(search){
             allEvents = await Event.findAll({where: search,include: [
