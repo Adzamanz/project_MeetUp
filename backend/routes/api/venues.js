@@ -14,16 +14,16 @@ const checkEmpty = (array) => {
 router.put(
     '/:id',
     requireAuth,
-    async (req,res,next) => {
+    async (req,res, next) => {
 
         let {address, city,state,lat,lng} = req.body;
-        checkEmpty([address, city,state,lat,lng]);
+        //checkEmpty([address,city,state,lat,lng]);
         let errorArr = [];
         if(!address)errorArr.push("Street address is required");
         if(!city)errorArr.push("City is required");
         if(!state)errorArr.push("State is required");
-        if(lat > 90 || lat < -90)errorArr.push("Latitude is not valid");
-        if(lng > 180 || lng < -180)errorArr.push("Longitude is not valid");
+        if(!lat || lat > 90 || lat < -90)errorArr.push("Latitude is not valid");
+        if(!lng || lng > 180 || lng < -180)errorArr.push("Longitude is not valid");
 
         if(errorArr.length){
             let err = new Error("Validation Error");

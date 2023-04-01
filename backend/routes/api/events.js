@@ -13,7 +13,9 @@ const checkEmpty = (array) => {
 
 const noEventFound = (event) => {
     if(!event){
-        throw new Error("no such event found");
+        let err = new Error("no such event found");
+        err.status = 404;
+        throw err;
     }
 }
 const getCurrentUser = (req) => {
@@ -102,7 +104,7 @@ router.get(
 //get event by id
 router.get(
     '/:id',
-    async (req,res) =>{
+    async (req,res, next) =>{
         let event = await Event.findOne({where: {id:req.params.id}, include: [
             {model: Group, attributes: ["id","name","city","state"]},
             {model: Venue, attributes: ["id","address","city","state","lat","lng"]},
@@ -110,7 +112,8 @@ router.get(
             ]});
 
         noEventFound(event)
-
+        // event.Venue.lng = Number(event.Venue.lng);
+        // event.Venue.lat = Number(event.Venue.lat);
         res.json(event);
     }
 );
@@ -121,17 +124,29 @@ router.put(
     async (req,res,next) => {
         let {venueId, name, type, capacity, price, description, startDate, endDate} = req.body;
         let currDate = new Date();
-        checkEmpty([venueId, name, type, capacity, price, description, startDate, endDate]);
+        //checkEmpty([venueId, name, type, capacity, price, description, startDate, endDate]);
         let venue = await Venue.findOne({where: {id:venueId}});
-        if(!venue) throw new Error("that Venue does not exist") ;
+        if(!venue){
+            let err = new Error("that Venue does not exist") ;
+            err.status = 404;
+            next(err);
+        }
 
-        if(name.length < 5)throw new Error("Name must be at least 5 characters");
-        if(!(type == "Online" || type == "In person")) throw new Error("Type must be 'Online' or 'In person'");
-        if(capacity < 0)throw new Error( "Capacity must be an integer");
-        if(price < 0)throw new Error("Price is invalid");
-        if(!description) throw new Error("Description is required");
-        if(!startDate || startDate < currDate) throw new Error("Start date must be in the future");
-        if(!endDate || endDate < startDate)throw new Error("End date is less than start date");
+        let errArr = [];
+        if(name.length < 5) errArr.push("Name must be at least 5 characters");
+        if(!(type == "Online" || type == "In person")) errArr.push("Type must be 'Online' or 'In person'");
+        if(capacity < 0) errArr.push( "Capacity must be a positive integer");
+        if(price < 0) errArr.push("Price is invalid");
+        if(!description) errArr.push("Description is required");
+        if(!startDate || startDate < currDate) errArr.push("Start date must be in the future");
+        if(!endDate || endDate < startDate) errArr.push("End date is less than start date");
+
+        if(errArr.length){
+            let err = new Error("Validation Error");
+            err.errors = errArr;
+            err.status = 400;
+            next(err);
+        }
 
         let event = await Event.findOne({where: {id: req.params.id}});
 
@@ -208,7 +223,7 @@ router.get(
 
 
         }))
-        res.json({Attendances: loot});
+        res.json({Attendees: loot});
 
     }
 );

@@ -34,9 +34,8 @@ const addContextToGroup = async (group) =>{
 
 const noGroupFound = (group) => {
     if(!group){
-        let err =  new Error("no such group found");
+        let err =  new Error("Group not found");
         err.status = 404;
-        err.title = "Group not found";
         throw err;
     }
 }
@@ -61,9 +60,9 @@ router.post(
 
         let organizerId = current.id;
         let {name, about, type, private, city, state} = req.body;
-        checkEmpty([name, about, type, private, city, state]);
+        //checkEmpty([name, about, type, private, city, state]);
         let errorArr = [];
-        if(name.length > 60) errorArr.push("Name must be 60 characters or less");
+        if(name.length > 60 || name.length < 1) errorArr.push("Name must be 60 characters or less, but cannot be empty!");
         if(about.length < 50)errorArr.push("About must be 50 characters or more");
         if(!(type == "Online" || type == "In person")) errorArr.push("Type must be 'Online' or 'In person'");
         if(typeof private != "boolean") errorArr.push("Private must be a boolean");
@@ -155,9 +154,9 @@ router.put(
     requireAuth,
     async (req,res,next) => {
         let {name,about,type,private,city,state} = req.body;
-        checkEmpty([name, about, type, private, city, state]);
+        //checkEmpty([name, about, type, private, city, state]);
         let errorArr = [];
-        if(name.length > 60) errorArr.push("Name must be 60 characters or less");
+        if(name.length > 60 || name.length < 1) errorArr.push("Name must be 60 characters or less, but cannot be empty!");
         if(about.length < 50)errorArr.push("About must be 50 characters or more");
         if(!(type == "Online" || type == "In person")) errorArr.push("Type must be 'Online' or 'In person'");
         if(typeof private != "boolean") errorArr.push("Private must be a boolean");
@@ -198,8 +197,8 @@ router.post(
         if(!address)errorArr.push("Street address is required");
         if(!city)errorArr.push("City is required");
         if(!state)errorArr.push("State is required");
-        if(lat > 90 || lat < -90)errorArr.push("Latitude is not valid");
-        if(lng > 180 || lng < -180)errorArr.push("Longitude is not valid");
+        if(!lat || lat > 90 || lat < -90)errorArr.push("Latitude is not valid");
+        if(!lng || lng > 180 || lng < -180)errorArr.push("Longitude is not valid");
 
         if(errorArr.length){
             let err = new Error();
@@ -300,6 +299,7 @@ router.get(
             {model: Group, attributes: ["id","name","city","state"]},
             {model: Venue, attributes: ["id","city","state"]}
             ]});
+        
         res.json({Events: allEventsById});
     }
 );
