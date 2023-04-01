@@ -104,7 +104,7 @@ router.put(
 
         let event = await Event.findOne({where: {id: req.params.id}});
         noEventFound(event);
-        
+
         let attendance = await Attendance.findOne({where: {userId: userId, eventId: req.params.id}});
         if(!attendance){
             throw new Error("no such attendance found");
