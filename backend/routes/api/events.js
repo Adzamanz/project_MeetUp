@@ -89,7 +89,7 @@ router.get(
             let err = new Error("Validation Error");
             err.status = 400;
             err.errors = errorArr;
-            next()
+            next(err);
         }
         if(search){
             allEvents = await Event.findAll({where: search,include: [
@@ -127,15 +127,27 @@ router.put(
         let currDate = new Date();
         checkEmpty([venueId, name, type, capacity, price, description, startDate, endDate]);
         let venue = await Venue.findOne({where: {id:venueId}});
-        if(!venue) throw new Error("that Venue does not exist") ;
+        if(!venue){
+            let err = new Error("that Venue does not exist") ;
+            err.status = 404;
+            next(err);
+        }
 
-        if(name.length < 5)throw new Error("Name must be at least 5 characters");
-        if(!(type == "Online" || type == "In person")) throw new Error("Type must be 'Online' or 'In person'");
-        if(capacity < 0)throw new Error( "Capacity must be an integer");
-        if(price < 0)throw new Error("Price is invalid");
-        if(!description) throw new Error("Description is required");
-        if(!startDate || startDate < currDate) throw new Error("Start date must be in the future");
-        if(!endDate || endDate < startDate)throw new Error("End date is less than start date");
+        let errArr = [];
+        if(name.length < 5) errArr.push("Name must be at least 5 characters");
+        if(!(type == "Online" || type == "In person")) errArr.push("Type must be 'Online' or 'In person'");
+        if(capacity < 0) errArr.push( "Capacity must be an integer");
+        if(price < 0) errArr.push("Price is invalid");
+        if(!description) errArr.push("Description is required");
+        if(!startDate || startDate < currDate) errArr.push("Start date must be in the future");
+        if(!endDate || endDate < startDate) errArr.push("End date is less than start date");
+
+        if(errArr.length){
+            let err = new Error("Validation Error");
+            err.errors = errArr;
+            err.status = 400;
+            next(err);
+        }
 
         let event = await Event.findOne({where: {id: req.params.id}});
 
