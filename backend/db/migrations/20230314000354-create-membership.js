@@ -20,7 +20,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       status: {
-        type: Sequelize.ENUM("Host","Co-Host","Member","Waitlist","Pending")
+        type: Sequelize.ENUM("host","co-Host","member","waitlist","pending")
       },
       createdAt: {
         allowNull: false,
@@ -35,7 +35,7 @@ module.exports = {
     }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = "Membeships";
+    options.tableName = "Memberships";
     await queryInterface.dropTable(options);
   }
 };
