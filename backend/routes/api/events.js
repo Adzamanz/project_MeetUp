@@ -142,8 +142,8 @@ router.put(
         if(capacity < 0) errArr.push( "Capacity must be a positive integer");
         if(price < 0) errArr.push("Price is invalid");
         if(!description) errArr.push("Description is required");
-        if(!startDate || startDate < currDate) errArr.push("Start date must be in the future");
-        if(!endDate || endDate < startDate) errArr.push("End date is less than start date");
+        if(!startDate && startDate < currDate) errArr.push("Start date must be in the future");
+        if(!endDate && endDate < startDate) errArr.push("End date is less than start date");
 
         if(errArr.length){
             let err = new Error("Validation Error");
