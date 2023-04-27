@@ -66,8 +66,9 @@ router.post(
         let organizerId = current.id;
         let {name, about, type, private, city, state} = req.body;
         //checkEmpty([name, about, type, private, city, state]);
+
         let errorArr = [];
-        if(name.length > 60 || name.length < 1) errorArr.push("Name must be 60 characters or less, but cannot be empty!");
+        if(name.length >= 60 || name.length < 1) errorArr.push("Name must be 60 characters or less, but cannot be empty!");
         if(about.length < 50)errorArr.push("About must be 50 characters or more");
         if(!(type == "Online" || type == "In person")) errorArr.push("Type must be 'Online' or 'In person'");
         if(typeof private != "boolean") errorArr.push("Private must be a boolean");
@@ -160,8 +161,9 @@ router.put(
     async (req,res,next) => {
         let {name,about,type,private,city,state} = req.body;
         //checkEmpty([name, about, type, private, city, state]);
+        
         let errorArr = [];
-        if(name.length > 60 || name.length < 1) errorArr.push("Name must be 60 characters or less, but cannot be empty!");
+        if(name.length >= 60 || name.length < 1) errorArr.push("Name must be 60 characters or less, but cannot be empty!");
         if(about.length < 50)errorArr.push("About must be 50 characters or more");
         if(!(type == "Online" || type == "In person")) errorArr.push("Type must be 'Online' or 'In person'");
         if(typeof private != "boolean") errorArr.push("Private must be a boolean");
@@ -260,7 +262,7 @@ router.post(
         let {venueId, name, type, capacity, price, description, startDate, endDate} = req.body;
         let currDate = new Date();
 
-        checkEmpty([groupId, venueId, name, type, capacity, price, description, startDate, endDate]);
+        //checkEmpty([groupId, venueId, name, type, capacity, price, description, startDate, endDate]);
 
         let venue = await Venue.findOne({where: {id:venueId}});
 
@@ -269,7 +271,7 @@ router.post(
         if(!venue) errorArr.push("Venue does not exist") ;
         if(name.length < 5)errorArr.push("Name must be at least 5 characters");
         if(!(type == "Online" || type == "In person")) errorArr.push("Type must be 'Online' or 'In person'");
-        if(capacity < 0)errorArr.push( "Capacity must be an integer");
+        if(capacity < 0)errorArr.push( "Capacity must be a positive integer");
         if(price < 0)errorArr.push("Price is invalid");
         if(!description) errorArr.push("Description is required");
         if(!startDate || startDate < currDate) errorArr.push("Start date must be in the future");
@@ -370,6 +372,7 @@ router.get(
         let user = getCurrentUser(req);
         let groupId = req.params.id;
         let group = await Group.findOne({where:{id: groupId}});
+
         noGroupFound(group);
         let memberList;
         if(group.organizerId == user.id){
