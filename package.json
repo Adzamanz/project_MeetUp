@@ -1,12 +1,12 @@
 {
   "dependencies": {
-    "bcryptjs": "^2.4.3"
+    "bcryptjs": "^2.4.3",
+    "js-cookie": "^3.0.5"
   },
   "name": "project_week23",
   "description": "![SCHEMA](Project_MeetUp_Schema.png)",
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "install": "npm --prefix backend install backend",
     "dev:backend": "npm install --prefix backend start",
