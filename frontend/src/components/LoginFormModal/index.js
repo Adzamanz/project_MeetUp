@@ -9,7 +9,6 @@ function LoginFormPage() {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-  console.log(sessionUser)
   if (sessionUser) return <Redirect to="/" />;
 
   const handleSubmit = (e) => {
