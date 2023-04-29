@@ -14,12 +14,14 @@ function ProfileButton({ user }) {
     if (showMenu) return;
     setShowMenu(true);
   };
-
+  useEffect(() => {
+    console.log('ulRef: ', ulRef)
+  }, [ulRef])
   useEffect(() => {
     if (!showMenu) return;
 
     const closeMenu = (e) => {
-      if (!ulRef.current.contains(e.target)) {
+      if (ulRef.current && !ulRef.current.contains(e.target)) {
         setShowMenu(false);
       }
     };
@@ -34,7 +36,7 @@ function ProfileButton({ user }) {
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
-    closeMenu();
+    closeMenu(e);
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");

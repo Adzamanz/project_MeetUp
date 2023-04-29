@@ -1,0 +1,19 @@
+.navbar{
+display: grid;
+grid-template-rows: 40px;
+grid-template-columns: auto;
+}
+.home{
+    grid-column: 2;
+    align-self: center;
+    justify-self: left;
+}
+.profile {
+    grid-column: 4;
+    align-self: center;
+    justify-self: right;
+}
+.profileList{
+    align-self: center;
+    justify-self: left;
+}

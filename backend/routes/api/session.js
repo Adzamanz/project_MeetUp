@@ -19,9 +19,6 @@ const router = express.Router();
     handleValidationErrors
   ];
 
-
-
-
     // Log out
     router.delete('/',
         (_req, res) => {
@@ -36,12 +33,14 @@ const router = express.Router();
         const { user } = req;
         console.log(user)
         if (user) {
-          user.dataValues.token = await setTokenCookie(res, user);
+          let token;
+          token = await setTokenCookie(res, user);
+          user.dataValues.token = token
             return res.json(
               {
-              User: user
+              user: user.toSafeObject()
               }
-              );
+            );
         } else return res.json({ user: null });
         }
     );
