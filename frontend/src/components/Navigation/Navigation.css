@@ -1,7 +1,7 @@
 .navbar{
 display: grid;
 grid-template-rows: 40px;
-grid-template-columns: auto;
+grid-template-columns: 5% 5% 80% 10%;
 }
 .home{
     grid-column: 2;
@@ -16,4 +16,11 @@ grid-template-columns: auto;
 .profileList{
     align-self: center;
     justify-self: left;
+}
+.profile-dropdown {
+    position: absolute;
+    padding: 0px 0px 0px 0px;
+}
+.profile-dropdown > li{
+    width: 60px;
 }
