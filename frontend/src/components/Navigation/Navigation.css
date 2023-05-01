@@ -3,16 +3,20 @@
     display: grid;
     grid-template-rows: 40px;
     grid-template-columns: 5% 5% 80% 10%;
+    background-color: rgb(32, 32, 32);
 }
 .home{
     grid-column: 2;
     align-self: center;
     justify-self: left;
+    font-size: 30;
+    color:rgb(255, 60, 42)
 }
 .profile {
     grid-column: 4;
     align-self: center;
     justify-self: right;
+    margin: 10px;
 }
 .profileList{
     align-self: center;

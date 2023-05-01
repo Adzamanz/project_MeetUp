@@ -3,3 +3,4 @@ const GroupsPage  = () => {
         <h1> Groups Page </h1>
     )
 }
+export default GroupsPage;

@@ -9,7 +9,7 @@ const Greeting = () => {
                     The people platform- Where interests become friendships.
                 </div>
             <div id="b">
-                <img src="" alt=''/>
+                <img src="../../images/snip.PNG" alt='image'/>
             </div>
             <div id="c">
                 How Meetup works
@@ -17,8 +17,8 @@ const Greeting = () => {
             <div id="d">
                 <div id="da" >
                 <button onClick={() => handleClick('/groups')}>
-                        See All Groups
-                    </button>
+                       See All Groups
+                </button>
 
                 </div>
                 <div id="db">

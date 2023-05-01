@@ -10,7 +10,7 @@ function Navigation({ isLoaded }){
   return (
     <nav className='navbar'>
       <div className='home'>
-        <NavLink exact to="/">Home</NavLink>
+        <NavLink exact to="/">Meetup</NavLink>
       </div>
       {isLoaded && (
         <div className='profile'>
