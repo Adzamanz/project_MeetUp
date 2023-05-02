@@ -47,6 +47,24 @@ export const getGroupsThunk = () => async dispatch => {
 export const groupsReducer = (state = {}, action) => {
     let newState = {};
     switch(action.type){
+        // case CREATE_GROUP:
+        //     if (!state[action.pokemon.id]) {
+        //         const newState = {
+        //             ...state,
+        //             [action.payload.id]: action.payload
+        //         };
+        //         // const groupsList = newState.list.map(id => newState[id]);
+        //         // groupsList.push(action.payload);
+        //         // newState.list = sortList(groupsList);
+        //         return newState;
+        //     }
+        //     return {
+        //         ...state,
+        //         [action.payload.id]: {
+        //           ...state[action.payload.id],
+        //           ...action.payload
+        //         }
+        //       };
         case GET_GROUPS:
             newState = {...state};
             action.payload.forEach(group => newState[group.id] = group);
