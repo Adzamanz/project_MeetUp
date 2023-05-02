@@ -1,15 +1,16 @@
 import './Greeting.css';
 import { useHistory } from 'react-router-dom';
+// import greetingImage1 from '../../../public/images/snip.png'
 const Greeting = () => {
     const history = useHistory();
-    const handleClick = (where) => history.replace(where);
+    const handleClick = (where) => history.push(where);
     return(
         <div id="greeting-page">
             <div id="a">
                     The people platform- Where interests become friendships.
                 </div>
             <div id="b">
-                <img src="../../images/snip.PNG" alt='image'/>
+                <img src="../../../public/images/snip.png" alt='image'/>
             </div>
             <div id="c">
                 How Meetup works

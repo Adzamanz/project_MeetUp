@@ -14,9 +14,9 @@ function ProfileButton({ user }) {
     if (showMenu) return;
     setShowMenu(true);
   };
-  useEffect(() => {
-    console.log('ulRef: ', ulRef)
-  }, [ulRef])
+  // useEffect(() => {
+  //   console.log('ulRef: ', ulRef)
+  // }, [ulRef])
   useEffect(() => {
     if (!showMenu) return;
 
@@ -47,6 +47,7 @@ function ProfileButton({ user }) {
         <i className="fas fa-user-circle" />
       </button>
       {showMenu &&
+      <div className='profileButtonBox'>
         <ul className={ulClassName} ref={ulRef}>
           {user ? (
             <>
@@ -72,6 +73,8 @@ function ProfileButton({ user }) {
             </>
           )}
         </ul>
+      </div>
+
       }
     </div>
   );

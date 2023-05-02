@@ -61,7 +61,7 @@ router.get(
         // startDate: string, optional
         let {page, size, name, type, startDate} = req.query;
         let allEvents;
-        console.log(page,size)
+        //console.log(page,size)
         let search = {};
         let offset = 0;
         if(page && size){
@@ -76,34 +76,34 @@ router.get(
 
         if(startDate && startDate != '')search.startDate = startDate
 
-        console.log(search,page,size, offset);
+        //console.log(search,page,size, offset);
 
         allEvents = await Event.findAll({
             include: [
                 {model: Group, attributes: ["id","name","city","state"]},
                 {model: Venue, attributes: ["id","city","state"]}
-            ]});
-        let errorArr = [];
-        if(page < 0 || page > 10)errorArr.push("page minimum is 0, page maximum is 10");
-        if(size < 0 || size > 20)errorArr.push("size minimum is 0, size maximum is 20");
-        if(!name || typeof name != "string")errorArr.push("name must be a string");
-        if(!type || typeof type != "string")errorArr.push("type must be a string");
-        if(!startDate || typeof startDate != "string")errorArr.push("startDate must be a string");
-        if(errorArr.length){
-            let err = new Error("Validation Error");
-            err.status = 400;
-            err.errors = errorArr;
-            next(err);
-        }
-        if(search){
-            allEvents = await Event.findAll({where: search,include: [
-                {model: Group, attributes: ["id","name","city","state"]},
-                {model: Venue, attributes: ["id","city","state"]}
-                ],offset, limit: size});
-        }
+        ]});
+        // let errorArr = [];
+        // if(page < 0 || page > 10)errorArr.push("page minimum is 0, page maximum is 10");
+        // if(size < 0 || size > 20)errorArr.push("size minimum is 0, size maximum is 20");
+        // if(!name || typeof name != "string")errorArr.push("name must be a string");
+        // if(!type || typeof type != "string")errorArr.push("type must be a string");
+        // if(!startDate || typeof startDate != "string")errorArr.push("startDate must be a string");
+
+        // if(search){
+        //     allEvents = await Event.findAll({where: search,include: [
+        //         {model: Group, attributes: ["id","name","city","state"]},
+        //         {model: Venue, attributes: ["id","city","state"]}
+        //         ],offset, limit: size});
+        // }if(errorArr.length){
+        //     let err = new Error("Validation Error");
+        //     err.status = 400;
+        //     err.errors = errorArr;
+        //     next(err);
+        // }
 
 
-        console.log(allEvents)
+        //console.log(allEvents)
         res.json({ Events: allEvents});
     }
 );

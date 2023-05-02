@@ -1,4 +1,4 @@
-const express = require('express');
+ const express = require('express');
 const router = express.Router();
 const { requireAuth } = require('../../utils/auth');
 const { Op } = require("sequelize");
@@ -161,7 +161,7 @@ router.put(
     async (req,res,next) => {
         let {name,about,type,private,city,state} = req.body;
         //checkEmpty([name, about, type, private, city, state]);
-        
+
         let errorArr = [];
         if(name.length >= 60 || name.length < 1) errorArr.push("Name must be 60 characters or less, but cannot be empty!");
         if(about.length < 50)errorArr.push("About must be 50 characters or more");
