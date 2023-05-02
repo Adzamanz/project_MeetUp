@@ -1,10 +1,11 @@
 const GET_GROUPS = 'groups/GET_GROUPS';
-const CREATE_GROUP = 'groups/CREATE_GROUP';
+const ADD_GROUP = 'groups/ADD_GROUP';
 const DELETE_GROUP = 'groups/DELETE_GROUP'
 export const getGroupById = (id) => async dispatch => {
     const response = await fetch(`/api/groups/${id}`);
     if(response.ok){
         const details = await response.json();
+        console.log(details)
         return details;
     }
 }
@@ -14,9 +15,9 @@ export const getGroups = (groups) => {
         payload: groups
     }
 }
-export const createGroup = (group) => {
+export const addGroup = (group) => {
     return {
-        type: CREATE_GROUP,
+        type: ADD_GROUP,
         payload: group
     }
 }
@@ -47,24 +48,21 @@ export const getGroupsThunk = () => async dispatch => {
 export const groupsReducer = (state = {}, action) => {
     let newState = {};
     switch(action.type){
-        // case CREATE_GROUP:
-        //     if (!state[action.pokemon.id]) {
-        //         const newState = {
-        //             ...state,
-        //             [action.payload.id]: action.payload
-        //         };
-        //         // const groupsList = newState.list.map(id => newState[id]);
-        //         // groupsList.push(action.payload);
-        //         // newState.list = sortList(groupsList);
-        //         return newState;
-        //     }
-        //     return {
-        //         ...state,
-        //         [action.payload.id]: {
-        //           ...state[action.payload.id],
-        //           ...action.payload
-        //         }
-        //       };
+        case ADD_GROUP:
+            if (!state[action.pokemon.id]) {
+                const newState = {
+                    ...state,
+                    [action.payload.id]: action.payload
+                };
+                return newState;
+            }
+            return {
+                ...state,
+                [action.payload.id]: {
+                  ...state[action.payload.id],
+                  ...action.payload
+                }
+              };
         case GET_GROUPS:
             newState = {...state};
             action.payload.forEach(group => newState[group.id] = group);
