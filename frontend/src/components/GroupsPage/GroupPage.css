@@ -1,3 +1,6 @@
 .group-list > div{
     border: 1px solid black;
 }
+.list-item > div{
+    border: 1px solid black;
+}

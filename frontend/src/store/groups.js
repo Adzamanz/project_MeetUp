@@ -5,11 +5,12 @@ export const getGroupById = (id) => async dispatch => {
     const response = await fetch(`/api/groups/${id}`);
     if(response.ok){
         const details = await response.json();
-        console.log(details)
-        return details;
+        //console.log(details)
+        dispatch(addGroup(details))
     }
 }
 export const getGroups = (groups) => {
+    console.log("GETGROUPS",groups)
     return {
         type: GET_GROUPS,
         payload: groups
@@ -35,6 +36,7 @@ export const getGroupsThunk = () => async dispatch => {
 
     if(response.ok){
         const details = await response.json();
+
         dispatch(getGroups(details.Groups))
     }
 }
@@ -49,7 +51,7 @@ export const groupsReducer = (state = {}, action) => {
     let newState = {};
     switch(action.type){
         case ADD_GROUP:
-            if (!state[action.pokemon.id]) {
+            if (!state[action.payload.id]) {
                 const newState = {
                     ...state,
                     [action.payload.id]: action.payload
@@ -65,7 +67,10 @@ export const groupsReducer = (state = {}, action) => {
               };
         case GET_GROUPS:
             newState = {...state};
-            action.payload.forEach(group => newState[group.id] = group);
+            // console.log('flag',action.payload);
+            action.payload.forEach(group => {
+                newState[group.id] = group;
+            });
             return newState;
         default:
             return state;

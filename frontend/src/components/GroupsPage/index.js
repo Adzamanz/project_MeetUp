@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { getGroupsThunk } from "../../store/groups";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { ItemDisplay } from "./ItemDisplay";
+import { GroupDisplay } from "./GroupDisplay";
 import './GroupPage.css';
 
 
@@ -25,7 +25,7 @@ const GroupsPage  = () => {
             <div className="group-list">
                 {groupList.map(group => {
                     return(
-                        <ItemDisplay group={group}/>
+                        <GroupDisplay group={group} key={group.id}/>
                     )
                 })}
             </div>
