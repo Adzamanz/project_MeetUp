@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getGroupsThunk } from "../../store/groups";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { ItemDisplay } from "./ItemDisplay";
 import './GroupPage.css';
+
 
 const GroupsPage  = () => {
     const dispatch = useDispatch()
@@ -11,10 +12,10 @@ const GroupsPage  = () => {
        dispatch(getGroupsThunk());
     }, [dispatch])
     const groupList = useSelector(state => Object.values(state.groups));
+    const {id} = useParams();
 
 
     return(
-
         <div>
             <h1> Groups Page </h1>
             <div>
@@ -29,6 +30,6 @@ const GroupsPage  = () => {
                 })}
             </div>
         </div>
-    )
+   )
 }
 export default GroupsPage;

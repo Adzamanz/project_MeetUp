@@ -11,6 +11,9 @@ export const ItemDisplay = (props) => {
             <div>
                 location: {item.city}, {item.state}
             </div>
+            <div>
+                private: {item.private ? 'true' : 'false'}
+            </div>
         </div>
     )
 }

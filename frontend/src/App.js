@@ -6,6 +6,7 @@ import Navigation from "./components/Navigation";
 import Greeting from "./components/Greeting";
 import GroupsPage from "./components/GroupsPage";
 import EventsPage from "./components/EventsPage";
+import { GroupDetails } from "./components/GroupsPage/GroupDetails"
 
 function App() {
   const dispatch = useDispatch();
@@ -20,6 +21,9 @@ function App() {
       {isLoaded &&
         <Switch>
 
+        <Route path='/groups/:id'>
+          <GroupDetails />
+        </Route>
         <Route path='/groups'>
           <GroupsPage />
         </Route>
