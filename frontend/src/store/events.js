@@ -1,8 +1,8 @@
-const GET_EVENTS = 'groups/GET_EVENTS';
+const ADD_EVENTS = 'groups/ADD_EVENTS';
 
 export const addEvents = (events) => {
     return {
-        type: GET_EVENTS,
+        type: ADD_EVENTS,
         payload: events
     }
 }
@@ -19,7 +19,7 @@ export const getEventsThunk = () => async dispatch => {
 export const eventsReducer = (state = {}, action) => {
     let newState = {};
     switch(action.type){
-        case GET_EVENTS:
+        case ADD_EVENTS:
             newState = {...state};
             action.payload.forEach(event => newState[event.id] = event);
             return newState;

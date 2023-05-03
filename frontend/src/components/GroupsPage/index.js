@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link,} from "react-router-dom";
 import { getGroupsThunk } from "../../store/groups";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -12,8 +12,6 @@ const GroupsPage  = () => {
        dispatch(getGroupsThunk());
     }, [dispatch])
     const groupList = useSelector(state => Object.values(state.groups));
-    const {id} = useParams();
-
 
     return(
         <div>

@@ -31,11 +31,10 @@ const router = express.Router();
     restoreUser,
         async (req, res) => {
         const { user } = req;
-        console.log(user)
         if (user) {
           let token;
           token = await setTokenCookie(res, user);
-          user.dataValues.token = token
+          user.dataValues.token = token;
             return res.json(
               {
               user: user.toSafeObject()
@@ -61,6 +60,8 @@ const router = express.Router();
                 err.errors = { credential: 'The provided credentials were invalid.' };
                 return next(err);
             }
+
+            await setTokenCookie(res, user);
 
             return res.json(user);
         }

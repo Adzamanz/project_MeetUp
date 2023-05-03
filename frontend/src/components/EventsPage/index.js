@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { getEventsThunk } from "../../store/events";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { ItemDisplay } from "./ItemDisplay";
+import { EventDisplay } from "./EventDisplay";
 import './EventsPage.css';
 
 const EventsPage  = () => {
@@ -21,7 +21,7 @@ const EventsPage  = () => {
             <div className="event-list">
                 {eventList.map(event => {
                     return(
-                        <ItemDisplay event={event}/>
+                        <EventDisplay event={event} key={event.id}/>
                     )
                 })}
             </div>
