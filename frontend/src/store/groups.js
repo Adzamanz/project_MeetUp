@@ -1,6 +1,8 @@
+import {csrfFetch} from './csrf';
 const GET_GROUPS = 'groups/GET_GROUPS';
 const ADD_GROUP = 'groups/ADD_GROUP';
 const DELETE_GROUP = 'groups/DELETE_GROUP'
+
 export const getGroupById = (id) => async dispatch => {
     const response = await fetch(`/api/groups/${id}`);
     if(response.ok){
@@ -42,17 +44,46 @@ export const getGroupsThunk = () => async dispatch => {
 }
 
 //create group thunk
+export const createGroupThunk = (group) => async dispatch => {
+    const response = await csrfFetch('/api/groups',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: group
+    })
+    if(response.ok) {
+        const details = await response.json();
+        dispatch(addGroup(group))
+    }
+}
 
 //update group thunk
 
-//delete group thunk
+export const deleteGroupThunk = (group) => async dispatch => {
+    const response = await csrfFetch(`/api/groups/${group.id}`,{
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: group
+    })
+    if(response.ok) {
+        const details = await response.json();
+        dispatch(deleteGroup(group))
+    }
+}
 
 export const groupsReducer = (state = {}, action) => {
     let newState = {};
     switch(action.type){
+        case DELETE_GROUP:
+            newState = {...state};
+            delete newState[action.payload.id];
+            return newState;
         case ADD_GROUP:
             if (!state[action.payload.id]) {
-                const newState = {
+                newState = {
                     ...state,
                     [action.payload.id]: action.payload
                 };

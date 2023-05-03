@@ -1,42 +1,51 @@
-import { useEffect, useState } from "react"
-import { useSelector } from "react-redux";
-import OpenModalMenuItem from '../../components/OpenModalButton/index';
-import LoginFormModal from "../LoginFormModal";
+import { useEffect, useState, useHistory } from "react"
+import { useDispatch, useSelector } from "react-redux";
+import { createGroupThunk } from "../../store/groups";
 
 export const CreateGroup = () => {
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
     const [name, setName] = useState('');
     const [about, setAbout] = useState('');
-    const [type, setType] = useState('In Person')
-    const [privates, setPrivates] = useState(false);
+    const [type, setType] = useState('')
+    const [privates, setPrivates] = useState('');
     const [imgUrl, setImgUrl] = useState('');
     const [group, setGroup] = useState({city, state, name, type, privates, imgUrl});
     const [errors, setErrors] = useState({});
     const user = useSelector(state => state.session.user)
+    const dispatch = useDispatch()
+    const history = useHistory();
 
     const verify = () => {
-        if(name.length >= 60 || name.length < 1) setErrors({...errors, name: "Name must be 60 characters or less, but cannot be empty!"});
-        if(about.length < 50) setErrors({...errors, about: "About must be 50 characters or more"});
-        if(!(type == "Online" || type == "In person")) setErrors({...errors, type: "Type must be 'Online' or 'In person'"});
-        if(typeof privates != "boolean") setErrors({...errors, privates: "Private must be a boolean"});
-        if(!city)setErrors({...errors, city: "City is required"});
-        if(!state)setErrors({...errors, state: "State is required"});
+        let error = {};
+        if(name.length >= 60 || name.length < 1) error.name = "Name must be 60 characters or less, but cannot be empty!";
+        if(about.length < 50) error.about = "About must be 50 characters or more";
+        if(!(type == "Online" || type == "In Person")) error.type = "Type must be 'Online' or 'In Person'";
+        if(typeof privates != "boolean") error.privates = "Private must be a boolean";
+        if(!city) error.city = "City is required";
+        if(!state)error.state = "State is required";
+        setErrors(error);
     }
     useEffect(() => {
+        verify()
         setGroup({city, state, name, type, privates, imgUrl});
     }, [city, state, name, type, privates, imgUrl])
     const onSubmit = (e) => {
         e.preventDefault();
         if(!Object.values(errors)){
 
+            // dispatch(createGroupThunk(group));
+            //yknow it occurs to me that i need a way to get the id from my newly created group
+            // history.push(`/groups/${id}`)
         }
     }
+    console.log(group)
 
     if(user) return(
         <div>
             <form onSubmit={onSubmit}>
                 <div>
+                    {errors.city && <div> {errors.city} </div>}
                     <label>
                         City
                         <input
@@ -48,6 +57,7 @@ export const CreateGroup = () => {
                     </label>
                 </div>
                 <div>
+                    {errors.state && <div> {errors.state} </div>}
                     <label>
                         State
                         <input
@@ -59,6 +69,7 @@ export const CreateGroup = () => {
                     </label>
                 </div>
                 <div>
+                    {errors.name && <div> {errors.name} </div>}
                     <label>
                         Name
                         <input
@@ -70,6 +81,7 @@ export const CreateGroup = () => {
                     </label>
                 </div>
                 <div>
+                    {errors.about && <div> {errors.about} </div>}
                     <label>
                         about
                         <input
@@ -81,11 +93,18 @@ export const CreateGroup = () => {
                     </label>
                 </div>
                 <div>
+                    {errors.type && <div> {errors.type} </div>}
                     <label>
                         In Person or Online
                         <select onChange={e => setType(e.target.value)}
                         value={type}
                         >
+                            <option
+                            key={'NA'}
+                            value={''}
+                            >
+                            choose a value
+                            </option>
                             <option
                             key={'IP'}
                             value={'In Person'}
@@ -102,11 +121,18 @@ export const CreateGroup = () => {
                     </label>
                 </div>
                 <div>
+                    {errors.privates && <div> {errors.privates} </div>}
                     <label>
                         Private or Public?
-                        <select onChange={e => setPrivates(e.target.value)}
+                        <select onChange={e => setPrivates(e.target.value === 'true')}
                         value={privates}
                         >
+                            <option
+                            key={'NA'}
+                            value={''}
+                            >
+                            choose a value
+                            </option>
                             <option
                             key={'private'}
                             value={true}
@@ -123,7 +149,7 @@ export const CreateGroup = () => {
                     </label>
                 </div>
                 <div>
-                <label>
+                    <label>
                         image URL
                         <input
                         type="text"
@@ -132,6 +158,9 @@ export const CreateGroup = () => {
                         value={imgUrl}
                         />
                     </label>
+                </div>
+                <div>
+                    <button>Submit</button>
                 </div>
             </form>
         </div>
