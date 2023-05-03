@@ -64,16 +64,18 @@ router.post(
         let current = getCurrentUser(req);
 
         let organizerId = current.id;
-        let {name, about, type, private, city, state} = req.body;
-        //checkEmpty([name, about, type, private, city, state]);
+        let {name, about, type, privates, city, state} = req.body;
+        //checkEmpty([name, about, type, privates, city, state]);
 
         let errorArr = [];
         if(name.length >= 60 || name.length < 1) errorArr.push("Name must be 60 characters or less, but cannot be empty!");
         if(about.length < 50)errorArr.push("About must be 50 characters or more");
-        if(!(type == "Online" || type == "In person")) errorArr.push("Type must be 'Online' or 'In person'");
-        if(typeof private != "boolean") errorArr.push("Private must be a boolean");
+        if(!(type == "Online" || type == "In Person")) errorArr.push("Type must be 'Online' or 'In Person'");
+        if(typeof privates != "boolean") errorArr.push("Private must be a boolean");
         if(!city)errorArr.push("City is required");
         if(!state)errorArr.push("State is required");
+
+        console.log(name, about, type, privates, city, state)
 
         if(errorArr.length){
             let err = new Error("Validation Error");
@@ -82,10 +84,10 @@ router.post(
             next(err);
         }
 
-        let unit = {organizerId, name, about, type, private, city, state}
+        let unit = {organizerId, name, about, type, private: privates, city, state}
 
         let newGroup = await Group.create(unit)
-        res.json(newGroup)
+        return res.json(newGroup)
     }
 );
 

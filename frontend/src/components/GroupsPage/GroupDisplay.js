@@ -1,9 +1,10 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 export const GroupDisplay = (props) => {
     let group = props.group;
+    const history = useHistory()
     return(
-        <NavLink   className='list-item' key={group.id} to={`/groups/${group.id}`}>
-            <div>
+
+            <div onClick={() => history.push(`/groups/${group.id}`)}>
                 <div>
                     name: {group.name}
                 </div>
@@ -17,6 +18,5 @@ export const GroupDisplay = (props) => {
                     private: {group.private ? 'true' : 'false'}
                 </div>
             </div>
-        </NavLink>
     )
 }

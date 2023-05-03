@@ -50,18 +50,20 @@ export const createGroupThunk = (group) => async dispatch => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: group
+        body: JSON.stringify(group)
     })
     if(response.ok) {
         const details = await response.json();
-        dispatch(addGroup(group))
+        console.log("creat Group",details)
+        dispatch(addGroup(details))
+        return details;
     }
 }
 
 //update group thunk
 
 export const deleteGroupThunk = (group) => async dispatch => {
-    const response = await csrfFetch(`/api/groups/${group.id}`,{
+    const response = await fetch(`/api/groups/${group.id}`,{
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'

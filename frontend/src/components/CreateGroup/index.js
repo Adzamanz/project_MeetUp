@@ -1,6 +1,7 @@
-import { useEffect, useState, useHistory } from "react"
+import { useEffect, useState} from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { createGroupThunk } from "../../store/groups";
+import { useHistory } from "react-router-dom";
 
 export const CreateGroup = () => {
     const [city, setCity] = useState('');
@@ -28,22 +29,23 @@ export const CreateGroup = () => {
     }
     useEffect(() => {
         verify()
-        setGroup({city, state, name, type, privates, imgUrl});
-    }, [city, state, name, type, privates, imgUrl])
-    const onSubmit = (e) => {
-        e.preventDefault();
-        if(!Object.values(errors)){
+        setGroup({city, state, name, about, type, privates, imgUrl});
+    }, [city, state, name, about, type, privates, imgUrl])
 
-            // dispatch(createGroupThunk(group));
+    const submit = async (e) => {
+        e.preventDefault();
+        if(!Object.values(errors).length){
+            console.log("subitted", group)
+            let resp = await dispatch(createGroupThunk(group));
             //yknow it occurs to me that i need a way to get the id from my newly created group
-            // history.push(`/groups/${id}`)
+            history.push(`/groups/${resp.id}`)
         }
     }
-    console.log(group)
+
 
     if(user) return(
         <div>
-            <form onSubmit={onSubmit}>
+            <form onSubmit={submit}>
                 <div>
                     {errors.city && <div> {errors.city} </div>}
                     <label>
@@ -83,13 +85,12 @@ export const CreateGroup = () => {
                 <div>
                     {errors.about && <div> {errors.about} </div>}
                     <label>
-                        about
-                        <input
-                        type="textbox"
+                        About
+                        <textarea
                         name="about"
                         onChange={e => setAbout(e.target.value)}
                         value={about}
-                        />
+                        ></textarea>
                     </label>
                 </div>
                 <div>
@@ -160,7 +161,7 @@ export const CreateGroup = () => {
                     </label>
                 </div>
                 <div>
-                    <button>Submit</button>
+                    <input type="submit"/>
                 </div>
             </form>
         </div>
