@@ -12,7 +12,7 @@ export const addEvents = (events) => {
 }
 export const deleteEvent = (event) => {
     return {
-        type: DELETE_EVENTS,
+        type: DELETE_EVENT,
         payload: event
     }
 }
@@ -26,7 +26,7 @@ export const deleteEventThunk = (event) => async dispatch => {
     })
     if(response.ok) {
         const details = await response.json();
-        dispatch(deleteGroup(details))
+        dispatch(deleteEvent(details))
     }
 }
 
@@ -49,7 +49,7 @@ export const createEventThunk = (event) => async dispatch => {
     })
     if(response.ok){
         const details = await response.json();
-        dispatch(addEvent(details));
+        dispatch(addEvents(details));
         return details;
 
     }
@@ -62,7 +62,7 @@ export const eventsReducer = (state = {}, action) => {
             newState = {...state};
             delete newState[action.payload.id];
             return newState;
-            case ADD_GROUP:
+            case ADD_EVENTS:
                 if (!state[action.payload.id]) {
                     newState = {
                         ...state,

@@ -8,11 +8,11 @@ export const getGroupById = (id) => async dispatch => {
     if(response.ok){
         const details = await response.json();
         //console.log(details)
-        dispatch(addGroup(details))
+        await dispatch(addGroup(details))
+        return details
     }
 }
 export const getGroups = (groups) => {
-    console.log("GETGROUPS",groups)
     return {
         type: GET_GROUPS,
         payload: groups
@@ -54,7 +54,7 @@ export const createGroupThunk = (group) => async dispatch => {
     })
     if(response.ok) {
         const details = await response.json();
-        
+
         dispatch(addGroup(details))
         return details;
     }
@@ -72,7 +72,7 @@ export const deleteGroupThunk = (group) => async dispatch => {
     })
     if(response.ok) {
         const details = await response.json();
-        dispatch(deleteGroup(group))
+        dispatch(deleteGroup(details))
     }
 }
 

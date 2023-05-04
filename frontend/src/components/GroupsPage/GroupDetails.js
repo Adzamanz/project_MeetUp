@@ -1,19 +1,24 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { getGroupsThunk } from "../../store/groups";
-import { useEffect } from "react";
+import { useEffect, useReducer } from "react";
 
 export const GroupDetails = () => {
 
     const {id} = useParams();
     const dispatch = useDispatch();
-    const group = useSelector(state => state.groups[id])
-
 
     useEffect(() => {
         dispatch(getGroupsThunk())
         //console.log('deeets',group)
     }, [id, dispatch])
+    const group = useSelector(state => state.groups[id]);
+    const user = useSelector(state => state.session.user)
+    const history = useHistory();
+
+
+
+
 
     const MiniGroupDetails = () => {
         return(
@@ -37,10 +42,9 @@ export const GroupDetails = () => {
             <div>
                 <MiniGroupDetails />
             </div>
-
-
+            <div>
+                {user.id == group.organizerId && <button onClick={() => history.push(`/groups/${group.id}/events/new`)}> create new event</button>}
+            </div>
         </div>
-
-
     )
 };

@@ -37,7 +37,7 @@ export const CreateGroup = () => {
         if(!Object.values(errors).length){
             console.log("subitted", group)
             let resp = await dispatch(createGroupThunk(group));
-            //yknow it occurs to me that i need a way to get the id from my newly created group
+         
             history.push(`/groups/${resp.id}`)
         }
     }
