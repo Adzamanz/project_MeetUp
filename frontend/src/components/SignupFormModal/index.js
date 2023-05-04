@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import * as sessionActions from "../../store/session";
 import "./SignupForm.css";
+import { useHistory } from "react-router-dom";
 
 function SignupFormModal() {
   const dispatch = useDispatch();
@@ -14,12 +15,34 @@ function SignupFormModal() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
+  const history = useHistory();
+
+  function validateEmail(email) {
+    return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+  }
+
+  const verify = () => {
+    let errorObj = {};
+    if(!validateEmail(email)) errorObj.email = 'email must be valid';
+    if(username.length < 4) errorObj.username = 'username must be unique and at least 4 characters';
+    if(!firstName) errorObj.firstName = 'First name is required';
+    if(!lastName) errorObj.lastName = 'Last name is required';
+    if(password.length < 6) errorObj.password = 'Password must be at least 6 characters';
+    setErrors(errorObj);
+  }
+  useEffect(() => {
+    verify();
+  },[email,    username,    firstName,    lastName,    password,])
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (password === confirmPassword) {
+    if (password === confirmPassword && !Object.values(errors).length) {
       setErrors({});
-      return dispatch(
+      dispatch(
         sessionActions.signup({
           email,
           username,
@@ -35,6 +58,10 @@ function SignupFormModal() {
             setErrors(data.errors);
           }
         });
+
+      dispatch(sessionActions.login({ username, password }));
+      dispatch(sessionActions.restoreUser());
+      return history.push('/');
     }
     return setErrors({
       confirmPassword: "Confirm Password field must be the same as the Password field"
@@ -45,6 +72,7 @@ function SignupFormModal() {
     <>
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
+
         <label>
           Email
           <input
@@ -107,7 +135,7 @@ function SignupFormModal() {
         {errors.confirmPassword && (
           <p>{errors.confirmPassword}</p>
         )}
-        <button type="submit">Sign Up</button>
+        <button type="submit" disabled={!email || !username || !password || !firstName || !lastName || !confirmPassword}>Sign Up</button>
       </form>
     </>
   );

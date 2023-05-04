@@ -24,6 +24,18 @@ function LoginFormModal() {
         }
       });
   };
+  const logInDemo = (e) => {
+    
+    setErrors({});
+    return dispatch(sessionActions.login({ credential: 'test', password: 'testing' }))
+      .then(closeModal)
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      });
+  };
 
   return (
     <>
@@ -50,8 +62,14 @@ function LoginFormModal() {
         {errors.credential && (
           <p>{errors.credential}</p>
         )}
-        <button type="submit">Log In</button>
+        <button type="submit" disabled={credential.length < 4 || password.length < 6}>Log In</button>
+
       </form>
+      <div>
+        <button onClick={() => logInDemo()}>
+          Log in as test user
+        </button>
+      </div>
     </>
   );
 }

@@ -54,7 +54,7 @@ export const createGroupThunk = (group) => async dispatch => {
     })
     if(response.ok) {
         const details = await response.json();
-        console.log("creat Group",details)
+        
         dispatch(addGroup(details))
         return details;
     }
@@ -68,7 +68,7 @@ export const deleteGroupThunk = (group) => async dispatch => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: group
+        body: JSON.stringify(group)
     })
     if(response.ok) {
         const details = await response.json();
