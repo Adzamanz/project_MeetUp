@@ -12,7 +12,7 @@ const EventsPage  = () => {
     }, [dispatch])
     const eventList = useSelector(state => Object.values(state.events));
     return(
-        <div>
+        <div className="events-page">
             <h1> Events Page </h1>
             <div>
                 <Link to='/events'> Events </Link>

@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { getGroupsThunk } from "../../store/groups";
 import { useEffect, useReducer } from "react";
+import { deleteGroupThunk } from "../../store/groups";
+
 
 export const GroupDetails = () => {
 
@@ -44,6 +46,12 @@ export const GroupDetails = () => {
             </div>
             <div>
                 {user.id == group.organizerId && <button onClick={() => history.push(`/groups/${group.id}/events/new`)}> create new event</button>}
+            </div>
+            <div>
+            {user.id == group.organizerId && <button onClick={() => {
+                dispatch(deleteGroupThunk(group));
+                history.push('/groups');
+            }}>DELETE</button>}
             </div>
         </div>
     )

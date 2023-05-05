@@ -39,10 +39,19 @@ export const deleteEventThunk = (event) => async dispatch => {
 
 export const getEventsThunk = () => async dispatch => {
     const response = await fetch('/api/events');
-    console.log()
+
     if(response.ok){
         const details = await response.json();
-        dispatch(addEvents(details.Events))
+        console.log(details)
+        dispatch(addEvents(details))
+    }
+}
+export const getEventsByGroupId = (id) => async dispatch => {
+    const response = await fetch(`/api/groups/${id}/events`);
+    if(response.ok){
+        const details = await response.json();
+        console.log(details.Events)
+        dispatch(addEvents(details.Events));
     }
 }
 export const createEventThunk = (event, id) => async dispatch => {
@@ -68,11 +77,11 @@ export const eventsReducer = (state = {}, action) => {
     switch(action.type){
         case DELETE_EVENT:
             newState = {...state};
-            delete newState[action.payload.id];
+            delete newState[action.payload];
             return newState;
         case ADD_EVENTS:
             newState = {...state};
-            action.payload.forEach(event => newState[event.id] = event);
+            action.payload.Events.forEach(event => newState[event.id] = event);
             return newState;
         case ADD_EVENT:
             newState = {...state};

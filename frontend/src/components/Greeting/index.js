@@ -1,9 +1,15 @@
 import './Greeting.css';
 import { useHistory } from 'react-router-dom';
+import SignupFormModal from '../SignupFormModal/index';
+import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
+import { useSelector } from 'react-redux';
 // import greetingImage1 from '../../../public/images/snip.png'
 const Greeting = () => {
+    const user = useSelector(state => state.session)
+    let ooga = false
     const history = useHistory();
     const handleClick = (where) => history.push(where);
+    console.log(user)
     return(
         <div id="greeting-page">
             <div id="a">
@@ -34,7 +40,7 @@ const Greeting = () => {
                 </div>
             </div>
             <div id="e">
-                "Join Meetup" button here
+            <button  onClick={() => alert('No, it doesnt do anything')}>"Join Meetup"</button>
             </div>
         </div>
     )

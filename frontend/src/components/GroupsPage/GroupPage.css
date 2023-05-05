@@ -1,6 +1,19 @@
 .group-list > div{
     border: 1px solid black;
+    margin: 5px;
+    padding: 10px;
 }
 .list-item > div{
     border: 1px solid black;
+}
+.group-page {
+    margin: 20px;
+}
+#group-link{
+    color: teal;
+    text-decoration: underline;
+}
+#event-link{
+    color: grey;
+    
 }

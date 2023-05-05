@@ -1,4 +1,5 @@
 import {csrfFetch} from './csrf';
+import { getEventsThunk } from './events';
 const GET_GROUPS = 'groups/GET_GROUPS';
 const ADD_GROUP = 'groups/ADD_GROUP';
 const DELETE_GROUP = 'groups/DELETE_GROUP'
@@ -7,7 +8,6 @@ export const getGroupById = (id) => async dispatch => {
     const response = await fetch(`/api/groups/${id}`);
     if(response.ok){
         const details = await response.json();
-        //console.log(details)
         await dispatch(addGroup(details))
         return details
     }
@@ -27,10 +27,10 @@ export const addGroup = (group) => {
 
 //update group ????
 
-export const deleteGroup = (id) => {
+export const deleteGroup = (details) => {
     return {
         type: DELETE_GROUP,
-        payload: id
+        payload: details
     }
 }
 export const getGroupsThunk = () => async dispatch => {
@@ -63,7 +63,7 @@ export const createGroupThunk = (group) => async dispatch => {
 //update group thunk
 
 export const deleteGroupThunk = (group) => async dispatch => {
-    const response = await fetch(`/api/groups/${group.id}`,{
+    const response = await csrfFetch(`/api/groups/${group.id}`,{
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
@@ -72,7 +72,8 @@ export const deleteGroupThunk = (group) => async dispatch => {
     })
     if(response.ok) {
         const details = await response.json();
-        dispatch(deleteGroup(details))
+        dispatch(deleteGroup(group.id))
+
     }
 }
 
@@ -81,7 +82,7 @@ export const groupsReducer = (state = {}, action) => {
     switch(action.type){
         case DELETE_GROUP:
             newState = {...state};
-            delete newState[action.payload.id];
+            delete newState[action.payload];
             return newState;
         case ADD_GROUP:
             if (!state[action.payload.id]) {
@@ -100,7 +101,6 @@ export const groupsReducer = (state = {}, action) => {
               };
         case GET_GROUPS:
             newState = {...state};
-            // console.log('flag',action.payload);
             action.payload.forEach(group => {
                 newState[group.id] = group;
             });
