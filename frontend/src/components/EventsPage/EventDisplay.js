@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 
 export const EventDisplay = (props) => {
     let event = props.event;
-    const history = useHistory()
+    const history = useHistory();
     const clickHandle = (e) => {
         //e.preventDefault()
         history.push(`/events/${event.id}`)

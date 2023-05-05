@@ -22,6 +22,7 @@ export const CreateEvent = () => {
     const [name, setName] = useState('');
     const [type, setType] = useState('');
     const [privates, setPrivates] = useState('');
+    const [capacity, setCapacity] = useState(0);
     const [price, setPrice] = useState(0);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
@@ -32,36 +33,42 @@ export const CreateEvent = () => {
 
     const verify = () => {
         let error = {}
-        const currDate = new Date();
+        const currDate = new Date().toJSON();
+        console.log(currDate)
         // if(!venue) error.venue = "Venue does not exist";
         if(name.length < 5)error.name = "Name must be at least 5 characters";
         if(!(type == "Online" || type == "In Person")) error.type = "Type must be 'Online' or 'In person'";
-        // if(capacity < 0)error.capacity = "Capacity must be a positive integer";
+        if(capacity < 0)error.capacity = "Capacity must be a positive integer";
         if(price < 0)error.price = "Price is invalid";
         if(!description) error.description = "Description is required";
         if(!startDate || startDate < currDate) error.startDate = "Start date must be in the future";
         if(!endDate || endDate < startDate) error.endDate = "End date is less than start date";
+        if(description.length < 30) error.description = "description must be at least 30 characters"
         setErrors(error);
     }
     useEffect(() => {
         verify();
-        setEvent({name, type, privates, price, description, startDate, endDate});
-        console.log(errors)
-    }, [name, type, privates, price, description, startDate, endDate, dispatch])
+        setEvent({name, type, privates, capacity, price, description, startDate, endDate});
+    }, [name, type, privates, price,capacity, description, startDate, endDate, dispatch])
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(errors)
-        if(!Object.values(errors)){
-        const resp = dispatch(createEventThunk(event))
-        history.push(`/events/${resp.id}`)
+        console.log(errors, startDate)
+        if(!Object.values(errors).length){
+        const resp = await dispatch(createEventThunk(event, id))
+        console.log(resp)
+        if(resp){
+            console.log('inside',resp)
+            history.push(`/events/${resp.id}`)
+        }
         }
     }
     // dispatch(getGroupsThunk());
     // dispatch(getGroupById(id));
 
-    return group.organizerId == user.id ? <div>
+    return group.organizerId == user.id ?<div>
+        <div> Event for {group.name}</div>
         <form onSubmit={handleSubmit}>
             <div>
                 <label>
@@ -102,7 +109,17 @@ export const CreateEvent = () => {
                 </select>
             </label>
             {errors.type && <div> {errors.type} </div>}
-
+            </div>
+            <div>
+                <label>
+                    Capacity
+                    <input
+                    type='number'
+                    onChange={e => setCapacity(e.target.value)}
+                    value={capacity}
+                    />
+                </label>
+                {errors.capacity && <div> {errors.capacity} </div>}
             </div>
             <div>
                 <label> price
@@ -190,7 +207,7 @@ export const CreateEvent = () => {
                     value={description}
                     ></textarea>
                 </label>
-                {errors.about && <div> {errors.about} </div>}
+                {errors.description && <div> {errors.description} </div>}
             </div>
             <div><button type='submit'>submit</button></div>
         </form>

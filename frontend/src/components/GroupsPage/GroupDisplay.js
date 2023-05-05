@@ -1,7 +1,7 @@
 import { NavLink, useHistory } from "react-router-dom";
 export const GroupDisplay = (props) => {
     let group = props.group;
-    const history = useHistory()
+    const history = useHistory();
     return(
 
             <div onClick={() => history.push(`/groups/${group.id}`)}>

@@ -1,4 +1,4 @@
- const express = require('express');
+const express = require('express');
 const router = express.Router();
 const { requireAuth } = require('../../utils/auth');
 const { Op } = require("sequelize");
@@ -66,6 +66,7 @@ router.post(
         let organizerId = current.id;
         let {name, about, type, privates, city, state} = req.body;
         //checkEmpty([name, about, type, privates, city, state]);
+
 
         let errorArr = [];
         if(name.length >= 60 || name.length < 1) errorArr.push("Name must be 60 characters or less, but cannot be empty!");
@@ -266,13 +267,19 @@ router.post(
 
         //checkEmpty([groupId, venueId, name, type, capacity, price, description, startDate, endDate]);
 
-        let venue = await Venue.findOne({where: {id:venueId}});
-
+        let venue =  await Venue.create({
+            groupId: groupId,
+            address: '000 zero street',
+            city: 'city',
+            state: 'Denial',
+            lat: '0',
+            lng: '0'
+        });
 
         let errorArr = [];
         if(!venue) errorArr.push("Venue does not exist") ;
         if(name.length < 5)errorArr.push("Name must be at least 5 characters");
-        if(!(type == "Online" || type == "In person")) errorArr.push("Type must be 'Online' or 'In person'");
+        if(!(type == "Online" || type == "In Person")) errorArr.push("Type must be 'Online' or 'In Person'");
         if(capacity < 0)errorArr.push( "Capacity must be a positive integer");
         if(price < 0)errorArr.push("Price is invalid");
         if(!description) errorArr.push("Description is required");
@@ -286,14 +293,14 @@ router.post(
             next(err);
         }
 
-        let group = await Group.findOne({where: {id:req.params.id}});
+        let group = await Group.findOne({where: {id:groupId}});
 
         noGroupFound(group);
 
-        let newEvent = await Event.create({groupId: req.params.id, venueId, name, type, capacity, price, description, startDate, endDate});
+        let newEvent = await Event.create({groupId: req.params.id, venueId: venue.id, name, type, capacity, price, description, startDate, endDate});
         newEvent = await Event.findOne({where: {id: newEvent.id}});
 
-        res.json(newEvent);
+        return res.json(newEvent);
 
     }
 );

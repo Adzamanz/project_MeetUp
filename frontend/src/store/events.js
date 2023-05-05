@@ -2,12 +2,19 @@ import { useParams } from "react-router-dom";
 import { csrfFetch } from "./csrf";
 
 const ADD_EVENTS = 'events/ADD_EVENTS';
-const DELETE_EVENT = 'events/DELETE_EVENT'
+const ADD_EVENT = 'events/ADD_EVENT';
+const DELETE_EVENT = 'events/DELETE_EVENT';
 
 export const addEvents = (events) => {
     return {
         type: ADD_EVENTS,
         payload: events
+    }
+}
+export const addEvent = (event) => {
+    return {
+        type: ADD_EVENT,
+        payload: event
     }
 }
 export const deleteEvent = (event) => {
@@ -38,20 +45,21 @@ export const getEventsThunk = () => async dispatch => {
         dispatch(addEvents(details.Events))
     }
 }
-export const createEventThunk = (event) => async dispatch => {
-    const {id} = useParams();
-    const response = csrfFetch(`/groups/${id}/events/`,{
+export const createEventThunk = (event, id) => async dispatch => {
+    console.log(id)
+    const response = await csrfFetch(`/api/groups/${id}/events`,{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(event)
     })
+    console.log('resp ok?',response.ok)
     if(response.ok){
         const details = await response.json();
-        dispatch(addEvents(details));
-        return details;
-
+        console.log('thunk', details)
+        dispatch(addEvent(details));
+        return details
     }
 }
 
@@ -62,21 +70,14 @@ export const eventsReducer = (state = {}, action) => {
             newState = {...state};
             delete newState[action.payload.id];
             return newState;
-            case ADD_EVENTS:
-                if (!state[action.payload.id]) {
-                    newState = {
-                        ...state,
-                        [action.payload.id]: action.payload
-                    };
-                    return newState;
-                }
-                return {
-                    ...state,
-                    [action.payload.id]: {
-                      ...state[action.payload.id],
-                      ...action.payload
-                    }
-                  };
+        case ADD_EVENTS:
+            newState = {...state};
+            action.payload.forEach(event => newState[event.id] = event);
+            return newState;
+        case ADD_EVENT:
+            newState = {...state};
+            newState[action.payload.id] = action.payload;
+            return newState;
         default:
             return state;
     }
