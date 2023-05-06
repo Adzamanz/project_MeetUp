@@ -1,27 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getGroupsThunk } from "../../store/groups";
-import { useEffect, useReducer } from "react";
-import { deleteGroupThunk } from "../../store/groups";
+import { useEffect, useState } from "react";
+import { CreateEventButton } from "./CreateEventButton";
 
 
 export const GroupDetails = () => {
-
     const {id} = useParams();
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(getGroupsThunk())
-        //console.log('deeets',group)
-    }, [id, dispatch])
+
     const group = useSelector(state => state.groups[id]);
-    const user = useSelector(state => state.session.user)
-    const history = useHistory();
-
-
-
-
-
+    const user = useSelector(state => state.session.user);
+    useEffect(() => {
+            dispatch(getGroupsThunk())
+            //console.log('deeets',group)
+        }, [dispatch])
     const MiniGroupDetails = () => {
         return(
             <div>
@@ -38,6 +32,7 @@ export const GroupDetails = () => {
 
         )
     }
+
     return(
         <div>
             <h1> group details page </h1>
@@ -45,13 +40,7 @@ export const GroupDetails = () => {
                 <MiniGroupDetails />
             </div>
             <div>
-                {user.id == group.organizerId && <button onClick={() => history.push(`/groups/${group.id}/events/new`)}> create new event</button>}
-            </div>
-            <div>
-            {user.id == group.organizerId && <button onClick={() => {
-                dispatch(deleteGroupThunk(group));
-                history.push('/groups');
-            }}>DELETE</button>}
+                {group && <CreateEventButton user={user} group={group}/>}
             </div>
         </div>
     )

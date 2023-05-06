@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
 import { getEventsByGroupId } from "../../store/events";
 import { useEffect } from "react";
@@ -6,9 +6,10 @@ export const GroupDisplay = (props) => {
     let group = props.group;
     const dispatch = useDispatch()
     const history = useHistory();
-    let eventCount;
-     
-        // eventCount = dispatch(getEventsByGroupId(group.id));
+    // dispatch(getEventsByGroupId(group.id));
+    const eventList = useSelector(state => state.events)
+    // let eventCount = eventList.length;
+    console.log(eventList)
 
 
     // console.log(eventCount)
@@ -28,7 +29,7 @@ export const GroupDisplay = (props) => {
                     private: {group.private ? 'true' : 'false'}
                 </div>
                 <div>
-                    {/* event#: {eventCount} */}
+                    event#:
                 </div>
             </div>
     )

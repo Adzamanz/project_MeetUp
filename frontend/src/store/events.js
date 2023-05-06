@@ -52,6 +52,8 @@ export const getEventsByGroupId = (id) => async dispatch => {
         const details = await response.json();
         console.log(details.Events)
         dispatch(addEvents(details.Events));
+        return details.Events
+
     }
 }
 export const createEventThunk = (event, id) => async dispatch => {
@@ -81,7 +83,9 @@ export const eventsReducer = (state = {}, action) => {
             return newState;
         case ADD_EVENTS:
             newState = {...state};
-            action.payload.Events.forEach(event => newState[event.id] = event);
+            action.payload.forEach(event => {
+                newState[event.id] = event
+            });
             return newState;
         case ADD_EVENT:
             newState = {...state};
