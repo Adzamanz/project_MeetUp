@@ -4,14 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { GroupDisplay } from "./GroupDisplay";
 import './GroupPage.css';
+import { getEventsThunk } from "../../store/events";
 
 
 const GroupsPage  = () => {
     const dispatch = useDispatch()
-    useEffect(() => {
-      dispatch(getGroupsThunk());
-    }, [dispatch])
+    // useEffect(() => {
+    //   dispatch(getGroupsThunk());
+    //   dispatch(getEventsThunk())
+    // }, [dispatch])
     const groupList = useSelector(state => Object.values(state.groups));
+    const eventList = useSelector(state => Object.values(state.events));
+
 
     return(
         <div className="group-page">
@@ -22,8 +26,9 @@ const GroupsPage  = () => {
             </div>
             <div className="group-list">
                 {groupList.map(group => {
+                    const groupEvents = eventList.filter(event => event.groupId === group.id);
                     return(
-                        <GroupDisplay group={group} key={group.id}/>
+                        <GroupDisplay group={group} events={groupEvents} key={group.id}/>
                     )
                 })}
             </div>

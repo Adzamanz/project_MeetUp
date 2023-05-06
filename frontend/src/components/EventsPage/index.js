@@ -7,24 +7,32 @@ import './EventsPage.css';
 
 const EventsPage  = () => {
     const dispatch = useDispatch()
+    const eventList = useSelector(state => Object.values(state.events));
     useEffect(() => {
        dispatch(getEventsThunk());
     }, [dispatch])
-    const eventList = useSelector(state => Object.values(state.events));
-    return(
-        <div className="events-page">
+    const Thing = () =>{
+        return (
+            <div className="events-page">
             <h1> Events Page </h1>
             <div>
                 <Link to='/events'> Events </Link>
                 <Link to='/groups'> Groups </Link>
             </div>
             <div className="event-list">
-                {eventList.map(event => {
+                {eventList && eventList.map(event => {
                     return(
                         <EventDisplay event={event} key={event.id}/>
                     )
                 })}
             </div>
+        </div>
+        )
+    }
+
+    return(
+        <div className="events-page">
+            {eventList && <Thing />}
         </div>
 
     )

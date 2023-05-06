@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import { csrfFetch } from "./csrf";
 
 const ADD_EVENTS = 'events/ADD_EVENTS';
@@ -17,10 +16,10 @@ export const addEvent = (event) => {
         payload: event
     }
 }
-export const deleteEvent = (event) => {
+export const deleteEvent = (eventId) => {
     return {
         type: DELETE_EVENT,
-        payload: event
+        payload: eventId
     }
 }
 export const deleteEventThunk = (event) => async dispatch => {
@@ -32,9 +31,20 @@ export const deleteEventThunk = (event) => async dispatch => {
         body: JSON.stringify(event)
     })
     if(response.ok) {
-        const details = await response.json();
-        dispatch(deleteEvent(details))
+        console.log("AALAKSDALKSd",event)
+        await dispatch(deleteEvent(event.id))
     }
+}
+
+export const getEventById = (id) => async dispatch => {
+    const response = fetch(`/api/events/${id}`);
+    if(response.ok){
+        const details = await response.json();
+        // console.log('thunk', details)
+        dispatch(addEvent(details));
+        return details
+    }
+
 }
 
 export const getEventsThunk = () => async dispatch => {

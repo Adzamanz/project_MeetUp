@@ -1,5 +1,5 @@
 import {csrfFetch} from './csrf';
-import { getEventsThunk } from './events';
+import { deleteEvent, deleteEventThunk, getEventsByGroupId, getEventsThunk } from './events';
 const GET_GROUPS = 'groups/GET_GROUPS';
 const ADD_GROUP = 'groups/ADD_GROUP';
 const DELETE_GROUP = 'groups/DELETE_GROUP'
@@ -61,8 +61,24 @@ export const createGroupThunk = (group) => async dispatch => {
 }
 
 //update group thunk
+export const updateGroupThunk = (event) => async dispatch => {
+    const response = await csrfFetch(`/api/groups/${event.id}`,{
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(event)
+    });
+    if(response.ok) {
+        const details = await response.json();
+
+        dispatch(addGroup(details))
+        return details;
+    }
+}
 
 export const deleteGroupThunk = (group) => async dispatch => {
+    const groupEvents = dispatch(getEventsByGroupId())
     const response = await csrfFetch(`/api/groups/${group.id}`,{
         method: 'DELETE',
         headers: {
@@ -72,6 +88,12 @@ export const deleteGroupThunk = (group) => async dispatch => {
     })
     if(response.ok) {
         const details = await response.json();
+
+        //todo: check event and dispatch for successful run
+        groupEvents.forEach((event) => {
+
+            dispatch(deleteEventThunk(event))
+        })
         dispatch(deleteGroup(group.id))
 
     }

@@ -151,9 +151,9 @@ router.get(
 
         group.Venues = groupVenues;
 
-        console.log(group)
+        console.log('flag', group)
 
-        res.json(group);
+        return res.json(group);
     }
 );
 

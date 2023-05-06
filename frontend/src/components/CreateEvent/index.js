@@ -135,34 +135,6 @@ export const CreateEvent = () => {
             </div>
             <div>
                 <label>
-                    Private or Public?
-                    <select onChange={e => setPrivates(e.target.value === 'true')}
-                    value={privates}
-                    >
-                        <option
-                        key={'NA'}
-                        value={''}
-                        >
-                        choose a value
-                        </option>
-                        <option
-                        key={'private'}
-                        value={true}
-                        >
-                        Private
-                        </option>
-                        <option
-                        key={'public'}
-                        value={false}
-                        >
-                        Public
-                        </option>
-                    </select>
-                </label>
-                {errors.privates && <div> {errors.privates} </div>}
-            </div>
-            <div>
-                <label>
                     Start Date
                     <input
                     type='date'
