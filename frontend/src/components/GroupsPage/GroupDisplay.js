@@ -1,15 +1,27 @@
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
-import { getEventsByGroupId } from "../../store/events";
+import { getEventsByGroupId, getEventsThunk } from "../../store/events";
 import { useEffect } from "react";
 export const GroupDisplay = (props) => {
     let group = props.group;
     const dispatch = useDispatch()
     const history = useHistory();
-    // dispatch(getEventsByGroupId(group.id));
+
     const eventList = useSelector(state => state.events)
-    // let eventCount = eventList.length;
-    console.log(eventList)
+    const grabEvents = () => {
+        Object.values(eventList).map(event => {
+            if(event.groupId == group.id) return event;
+        })
+    }
+    let eventCount;
+
+    useEffect(() => {
+        dispatch(getEventsThunk());
+        dispatch(getEventsByGroupId(group.id));
+        eventCount = grabEvents();
+    }, [dispatch])
+    console.log(eventCount)
+
 
 
     // console.log(eventCount)
@@ -29,7 +41,7 @@ export const GroupDisplay = (props) => {
                     private: {group.private ? 'true' : 'false'}
                 </div>
                 <div>
-                    event#:
+                    event#: {eventCount}
                 </div>
             </div>
     )

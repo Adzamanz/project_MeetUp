@@ -24,7 +24,7 @@ export const deleteEvent = (event) => {
     }
 }
 export const deleteEventThunk = (event) => async dispatch => {
-    const response = await fetch(`/api/events/${event.id}`,{
+    const response = await csrfFetch(`/api/events/${event.id}`,{
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
@@ -43,7 +43,7 @@ export const getEventsThunk = () => async dispatch => {
     if(response.ok){
         const details = await response.json();
         console.log(details)
-        dispatch(addEvents(details))
+        dispatch(addEvents(details.Events))
     }
 }
 export const getEventsByGroupId = (id) => async dispatch => {
@@ -68,7 +68,7 @@ export const createEventThunk = (event, id) => async dispatch => {
     console.log('resp ok?',response.ok)
     if(response.ok){
         const details = await response.json();
-        console.log('thunk', details)
+        // console.log('thunk', details)
         dispatch(addEvent(details));
         return details
     }
