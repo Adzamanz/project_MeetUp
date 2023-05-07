@@ -15,7 +15,6 @@ export const GroupDetails = () => {
     const user = useSelector(state => state.session.user);
     useEffect(() => {
             dispatch(getGroupById(id))
-            //console.log('deeets',group)
         }, [dispatch])
 
     const MiniGroupDetails = () => {

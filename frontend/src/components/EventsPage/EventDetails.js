@@ -22,11 +22,7 @@ export const EventDetails = (props) => {
             setGroup(details)
         }
     }
-
-
-
     useEffect(() => {
-        // dispatch(getEventById(id));
         dispatch(getGroupById(event.groupId));
         grabGroup();
     }, [dispatch]);

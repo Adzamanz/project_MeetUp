@@ -16,9 +16,7 @@ function ProfileButton({ user }) {
     if (showMenu) return;
     setShowMenu(true);
   };
-  // useEffect(() => {
-  //   console.log('ulRef: ', ulRef)
-  // }, [ulRef])
+  
   useEffect(() => {
     if (!showMenu) return;
 

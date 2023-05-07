@@ -6,7 +6,7 @@ export const DeleteEventButton = (props) => {
     const dispatch = useDispatch();
     const {event, group} = props;
     const user = useSelector(state => state.session.user);
-    if(user.id === group.organizerId){
+    if(user && user.id === group.organizerId){
         return(
             <div>
             <button onClick={() => {

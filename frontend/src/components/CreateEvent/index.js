@@ -11,10 +11,10 @@ export const CreateEvent = () => {
     const {id} = useParams();
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(getGroupsThunk())
-        //console.log('deeets',group)
-    }, [id, dispatch])
+    // useEffect(() => {
+    //     dispatch(getGroupsThunk())
+    //     //console.log('deeets',group)
+    // }, [id, dispatch])
     const group = useSelector(state => state.groups[id]) || {};
     const user = useSelector(state => state.session.user);
     const history = useHistory();

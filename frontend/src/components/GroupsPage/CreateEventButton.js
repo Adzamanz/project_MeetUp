@@ -5,7 +5,7 @@ export const CreateEventButton = (props) => {
     const history = useHistory();
     const dispatch = useDispatch();
     const {user, group} = props;
-    if(user.id === group.organizerId){
+    if(user?.id === group.organizerId){
         return(
             <div>
                  <button onClick={() => history.push(`/groups/${group.id}/events/new`)}> create new event</button>
