@@ -15,11 +15,13 @@ export const GroupDetails = () => {
     const user = useSelector(state => state.session.user);
     useEffect(() => {
             dispatch(getGroupById(id))
+            console.log(group.previewImage)
         }, [dispatch])
 
     const MiniGroupDetails = () => {
         return(
             <div>
+                    {group.previewImage && <img src={`${group.previewImage}`}/>}
                     <div>
                         name: {group && group.name}
                     </div>

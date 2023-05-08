@@ -54,7 +54,13 @@ export const createGroupThunk = (group) => async dispatch => {
     })
     if(response.ok) {
         const details = await response.json();
-
+        await csrfFetch(`/api/groups/${details.id}/images`,{
+            method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({url: group.imgUrl, preview: true})
+        })
         dispatch(addGroup(details))
         return details;
     }
