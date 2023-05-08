@@ -89,11 +89,12 @@ export const deleteGroupThunk = (group) => async dispatch => {
     if(response.ok) {
         const details = await response.json();
 
+        //idk what lines 93 to 97 are here for
         //todo: check event and dispatch for successful run
-        groupEvents.forEach((event) => {
+        // groupEvents.forEach((event) => {
 
-            dispatch(deleteEventThunk(event))
-        })
+        //     dispatch(deleteEventThunk(event))
+        // })
         dispatch(deleteGroup(group.id))
 
     }

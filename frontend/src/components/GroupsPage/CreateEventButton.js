@@ -1,6 +1,6 @@
 import { useHistory } from "react-router-dom"
 import { useDispatch } from "react-redux";
-import { deleteGroupThunk } from "../../store/groups";
+import { deleteGroupThunk, getGroupsThunk } from "../../store/groups";
 export const CreateEventButton = (props) => {
     const history = useHistory();
     const dispatch = useDispatch();
