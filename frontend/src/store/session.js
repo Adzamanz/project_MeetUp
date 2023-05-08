@@ -3,7 +3,7 @@ import { csrfFetch } from "./csrf";
 const SET_USER = "session/setUser";
 const REMOVE_USER = "session/removeUser";
 
-const setUser = (user) => {
+export const setUser = (user) => {
   return {
     type: SET_USER,
     payload: user,
@@ -52,7 +52,7 @@ export const signup = (user) => async (dispatch) => {
     });
     const data = await response.json();
     dispatch(setUser(data.user));
-    return response;
+    return data;
 };
 
 export const logout = () => async (dispatch) => {

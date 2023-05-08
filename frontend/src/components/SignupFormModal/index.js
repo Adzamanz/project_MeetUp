@@ -50,7 +50,7 @@ function SignupFormModal() {
           lastName,
           password,
         })
-      )
+       ).then(res => dispatch(sessionActions.setUser(res)))
         .then(closeModal)
         .catch(async (res) => {
           const data = await res.json();
@@ -60,9 +60,6 @@ function SignupFormModal() {
         });
 
         console.log(username, password)
-
-      dispatch(sessionActions.login({ username, password }));
-      dispatch(sessionActions.restoreUser());
       return history.push('/');
     }
     return setErrors({
