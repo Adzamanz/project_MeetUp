@@ -9,10 +9,7 @@ import { getEventsThunk } from "../../store/events";
 
 const GroupsPage  = () => {
     const dispatch = useDispatch()
-    // useEffect(() => {
-    //   dispatch(getGroupsThunk());
-    //   dispatch(getEventsThunk())
-    // }, [dispatch])
+    
     const groupList = useSelector(state => Object.values(state.groups));
     const eventList = useSelector(state => Object.values(state.events));
 

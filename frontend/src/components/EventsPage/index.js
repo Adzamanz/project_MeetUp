@@ -8,9 +8,7 @@ import './EventsPage.css';
 const EventsPage  = () => {
     const dispatch = useDispatch()
     const eventList = useSelector(state => Object.values(state.events));
-    // useEffect(() => {
-    //    dispatch(getEventsThunk());
-    // }, [dispatch])
+    
     const Thing = () =>{
         return (
             <div className="events-page">

@@ -9,11 +9,6 @@ export const GroupDisplay = (props) => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    // useEffect(() => {
-    //     dispatch(getEventsThunk());
-    //     dispatch(getEventsByGroupId(group.id));
-    // }, [dispatch])
-
     return(
 
             <div onClick={() => history.push(`/groups/${group.id}`)}>
@@ -27,10 +22,15 @@ export const GroupDisplay = (props) => {
                     location: {group.city}, {group.state}
                 </div>
                 <div>
-                    private: {group.private ? 'true' : 'false'}
+                    event#: {events.length}
+                    ·
+                    {group.private ? 'private' : 'public'}
+
                 </div>
                 <div>
-                    event#: {events.length}
+                </div>
+                <div>
+
                 </div>
             </div>
     )

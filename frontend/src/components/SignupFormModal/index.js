@@ -59,6 +59,8 @@ function SignupFormModal() {
           }
         });
 
+        console.log(username, password)
+
       dispatch(sessionActions.login({ username, password }));
       dispatch(sessionActions.restoreUser());
       return history.push('/');
