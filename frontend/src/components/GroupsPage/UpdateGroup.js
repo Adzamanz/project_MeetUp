@@ -1,21 +1,21 @@
 import { useEffect, useState} from "react"
 import { useDispatch, useSelector } from "react-redux";
-import { createGroupThunk, getGroupById } from "../../store/groups";
+import { updateGroupThunk, getGroupById } from "../../store/groups";
 import { useHistory, useParams } from "react-router-dom";
 import { GroupDisplay } from "./GroupDisplay";
 
 export const EditGroup = (props) => {
     const dispatch = useDispatch();
     const {id} = useParams();
-    const oldGroup = props.group();
+    const oldGroup = useSelector(state => state.groups[id]);
 
     const [city, setCity] = useState(oldGroup?.city);
     const [state, setState] = useState(oldGroup?.state);
     const [name, setName] = useState(oldGroup?.name);
     const [about, setAbout] = useState(oldGroup?.about);
-    const [type, setType] = useState(oldGroup.type);
-    const [privates, setPrivates] = useState(oldGroup.private);
-    const [imgUrl, setImgUrl] = useState(oldGroup.imgUrl);
+    const [type, setType] = useState(oldGroup?.type);
+    const [privates, setPrivates] = useState(oldGroup?.private);
+    const [imgUrl, setImgUrl] = useState(oldGroup?.imgUrl);
     const [group, setGroup] = useState({city, state, name, type, privates, imgUrl});
     const [errors, setErrors] = useState({});
     const user = useSelector(state => state.session.user)
@@ -36,15 +36,16 @@ export const EditGroup = (props) => {
         dispatch(getGroupById(id))
         verify()
         setGroup({city, state, name, about, type, privates, imgUrl});
-    }, [city, state, name, about, type, privates, imgUrl])
+    }, [city, state, name, about, type, privates, imgUrl, dispatch])
 
     const submit = async (e) => {
         e.preventDefault();
+        console.log(errors)
         if(!Object.values(errors).length){
             console.log("subitted", group)
-            let resp = await dispatch(createGroupThunk(group));
+            let resp = await dispatch(updateGroupThunk(group));
 
-            history.push(`/groups/${resp.id}`)
+            history.push(`/groups/${id}`)
         }
     }
 
@@ -155,7 +156,8 @@ export const EditGroup = (props) => {
                         </select>
                     </label>
                 </div>
-                <div>
+                {/* todo add groupimage change functionality */}
+                {/* <div>
                     <label>
                         image URL
                         <input
@@ -165,7 +167,7 @@ export const EditGroup = (props) => {
                         value={imgUrl}
                         />
                     </label>
-                </div>
+                </div> */}
                 <div>
                     <input type="submit"/>
                 </div>
@@ -174,7 +176,7 @@ export const EditGroup = (props) => {
     )
     else return(
         <div>
-            You must be Logged in to create a group.
+            You must be the group organizer to edit a group.
         </div>
     )
 }

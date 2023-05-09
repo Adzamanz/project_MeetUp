@@ -17,15 +17,20 @@
     color: grey;
 
 }
-.img{
+img{
     max-width: 150px;
+}
+.img{
+    display: flexbox;
+    align-content: right;
 }
 .name{
     grid-row: 1;
 }
 .description{
     grid-row: 2;
-    overflow-wrap: normal;
+    overflow-wrap: break-word;
+    max-width: 500px;
 }
 .location{
     grid-row: 3;

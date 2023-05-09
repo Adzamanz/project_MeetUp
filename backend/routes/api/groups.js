@@ -31,7 +31,7 @@ const checkEmpty = (array) => {
 const addContextToGroup = async (group) =>{
     let count = await Membership.count({where:{groupId:group.id}});
     group.numMembers = count;
-    let preview = await GroupImage.findOne({where:{preview:true}});
+    let preview = await GroupImage.findOne({where:{groupId:group.id, preview:true}});
     if(preview) group.previewImage = preview.url;
     return group;
 }
@@ -168,7 +168,7 @@ router.put(
         let errorArr = [];
         if(name.length >= 60 || name.length < 1) errorArr.push("Name must be 60 characters or less, but cannot be empty!");
         if(about.length < 50)errorArr.push("About must be 50 characters or more");
-        if(!(type == "Online" || type == "In person")) errorArr.push("Type must be 'Online' or 'In person'");
+        if(!(type == "Online" || type == "In Person")) errorArr.push("Type must be 'Online' or 'In person'");
         if(typeof private != "boolean") errorArr.push("Private must be a boolean");
         if(!city)errorArr.push("City is required");
         if(!state)errorArr.push("State is required");

@@ -67,13 +67,13 @@ export const createGroupThunk = (group) => async dispatch => {
 }
 
 //update group thunk
-export const updateGroupThunk = (event) => async dispatch => {
-    const response = await csrfFetch(`/api/groups/${event.id}`,{
+export const updateGroupThunk = (group) => async dispatch => {
+    const response = await csrfFetch(`/api/groups/${group.id}`,{
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(event)
+        body: JSON.stringify(group)
     });
     if(response.ok) {
         const details = await response.json();

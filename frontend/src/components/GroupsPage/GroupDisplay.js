@@ -12,7 +12,7 @@ export const GroupDisplay = (props) => {
     return(
 
             <div className='main' onClick={() => history.push(`/groups/${group.id}`)}>
-                {group.previewImage && <img className="img" src={`${group.previewImage}`}/>}
+                {group.previewImage && <div className="img"> <img  src={`${group.previewImage}`}/> </div>}
                 <div className="sub">
                     <div className="name">
                     name: {group.name}
