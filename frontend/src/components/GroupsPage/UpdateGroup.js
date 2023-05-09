@@ -4,7 +4,7 @@ import { updateGroupThunk, getGroupById } from "../../store/groups";
 import { useHistory, useParams } from "react-router-dom";
 import { GroupDisplay } from "./GroupDisplay";
 
-export const EditGroup = (props) => {
+export const EditGroup = () => {
     const dispatch = useDispatch();
     const {id} = useParams();
     const oldGroup = useSelector(state => state.groups[id]);
@@ -43,7 +43,7 @@ export const EditGroup = (props) => {
         console.log(errors)
         if(!Object.values(errors).length){
             console.log("subitted", group)
-            let resp = await dispatch(updateGroupThunk(group));
+            let resp = await dispatch(updateGroupThunk(group, id));
 
             history.push(`/groups/${id}`)
         }
@@ -156,8 +156,7 @@ export const EditGroup = (props) => {
                         </select>
                     </label>
                 </div>
-                {/* todo add groupimage change functionality */}
-                {/* <div>
+                <div>
                     <label>
                         image URL
                         <input
@@ -167,11 +166,13 @@ export const EditGroup = (props) => {
                         value={imgUrl}
                         />
                     </label>
-                </div> */}
+                </div>
                 <div>
                     <input type="submit"/>
                 </div>
+
             </form>
+            <button onClick={() => console.log(group)}> log </button>
         </div>
     )
     else return(
