@@ -6,12 +6,6 @@ export const EventDisplay = (props) => {
     let event = props.event;
     const history = useHistory();
     const img = event.EventImages[0]
-    if(img) console.log(img.url)
-
-    const getEventImage = async () => {
-        //TODO add image grab from getEventById
-    }
-
 
     const clickHandle = (e) => {
         //e.preventDefault()
@@ -19,22 +13,23 @@ export const EventDisplay = (props) => {
     }
     return(
         <div onClick={clickHandle} className='main'>
-            <div id='image'>
-                {img && <img src={img.url}/>}
+            <div className='image'>
+                {img ? <img src={img.url}/> : <div>No Image</div>}
             </div>
             <div className="info">
-                <div id='start'>
+                <div className='date'>
                     {event.startDate}
                 </div>
-                <div id='name'>
-                    name: {event.name}
+                <div className='name'>
+                    {event.name}
                 </div>
-                <div id='desc'>
-                    description: {event.description}
-                </div>
-                <div id='location'>
+
+                <div className='location'>
                     Platform 9 & 3/4
                 </div>
+            </div>
+            <div className='desc'>
+                description: {event.description}
             </div>
         </div>
     )

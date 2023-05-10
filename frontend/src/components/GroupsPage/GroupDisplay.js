@@ -11,24 +11,26 @@ export const GroupDisplay = (props) => {
 
     return(
 
-            <div className='main' onClick={() => history.push(`/groups/${group.id}`)}>
-                {group.previewImage && <div className="img"> <img  src={`${group.previewImage}`}/> </div>}
-                <div className="sub">
-                    <div className="name">
-                    name: {group.name}
+            <div className='groupmain' onClick={() => history.push(`/groups/${group.id}`)}>
+                {group.previewImage ? <div className="img">
+                     <img  src={`${group.previewImage}`}/>
+                    </div> :
+                    <div className="img">No Image</div>}
+                <div className="groupinfo">
+                    <div className="groupname">
+                    {group.name}
                     </div>
-                    <div className="description">
-                        description: {group.about}
+                    <div className="groupdescription">
+                        {group.about}
                     </div>
-                    <div className="location">
-                        location: {group.city}, {group.state}
+                    <div className="grouplocation">
+                        {group.city}, {group.state}
                     </div>
-                    <div className="details">
-                    event#: {events.length}
-                    ·
-                    {group.private ? 'private' : 'public'}
-
-                </div>
+                    <div className="groupdetails">
+                         {events.length} events
+                        ·
+                        {group.private ? ' private' : ' public'}
+                    </div>
                 </div>
 
 

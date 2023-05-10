@@ -8,28 +8,28 @@ import './EventsPage.css';
 const EventsPage  = () => {
     const dispatch = useDispatch()
     const eventList = useSelector(state => Object.values(state.events));
-    
+
     const Thing = () =>{
         return (
             <div className="events-page">
-            <h1> Events Page </h1>
-            <div>
-                <Link to='/events'> Events </Link>
-                <Link to='/groups'> Groups </Link>
+                <h1> Events Page </h1>
+                <div>
+                    <Link to='/events' id='events'> Events </Link>
+                    <Link to='/groups' id='groups'> Groups </Link>
+                </div>
+                <div className="event-list">
+                    {eventList && eventList.map(event => {
+                        return(
+                            <EventDisplay event={event} key={event.id}/>
+                        )
+                    })}
+                </div>
             </div>
-            <div className="event-list">
-                {eventList && eventList.map(event => {
-                    return(
-                        <EventDisplay event={event} key={event.id}/>
-                    )
-                })}
-            </div>
-        </div>
         )
     }
 
     return(
-        <div className="events-page">
+        <div className="events-page-container">
             {eventList && <Thing />}
         </div>
 

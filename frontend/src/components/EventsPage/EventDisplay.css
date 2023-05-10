@@ -1,8 +1,12 @@
 .main{
-    max-width: 60%;
+    width: 50%;
     display: grid;
-    grid-template-columns: 50px, 400px;
-    align-self: center;
+    grid-template-columns: 200px 100px;
+    border: 1px solid rgb(204, 204, 204);
+    margin: 5px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px
 }
 .info{
     grid-column: 2;
@@ -12,7 +16,24 @@
 }
 .image{
     grid-column: 1;
-    display: flexbox;
-    justify-content: end;
-    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.date{
+    grid-row: 1;
+    margin: 5px;
+    width: 200px;
+}
+.name{
+    grid-row: 2;
+    font-size: 20px;
+    margin: 5px;
+}
+.description{
+    grid-row: 3;
+}
+.location{
+    grid-row: 4;
+    margin: 5px;
 }

@@ -1,10 +1,21 @@
-.event-list > div{
-    border: 1px solid black;
-    margin: 5px;
-    display: flexbox;
+.events-page-container{
+    background-color: rgb(247, 247, 247);
+}
+.event-list{
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 .events-page{
     margin: 20px;
-
+    display: flexbox;
+    justify-content: center;
+}
+#groups{
+    color: grey;
+}
+#events{
+    color: teal;
+    text-decoration: underline;
 }
