@@ -1,6 +1,4 @@
-.events-page-container{
-    background-color: rgb(247, 247, 247);
-}
+
 .event-list{
     display: flex;
     flex-direction: column;

@@ -84,7 +84,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 120px
+    width: 120px;
+
+}
+#dc:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+#db:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+#da:hover{
+    text-decoration: underline;
+    cursor: pointer;
 }
 #da-icon{
     width: 20px;
@@ -97,6 +110,18 @@
 #dc-icon{
     width: 20px;
     margin: 5px;
+}
+#logged-out{
+    grid-Column: 3;
+    align-self: center;
+    border: 1px solid grey;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    color: gray;
+    cursor: default;
 }
 button{
     background-color: white;

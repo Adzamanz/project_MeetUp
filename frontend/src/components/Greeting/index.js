@@ -5,8 +5,9 @@ import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 import { useSelector } from 'react-redux';
 // import greetingImage1 from '../../../public/images/snip.png'
 const Greeting = () => {
-    const user = useSelector(state => state.session)
-    let ooga = false
+    const user = useSelector(state => state.session.user)
+    let ooga = user ? true : false
+    let check = ooga ? 'dc' : 'logged-out';
     const history = useHistory();
     const handleClick = (where) => history.push(where);
     console.log(user)
@@ -31,13 +32,17 @@ const Greeting = () => {
                     <img id='db-icon' src='https://cdn-icons-png.flaticon.com/512/104/104542.png' />
                     See All Events
                 </div>
-                <div id="dc" onClick={() => handleClick('/groups/new')}>
+                {/* {true && ooga ? <div id='dc' onClick={() => handleClick('/groups/new') }> : <div id='logged-out'> } */}
+                <div id={check} onClick={() => {if(ooga)handleClick('/groups/new')}}>
                 <img id='dc-icon' src='https://icons-for-free.com/iconfiles/png/512/new+year+party+price+star+icon-1320185815358079337.png' />
                     Start a new group
                 </div>
             </div>
             <div id="e">
-            <button  onClick={() => alert('No, it doesnt do anything')}>"Join Meetup"</button>
+            <OpenModalMenuItem
+                itemText="Join Meetup"
+                modalComponent={<SignupFormModal />}
+              />
             </div>
         </div>
     )
