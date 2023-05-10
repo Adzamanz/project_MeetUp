@@ -16,27 +16,28 @@ const Greeting = () => {
                     The people platform- Where interests become friendships.
                 </div>
             <div id="b">
-                <img src="../../../public/images/snip.png" alt='image'/>
+                <img src="https://imgur.com/URwNK0d.png" alt='image'/>
             </div>
             <div id="c">
-                How Meetup works
+                <div id='ca'>How Meetup works</div>
+                <div id='cb'> ya d ah yada yahadha adjahyahdahda ahdbs;dlsf faadfA </div>
             </div>
             <div id="d">
                 <div id="da" >
-                <button onClick={() => handleClick('/groups')}>
+                <div onClick={() => handleClick('/groups')}>
                        See All Groups
-                </button>
+                </div>
 
                 </div>
                 <div id="db">
-                    <button onClick={() => handleClick('/events')}>
+                    <div onClick={() => handleClick('/events')}>
                         See All Events
-                    </button>
+                    </div>
                 </div>
                 <div id="dc" >
-                    <button onClick={() => handleClick('/groups/new')}>
+                    <div onClick={() => handleClick('/groups/new')}>
                         Start a new group
-                    </button>
+                    </div>
                 </div>
             </div>
             <div id="e">

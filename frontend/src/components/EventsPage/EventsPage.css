@@ -1,7 +1,10 @@
 .event-list > div{
     border: 1px solid black;
     margin: 5px;
+    display: flexbox;
+    justify-content: center;
 }
 .events-page{
-    margin: 20px
+    margin: 20px;
+
 }

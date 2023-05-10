@@ -5,6 +5,9 @@
 
     align-items: center;
 }
+#b > img{
+    width: 500px
+}
 #a{
     font-size: 30px;
     width: 260px;
@@ -17,12 +20,24 @@
 #b{
     grid-row: 1;
 
-
 }
 #c{
     grid-row: 2;
     grid-column: span 2;
     justify-self: center;
+    display: flexbox;
+    justify-content: center;
+    text-align: center;
+}
+
+#ca{
+    display: flexbox;
+    font-size: 20px;
+
+}
+#cb{
+    font-size: 200;
+    display: flexbox;
 }
 #d{
     grid-row: 3;
@@ -39,18 +54,37 @@
     grid-row: 4;
     grid-column: span 2;
     justify-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #da{
     grid-column: 1;
     align-self: center;
+    border: 1px solid black;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #db{
     grid-column: 2;
     align-self: center;
+    border: 1px solid black;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #dc{
     grid-Column: 3;
     align-self: center;
+    border: 1px solid black;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px
 }
 button{
     background-color: white;

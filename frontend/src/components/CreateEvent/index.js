@@ -44,7 +44,7 @@ export const CreateEvent = () => {
     }
     useEffect(() => {
         verify();
-        setEvent({name, type, privates, capacity, price, description, startDate, endDate});
+        setEvent({name, type, privates, capacity, price, description, startDate, endDate, imgUrl});
     }, [name, type, privates, price,capacity, description, startDate, endDate, dispatch])
 
 

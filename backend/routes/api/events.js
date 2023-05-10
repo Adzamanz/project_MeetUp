@@ -5,6 +5,10 @@ const { Op } = require("sequelize");
 const { Group, Venue, Event, EventImage, Attendance, Membership, User } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
+
+
+
+
 const checkEmpty = (array) => {
     array.forEach(ele => {
         if(!ele) {
@@ -81,7 +85,8 @@ router.get(
         allEvents = await Event.findAll({
             include: [
                 {model: Group, attributes: ["id","name","city","state"]},
-                {model: Venue, attributes: ["id","city","state"]}
+                {model: Venue, attributes: ["id","city","state"]},
+                {model: EventImage, attributes: ["id", "url", "preview"]}
         ]});
         // let errorArr = [];
         // if(page < 0 || page > 10)errorArr.push("page minimum is 0, page maximum is 10");

@@ -1,0 +1,18 @@
+.main{
+    max-width: 60%;
+    display: grid;
+    grid-template-columns: 50px, 400px;
+    align-self: center;
+}
+.info{
+    grid-column: 2;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4,1fr);
+}
+.image{
+    grid-column: 1;
+    display: flexbox;
+    justify-content: end;
+    width: 100px;
+}

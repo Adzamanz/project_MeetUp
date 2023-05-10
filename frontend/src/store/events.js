@@ -78,6 +78,13 @@ export const createEventThunk = (event, id) => async dispatch => {
     console.log('resp ok?',response.ok)
     if(response.ok){
         const details = await response.json();
+        await csrfFetch(`/api/events/${details.id}/images`,{
+            method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({url: event.imgUrl, preview: true})
+        })
         // console.log('thunk', details)
         dispatch(addEvent(details));
         return details
