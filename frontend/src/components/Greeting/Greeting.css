@@ -86,6 +86,18 @@
     align-items: center;
     width: 120px
 }
+#da-icon{
+    width: 20px;
+    margin: 5px;
+}
+#db-icon{
+    width: 20px;
+    margin: 5px;
+}
+#dc-icon{
+    width: 20px;
+    margin: 5px;
+}
 button{
     background-color: white;
 }

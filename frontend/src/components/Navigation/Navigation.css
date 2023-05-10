@@ -24,20 +24,37 @@
     justify-self: left;
 }
 .profile-dropdown {
-    margin-right: 1px;
-    margin-top: 5px;
+   margin: 5px;
+   display: flex;
+justify-content: center;
+}
+.profile-dropdown > * {
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
 }
 .profileButtonBox {
     position: absolute;
     padding: 0px 0px 0px 0px;
     background-color: white;
     border: 2px solid black;
-    right: 2px;
-    justify-content: end;
-    margin-right: 3px;
-    margin-top: 7px;
+    right: 10px;
+    display: flex;
 }
 .profile-dropdown > li{
     width: 60px;
     padding: 5px;
+}
+#buttons{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#buttons > *{
+    width: 60px;
+    display: flex;
+    margin: 5px;
 }

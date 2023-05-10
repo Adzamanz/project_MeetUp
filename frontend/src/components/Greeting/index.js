@@ -23,21 +23,17 @@ const Greeting = () => {
                 <div id='cb'> ya d ah yada yahadha adjahyahdahda ahdbs;dlsf faadfA </div>
             </div>
             <div id="d">
-                <div id="da" >
-                <div onClick={() => handleClick('/groups')}>
+                <div id="da" onClick={() => handleClick('/groups')}>
+                        <img id='da-icon' src='https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Person_icon_BLACK-01.svg/1924px-Person_icon_BLACK-01.svg.png' />
                        See All Groups
                 </div>
-
+                <div id="db" onClick={() => handleClick('/events')}>
+                    <img id='db-icon' src='https://cdn-icons-png.flaticon.com/512/104/104542.png' />
+                    See All Events
                 </div>
-                <div id="db">
-                    <div onClick={() => handleClick('/events')}>
-                        See All Events
-                    </div>
-                </div>
-                <div id="dc" >
-                    <div onClick={() => handleClick('/groups/new')}>
-                        Start a new group
-                    </div>
+                <div id="dc" onClick={() => handleClick('/groups/new')}>
+                <img id='dc-icon' src='https://icons-for-free.com/iconfiles/png/512/new+year+party+price+star+icon-1320185815358079337.png' />
+                    Start a new group
                 </div>
             </div>
             <div id="e">
