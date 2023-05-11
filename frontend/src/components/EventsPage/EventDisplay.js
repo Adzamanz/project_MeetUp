@@ -12,7 +12,7 @@ export const EventDisplay = (props) => {
         history.push(`/events/${event.id}`)
     }
     return(
-        <div onClick={clickHandle} className='main'>
+        <div onClick={clickHandle} className='mainevnt'>
             <div className='image'>
                 {img ? <img src={img.url}/> : <div>No Image</div>}
             </div>

@@ -1,0 +1,30 @@
+#eventfull{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#eventheader{
+    display: flex;
+
+}
+#eventmain{
+    display: grid;
+    grid-template-columns: 300px 250px;
+}
+#eventimage{
+    grid-column: 1;
+}
+#eventdetails{
+    grid-column: 2;
+    display:grid;
+    grid-template-rows: 100px 150px;
+
+}
+#groupdetails{
+    grid-row: 1;
+}
+#eventdetailsa{
+    display: grid;
+    grid-row: 2;
+}

@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { getGroupsThunk, getGroupById } from "../../store/groups";
 import { useEffect,} from "react";
 import { CreateEventButton } from "./CreateEventButton";
+import { Link } from "react-router-dom";
+import {EventDisplay} from '../EventsPage/EventDisplay'
 import './GroupDetails.css';
 
 
@@ -10,34 +12,39 @@ export const GroupDetails = () => {
     const {id} = useParams();
     const dispatch = useDispatch();
 
-    const getOrganizer = async (id) => {
-       // const organizer = await
-    }
-
-
-
     const groups = useSelector(state => state.groups);
     const group = useSelector(state => state.groups[id]);
     console.log(groups);
     const events = useSelector(state => Object.values(state.events).filter((event) => {
-        if(event.id === group.id) return true;
+        if(event.groupId === group?.id) return true;
         else return false;
     }))
     const user = useSelector(state => state.session.user);
     useEffect(() => {
             dispatch(getGroupById(id))
-            console.log(group.previewImage)
+            console.log(group?.previewImage)
         }, [dispatch])
 
     const GroupEventDetails = () => {
         return(
-            <div>
-                <div>
-                    What we're about
-                    {group.about}
+            <div id='eventinfo'>
+                <div id='a'>
+                    Organizer
+                    <div id='aa'>
+                        {group?.Organizer && group?.Organizer.firstName} {group?.Organizer && group.Organizer.lastName}
+                    </div>
                 </div>
-                <div>
-
+                <div id='b'>
+                    What we're about
+                    <div id='about'>
+                        {group?.about}
+                    </div>
+                </div>
+                <div id='c'>
+                    Events ({events.length})
+                    {events.map(event => {
+                        return <EventDisplay key={event.id} event={event} />
+                    })}
                 </div>
             </div>
         )
@@ -45,18 +52,18 @@ export const GroupDetails = () => {
 
     const MiniGroupDetails = () => {
         return(
-            <div>
+            <div id='minidetails'>
                 <div id='name'>
-                    name: {group && group.name}
+                    {group && group.name}
                 </div>
                 <div id='city'>
-                    location: {group && group.city}, {group && group.state}
+                    {group && group.city}, {group && group.state}
                 </div>
                 <div>
-                    {events && events.length} {group.private ? 'Private' : 'Public'}
+                    {events && events.length} · {group.private ? 'Private' : 'Public'}
                 </div>
                 <div id='organizer'>
-                    Organized by
+                    Organized by {group.Organizer && group.Organizer.firstName} {group.Organizer && group.Organizer.lastName}
                 </div>
             </div>
         )
@@ -64,17 +71,20 @@ export const GroupDetails = () => {
 
     return(
         <div>
-            <h1> group details page </h1>
-            <div>
-                {group && <div>
-                    {group.previewImage && <div id='image'> <img src={`${group.previewImage}`}/> </div>}
-                    <div>
-                        <MiniGroupDetails />
-                    </div>
-                    <div>
+
+            <div id='main'>
+                <Link to='/groups'> Groups </Link>
+                {group && <div id='sub-a'>
+                    <div id='image'> {group.previewImage ? <img src={`${group.previewImage}`}/> : <div> No Image </div>} </div>
+                    <MiniGroupDetails />
+                    <div id='button'>
                         <CreateEventButton user={user} group={group}/>
-                     </div>
+                        {user && user.id !== group?.Organizer?.id && <button onClick={() => alert('feature coming soon')}>Join Group</button>}
+                    </div>
                 </div>}
+            </div>
+            <div >
+                    <GroupEventDetails />
             </div>
         </div>
     )
