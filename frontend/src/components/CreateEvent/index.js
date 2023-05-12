@@ -44,13 +44,14 @@ export const CreateEvent = () => {
         setErrors(error);
     }
     useEffect(() => {
-        verify();
+        ;
         setEvent({name, type, privates, capacity, price, description, startDate, endDate, imgUrl});
     }, [name, type, privates, price,capacity, description, startDate, endDate, dispatch])
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        verify()
         console.log(errors, startDate)
         if(!Object.values(errors).length){
         const resp = await dispatch(createEventThunk(event, id))
@@ -64,24 +65,26 @@ export const CreateEvent = () => {
     // dispatch(getGroupsThunk());
     // dispatch(getGroupById(id));
 
-    return group.organizerId == user.id ?<div id='CE'>
-        <div id='title'> Event for {group.name}</div>
+    return group.organizerId == user.id ?
+    <div id='CE'>
+        <div id='title'> Create a new event for {group.name}</div>
         <form onSubmit={handleSubmit}>
+            <div id='CEnametext'>What is the name of your event?</div>
             <div id='CEname'>
                 <label>
-                    Name
                     <input
+                    placeholder="Event Name"
                     type='text'
                     name='name'
                     onChange={e => setName(e.target.value)}
                     value={name}
                     />
                 </label>
-                {errors.name && <div> {errors.name} </div>}
+                {errors.name && <div className="errors"> {errors.name} </div>}
             </div>
-            <div>
+            <div id='CEtypetext'>Is this an In Person or Online event?</div>
+            <div id='CEtype'>
             <label>
-                In Person or Online
                 <select onChange={e => setType(e.target.value)}
                 value={type}
                 >
@@ -105,34 +108,64 @@ export const CreateEvent = () => {
                     </option>
                 </select>
             </label>
-            {errors.type && <div> {errors.type} </div>}
+            {errors.type && <div className="errors"> {errors.type} </div>}
             </div>
-            <div>
+            <div id='CEprivatetext'>Is this a Private or Public event?</div>
+            <div id='CEprivate'>
                 <label>
-                    Capacity
-                    <input
-                    type='number'
-                    onChange={e => setCapacity(e.target.value)}
-                    value={capacity}
-                    />
+                    <select onChange={e => setPrivates(e.target.value === 'true')}
+                    value={privates}
+                    >
+                        <option
+                        key={'NA'}
+                        value={''}
+                        >
+                        choose a value
+                        </option>
+                        <option
+                        key={'private'}
+                        value={true}
+                        >
+                        Private
+                        </option>
+                        <option
+                        key={'public'}
+                        value={false}
+                        >
+                        Public
+                        </option>
+                    </select>
                 </label>
-                {errors.capacity && <div> {errors.capacity} </div>}
             </div>
-            <div>
-                <label> price
+            <div id='CEpricetext'>What is the Price of your event?</div>
+            <div id='CEprice'>
+                <label>
                     <input
+                    placeholder="0"
                     type='number'
                     name='price'
                     onChange={e => setPrice(e.target.value)}
                     value={price}
                     />
                 </label>
-                {errors.price && <div> {errors.price} </div>}
+                {errors.price && <div className="errors"> {errors.price} </div>}
 
             </div>
-            <div>
+            <div id='CEcapacitytext'>What is the capacity of your event?</div>
+            <div id='CEcapacity'>
                 <label>
-                    Start Date
+                    <input
+                    placeholder="0"
+                    type='number'
+                    onChange={e => setCapacity(e.target.value)}
+                    value={capacity}
+                    />
+                </label>
+                {errors.capacity && <div className="errors"> {errors.capacity} </div>}
+            </div>
+            <div id='CEstarttext'>When does your event start?</div>
+            <div id='CEstart'>
+                <label>
                     <input
                     type='date'
                     name='startDate'
@@ -140,12 +173,12 @@ export const CreateEvent = () => {
                     value={startDate}
                     />
                 </label>
-                {errors.startDate && <div> {errors.startDate} </div>}
+                {errors.startDate && <div className="errors"> {errors.startDate} </div>}
 
             </div>
-            <div>
+            <div id='CEend'>
+                <div id='CEendtext'>When does your event end?</div>
                 <label>
-                    End Date
                     <input
                     type='date'
                     name='endDate'
@@ -153,13 +186,14 @@ export const CreateEvent = () => {
                     value={endDate}
                     />
                 </label>
-                {errors.endDate && <div> {errors.endDate} </div>}
+                {errors.endDate && <div className="errors"> {errors.endDate} </div>}
             </div>
-
-            <div>
+            <div id='CEurltext'>Please add an image url for your event below.</div>
+            <div id='CEurl'>
                 <label>
-                    image URL
                     <input
+                    id='imgurlinput'
+                    placeholder="Image URL"
                     type="text"
                     name="URL"
                     onChange={e => setImgUrl(e.target.value)}
@@ -167,18 +201,19 @@ export const CreateEvent = () => {
                     />
                 </label>
             </div>
-            <div>
+            <div id='CEabouttext'>Please describe your event.</div>
+            <div id='CEabout'>
                 <label>
-                    About
                     <textarea
+                    placeholder="Please include at least 30 characters."
                     name="about"
                     onChange={e => setDescription(e.target.value)}
                     value={description}
                     ></textarea>
                 </label>
-                {errors.description && <div> {errors.description} </div>}
+                {errors.description && <div className="errors"> {errors.description} </div>}
             </div>
-            <div id='CEsubmit'><button type='submit'>submit</button></div>
+            <div id='CEsubmit'><button type='submit'>Create Event</button></div>
         </form>
     </div> : <div>You are not the organizer for this group</div>
     // if(group.organizerId == user.id){

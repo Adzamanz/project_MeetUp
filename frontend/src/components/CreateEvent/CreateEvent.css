@@ -1,22 +1,165 @@
 #CE{
-    display: grid;
-    grid-template-rows: repeat(15,30px);
-}
-#CEname{
-    grid-row: 1;
+    margin: 20px;
+    border: 2px solid black;
 }
 #title{
-    justify-self: center;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 30px;
+    margin-top: 40px;
+}
+#CEname{
+    grid-row: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+}
+#CEnametext{
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+}
+#CEtype{
+    grid-row: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+}
+#CEtypetext{
+    grid-row: 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+}
+#CEprivate{
+    grid-row: 7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+}
+#CEprivatetext{
+    grid-row: 6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+}
+#CEcapacity{
+    grid-row: 9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+}
+#CEcapacitytext{
+    grid-row: 8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+}
+#CEprice{
+    grid-row: 11;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+}
+#CEpricetext{
+    grid-row: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+}
+#CEstart{
+    grid-row: 13;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+}
+#CEstarttext{
+    grid-row: 12;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+}
+#CEend{
+    grid-row: 15;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+}
+#CEendtext{
+    grid-row: 14;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+}
+#CEurl{
+    grid-row: 17;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+}
+#CEurltext{
+    grid-row: 16;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+}
+#CEabout{
+    grid-row: 19;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+}
+#CEabouttext{
+    grid-row: 18;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+}
+#imgurlinput{
+
 }
 #CEsubmit{
-    grid-row: 10;
+    grid-row: 21;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
 }
 form{
+    display: grid;
     justify-self: center;
-    display:grid;
-    grid-template-rows: repeat(15,60px);
+    grid-template-rows:repeat(30,60px);
+    justify-content: center;
 }
-form > div{
-    grid-column: 1;
+input{
+    align-self: center;
+    justify-self: center;
+    margin: 10px;
+    width: 200px
 }
-
+select{
+    align-self: center;
+    justify-self: center;
+    margin: 10px;
+}
