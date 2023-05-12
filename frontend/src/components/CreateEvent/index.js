@@ -6,6 +6,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { createEventThunk, } from "../../store/events";
 import { getGroups, getGroupsThunk } from "../../store/groups";
 import { getGroupById } from "../../store/groups";
+import './CreateEvent.css'
 
 export const CreateEvent = () => {
     const {id} = useParams();
@@ -63,10 +64,10 @@ export const CreateEvent = () => {
     // dispatch(getGroupsThunk());
     // dispatch(getGroupById(id));
 
-    return group.organizerId == user.id ?<div>
-        <div> Event for {group.name}</div>
+    return group.organizerId == user.id ?<div id='CE'>
+        <div id='title'> Event for {group.name}</div>
         <form onSubmit={handleSubmit}>
-            <div>
+            <div id='CEname'>
                 <label>
                     Name
                     <input
@@ -177,7 +178,7 @@ export const CreateEvent = () => {
                 </label>
                 {errors.description && <div> {errors.description} </div>}
             </div>
-            <div><button type='submit'>submit</button></div>
+            <div id='CEsubmit'><button type='submit'>submit</button></div>
         </form>
     </div> : <div>You are not the organizer for this group</div>
     // if(group.organizerId == user.id){

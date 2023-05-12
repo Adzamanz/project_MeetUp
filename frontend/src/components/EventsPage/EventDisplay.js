@@ -18,7 +18,7 @@ export const EventDisplay = (props) => {
             </div>
             <div className="info">
                 <div className='date'>
-                    {event.startDate}
+                    {event.startDate.split('T').join('·').slice(0, -8)}
                 </div>
                 <div className='name'>
                     {event.name}
@@ -29,7 +29,7 @@ export const EventDisplay = (props) => {
                 </div>
             </div>
             <div className='desc'>
-                description: {event.description}
+                {event.description}
             </div>
         </div>
     )

@@ -24,6 +24,16 @@ export const GroupDetails = () => {
             dispatch(getGroupById(id))
             console.log(group?.previewImage)
         }, [dispatch])
+        function compareFn(a, b) {
+            if (a.startDate < b.startDate) {
+              return -1;
+            }
+            if (a.startDate > b.startDate) {
+              return 1;
+            }
+            // a must be equal to b
+            return 0;
+          }
 
     const GroupEventDetails = () => {
         return(
@@ -42,7 +52,7 @@ export const GroupDetails = () => {
                 </div>
                 <div id='c'>
                     Events ({events.length})
-                    {events.map(event => {
+                    {events.sort(compareFn).map(event => {
                         return <EventDisplay key={event.id} event={event} />
                     })}
                 </div>
@@ -70,8 +80,9 @@ export const GroupDetails = () => {
     }
 
     return(
-        <div>
-
+        <>
+        {group &&
+         <div>
             <div id='main'>
                 <Link to='/groups'> Groups </Link>
                 {group && <div id='sub-a'>
@@ -86,6 +97,8 @@ export const GroupDetails = () => {
             <div >
                     <GroupEventDetails />
             </div>
-        </div>
+        </div>}
+        </>
+
     )
 };

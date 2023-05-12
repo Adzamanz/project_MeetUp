@@ -1,19 +1,43 @@
 #eventfull{
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
+    background-color: lightgrey;
+    height: 100vh;
 }
 #eventheader{
     display: flex;
-
+    background-color: white;
+    height: 150px;
+    width:100%;
+    justify-content: left;
+    justify-content: center;
+}
+#innerheader{
+    width: 480px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+}
+#eventname{
+    font-size: 30px ;
+    word-wrap: break-word;
 }
 #eventmain{
     display: grid;
     grid-template-columns: 300px 250px;
+    background-color: lightgrey;
+    padding: 20px;
 }
 #eventimage{
     grid-column: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#eventimage > *{
+    max-height: 250px;
+    max-width: 250px;
 }
 #eventdetails{
     grid-column: 2;
@@ -23,8 +47,73 @@
 }
 #groupdetails{
     grid-row: 1;
+    display: grid;
+    grid-template-columns: 50px 150px;
+    grid-template-rows: 60px 10px;
+    background-color: white;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 10px;
+}
+#grpname{
+    grid-column: 2;
+    overflow-wrap:break-word ;
+
+}
+#grpprivate{
+    grid-column: 2;
 }
 #eventdetailsa{
     display: grid;
     grid-row: 2;
+    grid-template-rows: 40px 30px 30px 20px;
+    background-color: white;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 10px;
+}
+#about{
+    display: flex;
+}
+#about > *{
+    color: black;
+}
+#detaila{
+    display:grid;
+    grid-template-columns: 40px 200px;
+    grid-template-rows: 20px 20px;
+}
+#detaila > div{
+    grid-column: 2;
+    font-size: 15px;
+}
+#detaila > i{
+    margin: auto;
+}
+#clock{
+    padding-top: 10px;
+}
+#detailb{
+    display: grid;
+    grid-template-columns: 40px 200px;
+    grid-row: 2;
+    margin: auto;
+}
+#cost{
+    grid-column: 2;
+}
+.fa-dollar-sign{
+    margin-left: 16px;
+}
+#detailc{
+    display: grid;
+    grid-template-columns: 40px 200px;
+    grid-row: 3;
+    margin: auto;
+}
+.fa-map-pin{
+    margin-left: 16px;
+}
+#DEbutton{
+    margin-left: 15px;
 }

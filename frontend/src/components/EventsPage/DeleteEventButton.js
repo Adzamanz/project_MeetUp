@@ -13,6 +13,7 @@ export const DeleteEventButton = (props) => {
                 dispatch(deleteEventThunk(event));
                 history.push('/groups');
             }}>DELETE</button>
+            <button onClick={() => alert('feature coming soon')}> Update </button>
             </div>
 
         )

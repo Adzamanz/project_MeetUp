@@ -20,7 +20,7 @@
     grid-row: 1;
 
 }
-#c{
+#Gc{
     grid-row: 2;
     grid-column: span 2;
     justify-self: center;
@@ -28,12 +28,12 @@
     text-align: center;
 }
 
-#ca{
+#Gca{
     display: flexbox;
     font-size: 20px;
 
 }
-#cb{
+#Gcb{
     font-size: 200;
     display: flexbox;
 }

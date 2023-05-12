@@ -2,10 +2,9 @@
     width: 400px;
     display: grid;
     grid-template-columns: 200px 100px;
-    border: 1px solid rgb(204, 204, 204);
+    border-bottom: 1px solid rgb(204, 204, 204);
     margin: 5px;
     background-color: white;
-    border-radius: 10px;
     padding: 10px;
     cursor: pointer;
 }
@@ -36,8 +35,10 @@
     font-size: 20px;
     margin: 5px;
 }
-.description{
+.desc{
     grid-row: 3;
+    width: 400px;
+    word-wrap: break-word;
 }
 .location{
     grid-row: 4;

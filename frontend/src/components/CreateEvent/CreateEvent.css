@@ -1,0 +1,22 @@
+#CE{
+    display: grid;
+    grid-template-rows: repeat(15,30px);
+}
+#CEname{
+    grid-row: 1;
+}
+#title{
+    justify-self: center;
+}
+#CEsubmit{
+    grid-row: 10;
+}
+form{
+    justify-self: center;
+    display:grid;
+    grid-template-rows: repeat(15,60px);
+}
+form > div{
+    grid-column: 1;
+}
+

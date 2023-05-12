@@ -32,7 +32,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <>
+    <div id='apppage'>
       <Navigation isLoaded={isLoaded} />
       {isLoaded &&
         <Switch>
@@ -64,7 +64,7 @@ function App() {
 
         </Switch>
       }
-    </>
+    </div>
   );
 }
 

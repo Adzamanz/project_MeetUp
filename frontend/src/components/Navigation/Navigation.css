@@ -2,7 +2,7 @@
     max-width: 100%;
     display: grid;
     grid-template-rows: 40px;
-    grid-template-columns: 5% 5% 80% 10%;
+    grid-template-columns: 5% 5% 70% 15% 5%;
     border-bottom: 2px solid black ;
 }
 .home{
@@ -15,7 +15,7 @@
     margin: 10px;
 }
 .profile {
-    grid-column: 4;
+    grid-column: 5;
     align-self: center;
     justify-self: right;
     margin: 10px;
@@ -67,4 +67,10 @@
 li{
     text-overflow: wrap;
     word-break: break-word;
+}
+#makegroup{
+    margin-left: auto;
+    grid-column: 4;
+    font-size: 15px;
+    margin-top: 15px;
 }

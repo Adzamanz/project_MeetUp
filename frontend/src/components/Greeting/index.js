@@ -19,9 +19,9 @@ const Greeting = () => {
             <div id="b">
                 <img src="https://imgur.com/URwNK0d.png" alt='image'/>
             </div>
-            <div id="c">
-                <div id='ca'>How Meetup works</div>
-                <div id='cb'> ya d ah yada yahadha adjahyahdahda ahdbs;dlsf faadfA </div>
+            <div id="Gc">
+                <div id='Gca'>How Meetup works</div>
+                <div id='Gcb'> ya d ah yada yahadha adjahyahdahda ahdbs;dlsf faadfA </div>
             </div>
             <div id="d">
                 <div id="da" onClick={() => handleClick('/groups')}>

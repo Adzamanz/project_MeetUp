@@ -1,0 +1,102 @@
+#CGmain{
+    display: flex;
+    justify-content: center;
+}
+#CGform{
+    display: grid;
+    grid-template-rows: 150px 200px 150px 100px 150px 100px 100px 100px 50px;
+    justify-content: center;
+    border: 2px solid black;
+    margin: 10px;
+    padding: 10px;
+    width: 600px;
+
+}
+#CGlocationcaption{
+    width: 300px;
+    margin: 20px;
+    grid-row: 1;
+    text-align: center;
+}
+#CGlocation{
+    grid-row: 2;
+    display: grid;
+    justify-self: center;
+    grid-template-rows: repeat(4, 50px);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 250px
+}
+#CGnamecaption{
+    grid-row: 3;
+    margin: 20px;
+    width: 300px;
+    text-align: center;
+}
+#CGaboutcaption{
+    grid-row: 5;
+    margin: 20px;
+    width: 300px;
+    text-align: center;
+}
+#CGcity{
+    grid-row: 1;
+}
+
+#CGstate{
+    grid-row: 3;
+}
+.errorcity{
+    grid-row: 2;
+}
+.errorstate{
+    grid-row: 4;
+}
+
+#CGname{
+    grid-row: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#CGabout{
+    grid-row: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#CGqualify{
+    grid-row: 7;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#CGtype{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#CGprivate{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#CGimage{
+    grid-row: 8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#CGsubmit{
+    grid-row: 9;
+    display: flex;
+    justify-content: center;
+}
+.errors{
+color: red;
+}
