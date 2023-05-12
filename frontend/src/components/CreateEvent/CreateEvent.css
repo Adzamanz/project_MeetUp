@@ -136,9 +136,6 @@
     align-items: center;
     justify-content: end;
 }
-#imgurlinput{
-
-}
 #CEsubmit{
     grid-row: 21;
     display: flex;
@@ -146,7 +143,7 @@
     align-items: center;
     width: 300px;
 }
-form{
+#CEform{
     display: grid;
     justify-self: center;
     grid-template-rows:repeat(30,60px);

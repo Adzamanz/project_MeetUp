@@ -68,11 +68,10 @@ function SignupFormModal() {
   };
 
   return (
-    <>
+    <div id='signupmain'>
       <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
-
-        <label>
+      <form onSubmit={handleSubmit} id='sigupform'>
+        <label id='SUemail'>
           Email
           <input
             type="text"
@@ -136,7 +135,7 @@ function SignupFormModal() {
         )}
         <button type="submit" disabled={!email || !username || !password || !firstName || !lastName || !confirmPassword}>Sign Up</button>
       </form>
-    </>
+    </div>
   );
 }
 

@@ -78,20 +78,20 @@ export const EventDetails = (props) => {
                     <div id='eventdetailsa'>
                         <div id='detaila'>
                         <i className="fas fa-regular fa-clock" id='clock'></i>
-                            <div>start : {event.startDate.split('T').join('·').slice(0, -8)}</div>
-                            <div>end : {event.endDate.split('T').join('·').slice(0, -8)}</div>
+                            <div>start : {event?.startDate?.split('T').join('·').slice(0, -8)}</div>
+                            <div>end : {event?.endDate?.split('T').join('·').slice(0, -8)}</div>
                         </div>
                         <div id='detailb'>
-                            <i class="fas fa-solid fa-dollar-sign"></i>
+                            <i className="fas fa-solid fa-dollar-sign"></i>
                             <div id='cost'>{event.price ? '$' + event.price : 'FREE'}</div>
                         </div>
                         <div id='detailc'>
-                            <i class="fas fa-solid fa-map-pin"></i>
+                            <i className="fas fa-solid fa-map-pin"></i>
                             {event.type}
                         </div>
                         <div id='DEbutton'>
                         <DeleteEventButton event={event} group={group} />
-                        
+
                         </div>
 
                     </div>

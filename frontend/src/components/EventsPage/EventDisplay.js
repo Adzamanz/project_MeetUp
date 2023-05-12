@@ -5,7 +5,9 @@ import './EventDisplay.css'
 export const EventDisplay = (props) => {
     let event = props.event;
     const history = useHistory();
-    const img = event.EventImages[0]
+    console.log('event', event);
+    console.log('event images', event?.EventImages)
+    const img = event?.EventImages? event?.EventImages[0] : ''
 
     const clickHandle = (e) => {
         //e.preventDefault()
@@ -14,11 +16,11 @@ export const EventDisplay = (props) => {
     return(
         <div onClick={clickHandle} className='mainevnt'>
             <div className='image'>
-                {img ? <img src={img.url}/> : <div>No Image</div>}
+                {img ? <img src={img?.url}/> : <div>No Image</div>}
             </div>
             <div className="info">
                 <div className='date'>
-                    {event.startDate.split('T').join('·').slice(0, -8)}
+                    {event?.startDate?.split('T').join('·').slice(0, -8)}
                 </div>
                 <div className='name'>
                     {event.name}

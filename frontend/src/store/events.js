@@ -31,7 +31,6 @@ export const deleteEventThunk = (event) => async dispatch => {
         body: JSON.stringify(event)
     })
     if(response.ok) {
-        console.log("AALAKSDALKSd",event)
         await dispatch(deleteEvent(event.id))
     }
 }

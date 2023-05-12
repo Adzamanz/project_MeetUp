@@ -1,0 +1,105 @@
+#UGmain{
+    display: flex;
+    justify-content: center;
+}
+#UGform{
+    display: grid;
+    grid-template-rows:repeat(12,60px);
+    justify-content: center;
+    border: 2px solid black;
+    margin: 10px;
+    width: 600px;
+
+}
+#UGlocationcaption{
+    grid-row: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+#UGlocation{
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+#UGnamecaption{
+    grid-row: 4;
+    text-align: center;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+}
+#UGaboutcaption{
+    grid-row: 5;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+#UGcity{
+    grid-row: 1;
+}
+
+#UGstate{
+    grid-row: 2;
+}
+.errorcity{
+    grid-row: 2;
+}
+.errorstate{
+    grid-row: 2;
+}
+
+#UGname{
+    grid-row: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#UGabout{
+    grid-row: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#UGqualify{
+    grid-row: 8;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#UGtype{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#UGprivate{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#UGimage{
+    grid-row: 11;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#UGsubmit{
+    grid-row: 12;
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+.errors{
+    justify-self: center;
+color: red;
+margin: 10px
+}

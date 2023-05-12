@@ -1,6 +1,8 @@
 import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { deleteEventThunk } from "../../store/events";
+import { DeleteItemModal } from "../DeleteItemModal/index";
+import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 export const DeleteEventButton = (props) => {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -9,10 +11,10 @@ export const DeleteEventButton = (props) => {
     if(user && user.id === group.organizerId){
         return(
             <div>
-            <button onClick={() => {
-                dispatch(deleteEventThunk(event));
-                history.push('/groups');
-            }}>DELETE</button>
+            <OpenModalMenuItem
+                itemText="Delete"
+                modalComponent={<DeleteItemModal action={deleteEventThunk} target={event} landing='/events'/>}
+              />
             <button onClick={() => alert('feature coming soon')}> Update </button>
             </div>
 

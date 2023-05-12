@@ -68,7 +68,7 @@ export const CreateEvent = () => {
     return group.organizerId == user.id ?
     <div id='CE'>
         <div id='title'> Create a new event for {group.name}</div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} id='CEform'>
             <div id='CEnametext'>What is the name of your event?</div>
             <div id='CEname'>
                 <label>

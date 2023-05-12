@@ -1,0 +1,7 @@
+#signupform{
+    display: grid;
+    grid-template-rows: 80px 80px 80px;
+}
+#SUemail{
+    grid-row: 1;
+}
