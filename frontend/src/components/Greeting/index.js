@@ -39,10 +39,11 @@ const Greeting = () => {
                 </div>
             </div>
             <div id="e">
-            <OpenModalMenuItem
+            {!user && <OpenModalMenuItem
                 itemText="Join Meetup"
                 modalComponent={<SignupFormModal />}
-              />
+              />}
+
             </div>
         </div>
     )
