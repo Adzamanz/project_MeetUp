@@ -1,6 +1,9 @@
 #signupform{
-    display: grid;
-    grid-template-rows: 80px 80px 80px;
+    display: flex;
+    justify-content: center;
+}
+h1{
+    grid-row: 1;
 }
 #SUemail{
     grid-row: 1;

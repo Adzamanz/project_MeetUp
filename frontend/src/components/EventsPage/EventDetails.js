@@ -53,6 +53,7 @@ export const EventDetails = (props) => {
                         {event && event.name}
                     </div>
                     <div id='eventhost'>
+                        Hosted by {group?.Organizer?.firstName} {group?.Organizer?.lastName}
                     </div>
                 </div>
 

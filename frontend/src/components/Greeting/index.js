@@ -10,7 +10,7 @@ const Greeting = () => {
     let check = ooga ? 'dc' : 'logged-out';
     const history = useHistory();
     const handleClick = (where) => history.push(where);
-    console.log(user)
+    document.title = "Meetup clone"
     return(
         <div id="greeting-page">
             <div id="a">
