@@ -27,7 +27,6 @@ export const CreateEvent = () => {
     const [description, setDescription] = useState('');
     const [event, setEvent] = useState({name, type, privates, price, description, startDate, endDate})
     const [errors, setErrors] = useState({});
-    const [submitted, setSubmitted] = useState(false);
 
     const verify = () => {
         let error = {}
@@ -54,8 +53,7 @@ export const CreateEvent = () => {
         verify()
         console.log(errors, startDate)
         if(!Object.values(errors).length && !submitted){
-        const resp = await dispatch(createEventThunk(event, id))
-        setSubmitted(true)
+        const resp = await dispatch(createEventThunk(event, id));
         history.push(`/events/${resp.id}`)
         console.log(resp)
         if(resp){
