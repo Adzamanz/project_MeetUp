@@ -2,6 +2,8 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { useHistory } from "react-router-dom";
 import './DeleteItemModal.css'
+import { getEventsThunk } from "../../store/events";
+import { getGroupsThunk } from "../../store/groups";
 
 export const DeleteItemModal = (props) => {
         const {action, target, landing} = props
@@ -11,6 +13,8 @@ export const DeleteItemModal = (props) => {
 
         const handleSubmit = () => {
             dispatch(action(target));
+            dispatch(getEventsThunk());
+            dispatch(getGroupsThunk());
             history.push(landing);
             closeModal();
         }
