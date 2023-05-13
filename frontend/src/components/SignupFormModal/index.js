@@ -32,16 +32,20 @@ function SignupFormModal() {
     if(!firstName) errorObj.firstName = 'First name is required';
     if(!lastName) errorObj.lastName = 'Last name is required';
     if(password.length < 6) errorObj.password = 'Password must be at least 6 characters';
+    if(password !== confirmPassword) errorObj.confirmPassword = "Confirm Password field must be the same as the Password field"
     setErrors(errorObj);
   }
-  useEffect(() => {
-    verify();
-  },[email,    username,    firstName,    lastName,    password,])
+
+  // useEffect(() => {
+
+  // },[email,    username,    firstName,    lastName,    password,])
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (password === confirmPassword && !Object.values(errors).length) {
-      setErrors({});
+    verify();
+    console.log(Object.values(errors).length)
+    console.log(Object.values(errors))
+    if (!Object.values(errors).length) {
       dispatch(
         sessionActions.signup({
           email,
@@ -58,13 +62,9 @@ function SignupFormModal() {
             setErrors(data.errors);
           }
         });
-
-        console.log(username, password)
       return history.push('/');
     }
-    return setErrors({
-      confirmPassword: "Confirm Password field must be the same as the Password field"
-    });
+    return errors;
   };
 
   return (
@@ -137,7 +137,7 @@ function SignupFormModal() {
           {errors.confirmPassword && (
             <p>{errors.confirmPassword}</p>
           )}
-          <button type="submit" disabled={!email || !username || !password || !firstName || !lastName || !confirmPassword}>Sign Up</button>
+          <button type="submit" disabled={!email || username.length < 4 || password.length < 6|| !firstName || !lastName || !confirmPassword}>Sign Up</button>
         </form>
       </div>
 
