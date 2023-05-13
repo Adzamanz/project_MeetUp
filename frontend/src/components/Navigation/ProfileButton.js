@@ -58,6 +58,9 @@ function ProfileButton({ user }) {
               <li onClick={() => {
                 closeMenu()
                 history.push('/groups')}}>see all groups</li>
+                <li onClick={() => {
+                closeMenu()
+                history.push('/events')}}>see all events</li>
               <li>
                 <button onClick={logout}>Log Out</button>
               </li>
