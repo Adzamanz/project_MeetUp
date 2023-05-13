@@ -4,7 +4,7 @@
 }
 #CGform{
     display: grid;
-    grid-template-rows: 150px 200px 150px 120px 150px 120px 120px 120px 50px;
+    grid-template-rows: 150px 200px 150px 120px 150px 120px 160px 120px 50px;
     justify-content: center;
     border: 2px solid black;
     margin: 10px;
