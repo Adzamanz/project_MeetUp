@@ -116,7 +116,7 @@ export const CreateGroup = () => {
 
                     <label>
                         <textarea
-                        placeholder="Please write at least 30 characters."
+                        placeholder="Please write at least 50 characters."
                         name="about"
                         onChange={e => setAbout(e.target.value)}
                         value={about}
