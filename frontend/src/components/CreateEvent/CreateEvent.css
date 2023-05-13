@@ -146,7 +146,7 @@
 #CEform{
     display: grid;
     justify-self: center;
-    grid-template-rows:repeat(30,60px);
+    grid-template-rows:repeat(22,60px);
     justify-content: center;
 }
 input{
