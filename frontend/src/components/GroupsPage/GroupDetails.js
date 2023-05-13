@@ -86,7 +86,7 @@ export const GroupDetails = () => {
             <div id='main'>
                 <Link to='/groups'> Groups </Link>
                 {group && <div id='sub-a'>
-                    <div id='image'> {group.previewImage ? <img src={`${group.previewImage}`}/> : <div> No Image </div>} </div>
+                    <div id='image'> {group?.previewImage ? <img src={`${group.previewImage}`}/> : <div> No Image </div>} </div>
                     <MiniGroupDetails />
                     <div id='button'>
                         <CreateEventButton user={user} group={group}/>

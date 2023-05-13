@@ -38,9 +38,9 @@ export const CreateGroup = () => {
         verify();
         if(!Object.values(errors).length){
             console.log("subitted", group)
-            let resp = await dispatch(createGroupThunk(group));
+            let resp = dispatch(createGroupThunk(group)).then(res => history.push(`/groups/${res.id}`));
 
-            history.push(`/groups/${resp.id}`)
+            //history.push(`/groups/${resp.id}`)
         }
     }
 

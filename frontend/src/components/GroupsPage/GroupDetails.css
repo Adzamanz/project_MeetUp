@@ -19,6 +19,7 @@
     grid-column: 2;
 }
 #image > *{
+
     text-align: center;
 }
 #minidetails{
@@ -41,6 +42,8 @@
 }
 #b{
     text-align: left;
+    word-wrap: break-word;
+    max-width: 500px
 }
 #a{
     font-size: 30px;
@@ -54,4 +57,11 @@
 }
 #about{
     word-wrap: break-word;
+    inline-size: 600px;
+    word-break: break-all;
+}
+#image{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
