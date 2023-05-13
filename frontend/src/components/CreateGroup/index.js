@@ -14,12 +14,11 @@ export const CreateGroup = () => {
     const [imgUrl, setImgUrl] = useState('');
     const [group, setGroup] = useState({city, state, name, type, privates, imgUrl});
     const [errors, setErrors] = useState({});
-
+    const [submitted, setSubmitted] = useState(false);
     const user = useSelector(state => state.session.user)
     const dispatch = useDispatch()
     const history = useHistory();
 
-    let submitted = false;
 
     const verify = () => {
         let error = {};
@@ -41,7 +40,7 @@ export const CreateGroup = () => {
         verify();
         if(!Object.values(errors).length && !submitted){
             console.log("subitted", group)
-            submitted = true;
+            setSubmitted(true);
             let resp = dispatch(createGroupThunk(group)).then(res => history.push(`/groups/${res.id}`));
 
             //history.push(`/groups/${resp.id}`)

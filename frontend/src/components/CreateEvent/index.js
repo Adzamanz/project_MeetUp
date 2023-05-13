@@ -27,7 +27,7 @@ export const CreateEvent = () => {
     const [description, setDescription] = useState('');
     const [event, setEvent] = useState({name, type, privates, price, description, startDate, endDate})
     const [errors, setErrors] = useState({});
-    let submitted = false;
+    const [submitted, setSubmitted] = useState(false);
 
     const verify = () => {
         let error = {}
@@ -55,7 +55,7 @@ export const CreateEvent = () => {
         console.log(errors, startDate)
         if(!Object.values(errors).length && !submitted){
         const resp = await dispatch(createEventThunk(event, id))
-        submitted = true;
+        setSubmitted(true)
         history.push(`/events/${resp.id}`)
         console.log(resp)
         if(resp){
@@ -64,7 +64,7 @@ export const CreateEvent = () => {
         }
         }
     }
-    
+
     return group.organizerId == user.id ?
     <div id='CE'>
         <div id='title'> Create a new event for {group.name}</div>
