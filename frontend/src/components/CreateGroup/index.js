@@ -60,9 +60,9 @@ export const CreateGroup = () => {
                     <div id='CGcitystate'>
                     <label>
                         <input
-                        placeholder="City, State"
+                        placeholder="City, STATE"
                         type="text"
-                        name="city"
+                        name="cityState"
                         onChange={e => {
                             setCityState(e.target.value);
                             const cityState = e.target.value.split(',');

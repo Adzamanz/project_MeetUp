@@ -57,10 +57,10 @@ function ProfileButton({ user }) {
               <li>{user.email}</li>
               <li onClick={() => {
                 closeMenu()
-                history.push('/groups')}}>see all groups</li>
+                history.push('/groups')}}>view groups</li>
                 <li onClick={() => {
                 closeMenu()
-                history.push('/events')}}>see all events</li>
+                history.push('/events')}}>view events</li>
               <li>
                 <button onClick={logout}>Log Out</button>
               </li>

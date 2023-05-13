@@ -83,8 +83,8 @@ export const EventDetails = (props) => {
                     <div id='eventdetailsa'>
                         <div id='detaila'>
                         <i className="fas fa-regular fa-clock" id='clock'></i>
-                            <div>start : {event?.startDate?.split('T').join('·').slice(0, -8)}</div>
-                            <div>end : {event?.endDate?.split('T').join('·').slice(0, -8)}</div>
+                            <div>start : {event?.startDate?.split('T').join(' · ').slice(0, -8)}</div>
+                            <div>end : {event?.endDate?.split('T').join(' · ').slice(0, -8)}</div>
                         </div>
                         <div id='detailb'>
                             <i className="fas fa-solid fa-dollar-sign"></i>
