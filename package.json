@@ -1,8 +1,4 @@
 {
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "js-cookie": "^3.0.5"
-  },
   "name": "project_week23",
   "description": "![SCHEMA](Project_MeetUp_Schema.png)",
   "version": "1.0.0",
