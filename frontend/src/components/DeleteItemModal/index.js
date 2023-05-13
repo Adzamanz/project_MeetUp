@@ -13,8 +13,6 @@ export const DeleteItemModal = (props) => {
 
         const handleSubmit = async () => {
             dispatch(action(target));
-            await dispatch(getEventsThunk());
-            await dispatch(getGroupsThunk());
             history.push(landing);
             closeModal();
         }

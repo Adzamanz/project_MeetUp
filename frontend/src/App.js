@@ -29,7 +29,7 @@ function App() {
     dispatch(getEventsThunk());
     dispatch(getGroupsThunk());
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
-  }, [dispatch]);
+  }, [dispatch, window.location.href]);
 
   return (
     <div id='apppage'>
