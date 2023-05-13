@@ -27,6 +27,7 @@ export const CreateEvent = () => {
     const [description, setDescription] = useState('');
     const [event, setEvent] = useState({name, type, privates, price, description, startDate, endDate})
     const [errors, setErrors] = useState({});
+    let submitted = false;
 
     const verify = () => {
         let error = {}
@@ -44,7 +45,6 @@ export const CreateEvent = () => {
         setErrors(error);
     }
     useEffect(() => {
-        ;
         setEvent({name, type, privates, capacity, price, description, startDate, endDate, imgUrl});
     }, [name, type, privates, price,capacity, description, startDate, endDate, dispatch])
 
@@ -53,18 +53,18 @@ export const CreateEvent = () => {
         e.preventDefault();
         verify()
         console.log(errors, startDate)
-        if(!Object.values(errors).length){
+        if(!Object.values(errors).length && !submitted){
         const resp = await dispatch(createEventThunk(event, id))
+        submitted = true;
+        history.push(`/events/${resp.id}`)
         console.log(resp)
         if(resp){
             console.log('inside',resp)
-            history.push(`/events/${resp.id}`)
+
         }
         }
     }
-    // dispatch(getGroupsThunk());
-    // dispatch(getGroupById(id));
-
+    
     return group.organizerId == user.id ?
     <div id='CE'>
         <div id='title'> Create a new event for {group.name}</div>
