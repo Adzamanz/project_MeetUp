@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import './CreateGroup.css'
 
 export const CreateGroup = () => {
+    const [cityState, setCityState] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
     const [name, setName] = useState('');
@@ -25,6 +26,7 @@ export const CreateGroup = () => {
         if(about.length < 50) error.about = "About must be 50 characters or more";
         if(!(type == "Online" || type == "In Person")) error.type = "Type must be 'Online' or 'In Person'";
         if(typeof privates != "boolean") error.privates = "You must select a value.";
+        if(cityState.split(',').length !== 2) error.cityState = "one comma is required to denotate city and state. no more, no less."
         if(!city) error.city = "City is required";
         if(!state)error.state = "State is required";
         setErrors(error);
@@ -55,30 +57,23 @@ export const CreateGroup = () => {
                     <div>Meetup groups meet locally, in person, and online. We'll connect you with people in your area</div>
                 </div>
                 <div id='CGlocation'>
-                    <div id='CGcity'>
+                    <div id='CGcitystate'>
                     <label>
                         <input
-                        placeholder="City"
+                        placeholder="City, State"
                         type="text"
                         name="city"
-                        onChange={e => setCity(e.target.value)}
-                        value={city}
+                        onChange={e => {
+                            setCityState(e.target.value);
+                            const cityState = e.target.value.split(',');
+                            setCity(cityState[0]);
+                            setState(cityState[1]);
+                        }}
+                        value={cityState}
                         />
                     </label>
+                        {errors.cityState && <div className="errors errorcitystate"> {errors.cityState}</div>}
                         {errors.city && <div className="errors errorcity"> {errors.city} </div>}
-                    </div>
-
-                    <div id='CGstate'>
-
-                    <label>
-                        <input
-                        placeholder="state"
-                        type="text"
-                        name="state"
-                        onChange={e => setState(e.target.value)}
-                        value={state}
-                        />
-                    </label>
                         {errors.state && <div className="errors errorstate"> {errors.state} </div>}
                     </div>
                 </div>

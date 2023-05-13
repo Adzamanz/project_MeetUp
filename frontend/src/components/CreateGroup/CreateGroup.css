@@ -4,7 +4,7 @@
 }
 #CGform{
     display: grid;
-    grid-template-rows: 150px 200px 150px 120px 150px 120px 160px 120px 50px;
+    grid-template-rows: 150px 100px 150px 120px 150px 120px 160px 120px 50px;
     justify-content: center;
     border: 2px solid black;
     margin: 10px;
@@ -22,7 +22,7 @@
     grid-row: 2;
     display: grid;
     justify-self: center;
-    grid-template-rows: repeat(4, 50px);
+    grid-template-rows: repeat(2, 100px);
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -40,18 +40,17 @@
     width: 300px;
     text-align: center;
 }
-#CGcity{
+#CGcitystate{
     grid-row: 1;
 }
-
-#CGstate{
+.errorcitystate{
     grid-row: 3;
 }
 .errorcity{
-    grid-row: 2;
+    grid-row: 3;
 }
 .errorstate{
-    grid-row: 4;
+    grid-row: 3;
 }
 
 #CGname{
@@ -99,4 +98,8 @@
 }
 .errors{
 color: red;
+text-align: center;
+}
+div{
+    text-align: center;
 }
