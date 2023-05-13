@@ -35,7 +35,7 @@ export const CreateGroup = () => {
 
     const submit = async (e) => {
         e.preventDefault();
-        verify()
+        verify();
         if(!Object.values(errors).length){
             console.log("subitted", group)
             let resp = await dispatch(createGroupThunk(group));
