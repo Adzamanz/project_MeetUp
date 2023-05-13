@@ -13,6 +13,7 @@
     color:rgb(255, 60, 42);
     font-family: fantasy;
     margin: 10px;
+    cursor: pointer;
 }
 .profile {
     grid-column: 5;
