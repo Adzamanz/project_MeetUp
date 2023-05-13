@@ -8,7 +8,7 @@ import './EventsPage.css';
 const EventsPage  = () => {
     const dispatch = useDispatch()
     const eventList = useSelector(state => Object.values(state.events));
-    
+    document.title = `Events Page`;
     function compareFn(a, b) {
         if (a.startDate < b.startDate) {
           return -1;

@@ -14,6 +14,7 @@ export const GroupDetails = () => {
 
     const groups = useSelector(state => state.groups);
     const group = useSelector(state => state.groups[id]);
+    document.title = `${group?.name}`;
     console.log(groups);
     const events = useSelector(state => Object.values(state.events).filter((event) => {
         if(event.groupId === group?.id) return true;

@@ -16,6 +16,7 @@ export const EventDetails = (props) => {
     const [group, setGroup] = useState({})
 
     const event = useSelector(state => state.events[id]);
+    document.title = `${event?.name}`;
     const grabGroup = async () => {
         const response = await fetch(`/api/groups/${event?.groupId}`);
         if(response.ok){

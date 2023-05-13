@@ -9,7 +9,7 @@ export const EditGroup = () => {
     const dispatch = useDispatch();
     const {id} = useParams();
     const oldGroup = useSelector(state => state.groups[id]);
-
+    document.title = `Update ${group?.name}`;
     const [city, setCity] = useState(oldGroup?.city);
     const [state, setState] = useState(oldGroup?.state);
     const [name, setName] = useState(oldGroup?.name);
