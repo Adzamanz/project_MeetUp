@@ -37,7 +37,7 @@ export const CreateGroup = () => {
     const submit = async (e) => {
         e.preventDefault();
         verify();
-        if(!Object.values(errors).length && !submitted){
+        if(!Object.values(errors).length){
             console.log("subitted", group)
             let resp = dispatch(createGroupThunk(group)).then(res => history.push(`/groups/${res.id}`));
 

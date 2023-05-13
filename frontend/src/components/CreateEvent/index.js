@@ -52,7 +52,7 @@ export const CreateEvent = () => {
         e.preventDefault();
         verify()
         console.log(errors, startDate)
-        if(!Object.values(errors).length && !submitted){
+        if(!Object.values(errors).length){
         const resp = await dispatch(createEventThunk(event, id));
         history.push(`/events/${resp.id}`)
         console.log(resp)
