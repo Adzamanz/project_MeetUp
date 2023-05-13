@@ -8,7 +8,7 @@
 #eventheader{
     display: flex;
     background-color: white;
-    height: 150px;
+    height: auto;
     width:100%;
     justify-content: left;
     justify-content: center;
@@ -74,9 +74,10 @@
 }
 #about{
     display: flex;
+    justify-content: center;
 }
 #about > *{
-    color: black;
+    max-width: 40%;
 }
 #detaila{
     display:grid;
