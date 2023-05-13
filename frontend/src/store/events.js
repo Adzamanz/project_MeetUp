@@ -32,6 +32,7 @@ export const deleteEventThunk = (event) => async dispatch => {
     })
     if(response.ok) {
         await dispatch(deleteEvent(event.id))
+        return {ok: true}
     }
 }
 

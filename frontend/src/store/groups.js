@@ -91,7 +91,6 @@ export const updateGroupThunk = (group, id) => async dispatch => {
 }
 
 export const deleteGroupThunk = (group) => async dispatch => {
-    const groupEvents = dispatch(getEventsByGroupId())
     const response = await csrfFetch(`/api/groups/${group.id}`,{
         method: 'DELETE',
         headers: {
@@ -102,12 +101,6 @@ export const deleteGroupThunk = (group) => async dispatch => {
     if(response.ok) {
         const details = await response.json();
 
-        //idk what lines 93 to 97 are here for
-        //todo: check event and dispatch for successful run
-        // groupEvents.forEach((event) => {
-
-        //     dispatch(deleteEventThunk(event))
-        // })
         dispatch(deleteGroup(group.id))
 
     }

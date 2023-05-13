@@ -1,0 +1,22 @@
+.deletemain{
+    text-align: center;
+    display: grid;
+    grid-template-rows: 50px 50px;
+    justify-content: center;
+
+}
+.deletemain > h3{
+    grid-row: 1;
+}
+.deletemain > button{
+    grid-row: 2;
+    align-self: center;
+    width: 50px;
+    background-color: darkgray;
+}
+#yesbutton{
+    background-color: red;
+}
+#nobutton{
+    background-color: grey;
+}

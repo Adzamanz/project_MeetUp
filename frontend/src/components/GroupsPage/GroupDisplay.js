@@ -1,8 +1,5 @@
 import { useDispatch,} from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getEventsByGroupId, getEventsThunk } from "../../store/events";
-import { useEffect, useState } from "react";
-
 export const GroupDisplay = (props) => {
     const {group, events} = props;
     // console.log('fllaaaaaaaaaag',events)

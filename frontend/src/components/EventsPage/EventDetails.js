@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getEventsThunk } from "../../store/events";
-import { Link, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { DeleteEventButton } from "./DeleteEventButton";
 import { getGroupsThunk, getGroupById } from "../../store/groups";
+import { getEventById } from "../../store/events";
 import { useState } from "react";
 import'./EventDetails.css';
 
@@ -12,6 +13,7 @@ export const EventDetails = (props) => {
 
     const {id} = useParams();
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const [group, setGroup] = useState({})
 
@@ -26,6 +28,7 @@ export const EventDetails = (props) => {
     }
     useEffect(() => {
         dispatch(getGroupById(event?.groupId));
+        dispatch(getEventById(event?.id));
         grabGroup();
     }, [dispatch]);
 
@@ -66,7 +69,7 @@ export const EventDetails = (props) => {
                     {event?.EventImages?.length ? <img src={event?.EventImages[0].url} /> : <div id='eventnoimage'> no image </div>}
                 </div>
                 <div id='eventdetails'>
-                    <div id='groupdetails'>
+                    <div id='groupdetails' onClick={() => history.push(`/groups/${group.id}`)}>
                         <div id='grpimg'>
                            { group.previewImage ? <img src={group.previewImage} /> : <div> no image </div> }
                         </div>
