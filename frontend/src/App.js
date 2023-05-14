@@ -24,12 +24,12 @@ function App() {
   console.log(events)
 
   const [isLoaded, setIsLoaded] = useState(false);
-
+  const url = window.location.href
   useEffect(() => {
     dispatch(getEventsThunk());
     dispatch(getGroupsThunk());
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
-  }, [dispatch, window.location.href]);
+  }, [dispatch, url]);
 
   return (
     <div id='apppage'>

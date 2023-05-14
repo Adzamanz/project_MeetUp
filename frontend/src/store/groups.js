@@ -114,20 +114,23 @@ export const groupsReducer = (state = {}, action) => {
             delete newState[action.payload];
             return newState;
         case ADD_GROUP:
-            if (!state[action.payload.id]) {
-                newState = {
-                    ...state,
-                    [action.payload.id]: action.payload
-                };
-                return newState;
-            }
-            return {
-                ...state,
-                [action.payload.id]: {
-                  ...state[action.payload.id],
-                  ...action.payload
-                }
-              };
+            newState = {...state};
+            newState[action.payload.id] = action.payload;
+            return newState;
+            // if (!state[action.payload.id]) {
+            //     newState = {
+            //         ...state,
+            //         [action.payload.id]: action.payload
+            //     };
+            //     return newState;
+            // }
+            // return {
+            //     ...state,
+            //     [action.payload.id]: {
+            //       ...state[action.payload.id],
+            //       ...action.payload
+            //     }
+            //   };
         case GET_GROUPS:
             newState = {...state};
             action.payload.forEach(group => {

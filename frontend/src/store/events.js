@@ -99,11 +99,12 @@ export const eventsReducer = (state = {}, action) => {
             delete newState[action.payload];
             return newState;
         case ADD_EVENTS:
-            newState = {...state};
+
             action.payload.forEach(event => {
                 newState[event.id] = event
             });
-            return newState;
+            console.log(state, newState);
+            return {...newState};
         case ADD_EVENT:
             newState = {...state};
             newState[action.payload.id] = action.payload;
