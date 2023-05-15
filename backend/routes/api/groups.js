@@ -33,6 +33,8 @@ const addContextToGroup = async (group) =>{
     group.numMembers = count;
     let preview = await GroupImage.findOne({where:{groupId:group.id, preview:true}});
     if(preview) group.previewImage = preview.url;
+    let organizer = await User.findByPk(group.organizerId);
+    if(organizer) group.organizerName = `${organizer.firstName} ${organizer.lastName}`;
     return group;
 }
 

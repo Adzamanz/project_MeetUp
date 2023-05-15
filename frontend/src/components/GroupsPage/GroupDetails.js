@@ -1,19 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getGroupsThunk, getGroupById } from "../../store/groups";
-import { useEffect,} from "react";
+import { useEffect, useState,} from "react";
 import { CreateEventButton } from "./CreateEventButton";
 import { Link } from "react-router-dom";
 import {EventDisplay} from '../EventsPage/EventDisplay'
 import './GroupDetails.css';
 
 
-export const GroupDetails = () => {
+export const GroupDetails = (props) => {
     const {id} = useParams();
     const dispatch = useDispatch();
-    console.log('iran')
     const groups = useSelector(state => state.groups);
     const group = useSelector(state => state.groups[id]);
+    const groupImg = useSelector(state => state.groups[id]?.previewImage);
+    const groupOrg = useSelector(state => state.groups[id]?.Organizer?.firstName + ' ' + state.groups[id]?.Organizer?.lastName)
+    const groupOrgName = useSelector(state => state.groups[id]?.organizerName);
     document.title = `${group?.name}`;
     console.log(groups);
     const events = useSelector(state => Object.values(state.events).filter((event) => {
@@ -22,19 +24,19 @@ export const GroupDetails = () => {
     }))
     const user = useSelector(state => state.session.user);
     useEffect(() => {
-            dispatch(getGroupById(id))
-            console.log(group?.previewImage)
-        }, [dispatch,])
-        function compareFn(a, b) {
-            if (a.startDate < b.startDate) {
-              return -1;
-            }
-            if (a.startDate > b.startDate) {
-              return 1;
-            }
-            // a must be equal to b
-            return 0;
-          }
+        dispatch(getGroupById(id))
+    }, [dispatch,])
+
+    function compareFn(a, b) {
+        if (a.startDate < b.startDate) {
+            return -1;
+        }
+        if (a.startDate > b.startDate) {
+            return 1;
+        }
+        // a must be equal to b
+        return 0;
+        }
 
     const GroupEventDetails = () => {
         return(
@@ -42,7 +44,7 @@ export const GroupDetails = () => {
                 <div id='a'>
                     Organizer
                     <div id='aa'>
-                        {group?.Organizer && group?.Organizer.firstName} {group?.Organizer && group.Organizer.lastName}
+                        {groupOrgName || groupOrg}
                     </div>
                 </div>
                 <div id='b'>
@@ -74,7 +76,7 @@ export const GroupDetails = () => {
                     {events && events.length} · {group.private ? 'Private' : 'Public'}
                 </div>
                 <div id='organizer'>
-                    Organized by {group.Organizer && group.Organizer.firstName} {group.Organizer && group.Organizer.lastName}
+                    Organized by {groupOrgName || groupOrg}
                 </div>
             </div>
         )
@@ -87,7 +89,7 @@ export const GroupDetails = () => {
             <div id='main'>
                 <Link to='/groups'> Groups </Link>
                 {group && <div id='sub-a'>
-                    <div id='image'> {group?.previewImage ? <img src={`${group.previewImage}`}/> : <div> No Image </div>} </div>
+                    <div id='image'> {group?.previewImage ? <img src={`${groupImg}`}/> : <div> No Image </div>} </div>
                     <MiniGroupDetails />
                     <div id='button'>
                         <CreateEventButton user={user} group={group}/>

@@ -27,11 +27,12 @@ function App() {
   const url = window.location.href;
   useEffect(() => {
     dispatch(getEventsThunk());
-    if(id) dispatch(getGroupById(id));
-    if(!id) dispatch(getGroupsThunk());
+    dispatch(getGroupsThunk());
+    dispatch(getGroupById(id));
 
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch, url]);
+ 
 
   return (
     <div id='apppage'>
@@ -49,7 +50,7 @@ function App() {
         <EditGroup />
         </Route>
         <Route path='/groups/:id'>
-          <GroupDetails />
+          <GroupDetails/>
         </Route>
         <Route path='/groups'>
           <GroupsPage />
