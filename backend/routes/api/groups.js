@@ -143,7 +143,7 @@ router.get(
         let count = await Membership.count({where:{groupId:group.id}});
         group.numMembers = count;
 
-        let groupImages = await GroupImage.findAll({where:{groupId: group.id}});
+        let groupImages = await GroupImage.findOne({where:{groupId: group.id}});
 
         group.GroupImages = groupImages;
 
