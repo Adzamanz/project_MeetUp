@@ -25,7 +25,7 @@ function LoginFormModal() {
       });
   };
   const logInDemo = (e) => {
-    
+
     setErrors({});
     return dispatch(sessionActions.login({ credential: 'test', password: 'testing' }))
       .then(closeModal)
@@ -41,34 +41,45 @@ function LoginFormModal() {
     <>
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
-        <label>
-          Username or Email
-          <input
-            type="text"
-            value={credential}
-            onChange={(e) => setCredential(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        {errors.credential && (
-          <p>{errors.credential}</p>
-        )}
-        <button type="submit" disabled={credential.length < 4 || password.length < 6}>Log In</button>
+        <div id='SImain'>
+            <div id='SIusername'>
+              <label>
+              Username or Email
+              <input
+                type="text"
+                value={credential}
+                onChange={(e) => setCredential(e.target.value)}
+                required
+              />
+            </label>
+          </div>
 
+          <div id='SIpassword'>
+              <label>
+              Password
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </label>
+          </div>
+          <div id='SIerrors'>
+            {errors.credential && (
+            <p className="errors">{errors.credential}</p>
+          )}
+          </div>
+          <div id='SIbuttons'>
+              <button type="submit" disabled={credential.length < 4 || password.length < 6}>Log In</button>
+              <button onClick={() => logInDemo()}>
+              Log in as test user
+            </button>
+        </div>
+          </div>
       </form>
       <div>
-        <button onClick={() => logInDemo()}>
-          Log in as test user
-        </button>
+
       </div>
     </>
   );
