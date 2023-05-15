@@ -11,7 +11,7 @@ import './GroupDetails.css';
 export const GroupDetails = () => {
     const {id} = useParams();
     const dispatch = useDispatch();
-
+    console.log('iran')
     const groups = useSelector(state => state.groups);
     const group = useSelector(state => state.groups[id]);
     document.title = `${group?.name}`;
@@ -24,7 +24,7 @@ export const GroupDetails = () => {
     useEffect(() => {
             dispatch(getGroupById(id))
             console.log(group?.previewImage)
-        }, [dispatch])
+        }, [dispatch,])
         function compareFn(a, b) {
             if (a.startDate < b.startDate) {
               return -1;
@@ -91,7 +91,7 @@ export const GroupDetails = () => {
                     <MiniGroupDetails />
                     <div id='button'>
                         <CreateEventButton user={user} group={group}/>
-                        {user && user.id !== group?.Organizer?.id && <button onClick={() => alert('feature coming soon')}>Join Group</button>}
+                        {user && user.id !== group?.organizerId && <button onClick={() => alert('feature coming soon')}>Join Group</button>}
                     </div>
                 </div>}
             </div>

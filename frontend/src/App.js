@@ -12,7 +12,7 @@ import { EventDetails } from "./components/EventsPage/EventDetails";
 import { CreateEvent } from "./components/CreateEvent/index";
 import { getEventsThunk } from "./store/events";
 import {EditGroup} from './components/GroupsPage/UpdateGroup'
-import { getGroupsThunk } from "./store/groups";
+import { getGroupsThunk, getGroupById } from "./store/groups";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,10 +24,12 @@ function App() {
   console.log(events)
 
   const [isLoaded, setIsLoaded] = useState(false);
-  const url = window.location.href
+  const url = window.location.href;
   useEffect(() => {
     dispatch(getEventsThunk());
-    dispatch(getGroupsThunk());
+    if(id) dispatch(getGroupById(id));
+    if(!id) dispatch(getGroupsThunk());
+
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch, url]);
 

@@ -1,10 +1,55 @@
 #signupform{
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-rows: auto;
 }
 h1{
     grid-row: 1;
+    text-align: center;
 }
 #SUemail{
-    grid-row: 1;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
+#SUusername{
+    grid-row: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
+#SUfname{
+    grid-row: 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
+#SUlname{
+    grid-row: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
+#SUpassword{
+    grid-row: 6;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
+#SUconfirm{
+    grid-row: 7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
+#SUbutton{
+    grid-row: 8;
+    display: flex;
+    justify-content: center;
 }
