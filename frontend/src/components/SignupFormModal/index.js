@@ -152,9 +152,10 @@ function SignupFormModal() {
               <p>{errors.confirmPassword}</p>
             )}
           </div>
-
-          <button id='SUbutton' type="submit" disabled={!email || username.length < 4 || password.length < 6|| !firstName || !lastName || !confirmPassword}>Sign Up</button>
-        </div>
+              <div id='SUbutton' >
+                <button type="submit" disabled={!email || username.length < 4 || password.length < 6|| !firstName || !lastName || !confirmPassword}>Sign Up</button>
+              </div>
+              </div>
         </form>
 
 

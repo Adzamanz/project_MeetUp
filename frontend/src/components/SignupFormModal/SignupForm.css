@@ -52,4 +52,9 @@ h1{
     grid-row: 8;
     display: flex;
     justify-content: center;
+
+}
+#SUbutton > button{
+    align-self: center;
+    width: 100px;
 }
