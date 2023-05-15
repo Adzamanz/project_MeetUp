@@ -17,7 +17,8 @@
     width: 480px;
     display: flex;
     flex-direction: column;
-    margin-top: 60px;
+    height: auto;
+    padding: 10px;
 }
 #eventname{
     font-size: 30px ;
@@ -48,21 +49,23 @@
 #groupdetails{
     grid-row: 1;
     display: grid;
-    grid-template-columns: 50px 150px;
+    grid-template-columns: 80px 150px;
     grid-template-rows: 60px 10px;
     background-color: white;
     margin: 5px;
-    padding: 5px;
+    padding: 10px;
     border-radius: 10px;
     cursor: pointer;
 }
 #grpname{
     grid-column: 2;
     overflow-wrap:break-word ;
-
+    padding: 10px;
 }
 #grpprivate{
     grid-column: 2;
+    padding-left: 10px;
+    align-items: center;
 }
 #eventdetailsa{
     display: grid;
@@ -118,4 +121,13 @@
 }
 #DEbutton{
     margin-left: 15px;
+}
+#grpimg{
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#grpimg > img{
+    width: 60px;
 }
