@@ -11,7 +11,7 @@
 
 All endpoints that require a current user to be logged in.
 
-* Request: flex-endpoints that require authentication
+* Request: endpoints that require authentication
 * Error Response: Require authentication
 * Status Code: 401
 * Headers:
@@ -30,7 +30,7 @@ All endpoints that require a current user to be logged in.
 All endpoints that require authentication and the current user does not have the
 correct role(s) or permission(s).
 
-* Request: flex-endpoints that require proper authorization
+* Request: endpoints that require proper authorization
 * Error Response: Require proper authorization
   * Status Code: 403
   * Headers:
