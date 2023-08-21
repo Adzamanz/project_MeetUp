@@ -71,7 +71,7 @@ export const EventDetails = (props) => {
                 <div id='eventdetails'>
                     <div id='groupdetails' onClick={() => history.push(`/groups/${group.id}`)}>
                         <div id='grpimg'>
-                           { group.previewImage ? <img src={group.previewImage} /> : <img src={`${group.GroupImages?.url}`}/> }
+                           { group.previewImage ? <img src={group.previewImage} alt="no image" /> : <img src={`${group.GroupImages?.url}`}/> }
                         </div>
                         <div id='grpname'>
                             {group.name}

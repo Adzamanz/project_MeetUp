@@ -13,7 +13,7 @@
     width: 260px;
     text-overflow: wrap;
     grid-row: 1;
-    justify-self: end;
+    justify-self: flex-end;
     align-content: right;
 }
 #b{
